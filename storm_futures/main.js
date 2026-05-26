@@ -1,4 +1,4 @@
-const csvPath = 'storm_futures/data/scripts/cimp6_sst_scenarios.csv';
+const csvPath = 'data/scripts/cimp6_sst_scenarios.csv';
 const svg = d3.select('#sst-chart');
 const tooltip = d3.select('#tooltip');
 
