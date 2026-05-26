@@ -79,13 +79,7 @@ d3.csv(csvPath, d3.autoType)
 
       const last = values[values.length - 1];
 
-      svg.append("text")
-        .attr("x", x(last.year) -90)
-        .attr("y", y(last.mean_sst_c))
-        .attr("fill", scenarioColors[scenario] || "#555")
-        .attr("font-size", 13)
-        .attr("font-weight", 700)
-        .text(scenarioLabels[scenario] || scenario);
+
     }
     const legend = svg.append("g")
       .attr("class", "legend")
