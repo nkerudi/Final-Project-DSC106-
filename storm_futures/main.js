@@ -1,6 +1,14 @@
-const csvPath = 'data/scripts/cimp6_sst_scenarios.csv';
+const csvPath = 'data/scripts/cmip6_sst_scenarios.csv';
 const svg = d3.select('#sst-chart');
 const tooltip = d3.select('#tooltip');
+d3.csv(csvPath, d3.autoType)
+  .then(data => {
+    console.log("CSV loaded:", data);
+    // rest of chart code here
+  })
+  .catch(error => {
+    console.error("Could not load CSV:", error);
+  });
 
 const width = 900;
 const height = 520;
