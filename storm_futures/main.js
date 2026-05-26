@@ -14,9 +14,9 @@ const margin = {
 };
 
 const scenarioLabels = {
-  ssp126: "Low Emissions (SSP1-2.6)",
-  ssp245: "Moderate Emissions (SSP2-4.5)",
-  ssp585: "High Emissions (SSP5-8.5)"
+  ssp126: "Low Emissions",
+  ssp245: "Moderate Emissions",
+  ssp585: "High Emissions"
 };
 
 const scenarioColors = {
@@ -31,7 +31,7 @@ d3.csv(csvPath, d3.autoType)
 
     data = data
       .filter(d => d.year != null && d.mean_sst_c != null && d.scenario)
-      .sort((a, b) => d3.ascending(a.year, b.year));
+      .sort((a, b) => a.year - b.year);
 
     const years = [...new Set(data.map(d => d.year))].sort((a, b) => a - b);
     const scenarios = [...new Set(data.map(d => d.scenario))];
@@ -48,35 +48,17 @@ d3.csv(csvPath, d3.autoType)
       .nice()
       .range([height - margin.bottom, margin.top]);
 
-    const xAxis = d3.axisBottom(x).tickFormat(d3.format("d"));
-    const yAxis = d3.axisLeft(y).ticks(7);
-
     svg.selectAll("*").remove();
 
     svg.append("g")
-      .attr("class", "axis")
+      .attr("class", "axis x-axis")
       .attr("transform", `translate(0, ${height - margin.bottom})`)
-      .call(xAxis);
+      .call(d3.axisBottom(x).tickFormat(d3.format("d")));
 
     svg.append("g")
-      .attr("class", "axis")
+      .attr("class", "axis y-axis")
       .attr("transform", `translate(${margin.left}, 0)`)
-      .call(yAxis);
-
-    svg.append("text")
-      .attr("class", "axis-label")
-      .attr("x", width / 2)
-      .attr("y", height - 22)
-      .attr("text-anchor", "middle")
-      .text("Year");
-
-    svg.append("text")
-      .attr("class", "axis-label")
-      .attr("x", -height / 2)
-      .attr("y", 24)
-      .attr("transform", "rotate(-90)")
-      .attr("text-anchor", "middle")
-      .text("Mean Sea Surface Temperature (°C)");
+      .call(d3.axisLeft(y).ticks(7));
 
     const line = d3.line()
       .x(d => x(d.year))
@@ -90,7 +72,6 @@ d3.csv(csvPath, d3.autoType)
 
       svg.append("path")
         .datum(values)
-        .attr("class", "scenario-line")
         .attr("fill", "none")
         .attr("stroke", scenarioColors[scenario] || "#555")
         .attr("stroke-width", 4)
@@ -99,21 +80,35 @@ d3.csv(csvPath, d3.autoType)
       const last = values[values.length - 1];
 
       svg.append("text")
-        .attr("x", x(last.year) + 10)
+        .attr("x", x(last.year) + 8)
         .attr("y", y(last.mean_sst_c))
         .attr("fill", scenarioColors[scenario] || "#555")
-        .attr("font-size", "12px")
+        .attr("font-size", 13)
         .attr("font-weight", 700)
         .text(scenarioLabels[scenario] || scenario);
     }
 
-    const yearMarker = svg.append("line")
-      .attr("class", "year-marker")
-      .attr("y1", margin.top)
-      .attr("y2", height - margin.bottom);
+    svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", height - 22)
+      .attr("text-anchor", "middle")
+      .text("Year");
 
-    const dotGroup = svg.append("g")
-      .attr("class", "selected-dots");
+    svg.append("text")
+      .attr("x", -height / 2)
+      .attr("y", 24)
+      .attr("transform", "rotate(-90)")
+      .attr("text-anchor", "middle")
+      .text("Mean Sea Surface Temperature (°C)");
+
+    const yearMarker = svg.append("line")
+      .attr("y1", margin.top)
+      .attr("y2", height - margin.bottom)
+      .attr("stroke", "#111827")
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "6 6");
+
+    const dotGroup = svg.append("g");
 
     const slider = d3.select("#year-slider");
 
@@ -133,8 +128,6 @@ d3.csv(csvPath, d3.autoType)
       d3.select("#selected-year").text(selectedYear);
 
       yearMarker
-        .transition()
-        .duration(250)
         .attr("x1", x(selectedYear))
         .attr("x2", x(selectedYear));
 
@@ -153,11 +146,10 @@ d3.csv(csvPath, d3.autoType)
 
       dots.enter()
         .append("circle")
-        .attr("class", "selected-dot")
         .attr("r", 8)
+        .attr("stroke", "white")
+        .attr("stroke-width", 2)
         .attr("fill", d => scenarioColors[d.scenario] || "#555")
-        .attr("cx", d => x(d.year))
-        .attr("cy", d => y(d.mean_sst_c))
         .on("mouseover", function(event, d) {
           tooltip
             .style("opacity", 1)
@@ -176,8 +168,6 @@ d3.csv(csvPath, d3.autoType)
           tooltip.style("opacity", 0);
         })
         .merge(dots)
-        .transition()
-        .duration(250)
         .attr("cx", d => x(d.year))
         .attr("cy", d => y(d.mean_sst_c));
 
@@ -190,12 +180,10 @@ d3.csv(csvPath, d3.autoType)
       d3.select("#insight-title").text(`Ocean futures in ${selectedYear}`);
 
       const sorted = [...selectedData].sort((a, b) => b.mean_sst_c - a.mean_sst_c);
-      const warmest = sorted[0];
-      const coolest = sorted[sorted.length - 1];
-      const spread = warmest.mean_sst_c - coolest.mean_sst_c;
+      const spread = sorted[0].mean_sst_c - sorted[sorted.length - 1].mean_sst_c;
 
       d3.select("#insight-text")
-        .text(`By ${selectedYear}, the warmest and coolest projected futures differ by about ${spread.toFixed(2)}°C. This gap represents how much human emissions choices can shape future ocean conditions.`);
+        .text(`By ${selectedYear}, the warmest and coolest projected futures differ by about ${spread.toFixed(2)}°C.`);
 
       const readout = d3.select("#scenario-readout");
 
