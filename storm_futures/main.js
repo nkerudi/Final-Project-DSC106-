@@ -87,6 +87,30 @@ d3.csv(csvPath, d3.autoType)
         .attr("font-weight", 700)
         .text(scenarioLabels[scenario] || scenario);
     }
+    const legend = svg.append("g")
+      .attr("class", "legend")
+      .attr("transform", `translate(${margin.left + 20}, ${margin.top + 10})`);
+
+    scenarios.forEach((scenario, i) => {
+      const legendRow = legend.append("g")
+        .attr("transform", `translate(0, ${i * 24})`);
+
+      legendRow.append("line")
+        .attr("x1", 0)
+        .attr("x2", 24)
+        .attr("y1", 0)
+        .attr("y2", 0)
+        .attr("stroke", scenarioColors[scenario] || "#555")
+        .attr("stroke-width", 4);
+
+      legendRow.append("text")
+        .attr("x", 34)
+        .attr("y", 5)
+        .attr("fill", scenarioColors[scenario] || "#555")
+        .attr("font-size", 13)
+        .attr("font-weight", 700)
+        .text(scenarioLabels[scenario] || scenario);
+    });
 
     svg.append("text")
       .attr("x", width / 2)
