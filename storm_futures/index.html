@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Future of Storms: Ocean Warming Projections</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script defer src="main.js"></script>
+</head>
+
+<body>
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">CMIP6 Climate Futures</p>
+      <h1>How do human climate choices reshape future oceans?</h1>
+      <p class="subtitle">
+        Drag through time to compare projected Atlantic sea surface temperatures
+        under low, moderate, and high-emissions futures.
+      </p>
+    </section>
+
+    <section class="viz-card">
+      <div class="viz-header">
+        <div>
+          <h2>Projected Atlantic Sea Surface Temperature</h2>
+          <p>
+            Each line represents a different CMIP6 emissions pathway.
+            Higher sea surface temperatures can create more favorable conditions
+            for severe storm intensification.
+          </p>
+        </div>
+
+        <div class="year-box">
+          <span>Selected year</span>
+          <strong id="selected-year">----</strong>
+        </div>
+      </div>
+
+      <div class="slider-row">
+        <label for="year-slider">Year</label>
+        <input type="range" id="year-slider" />
+      </div>
+
+      <div class="viz-layout">
+        <svg id="sst-chart" width="900" height="520"></svg>
+
+        <aside class="insight-panel">
+          <h3 id="insight-title">Choose a year</h3>
+          <p id="insight-text">
+            Move the slider to see how climate scenarios separate over time.
+          </p>
+
+          <div id="scenario-readout" class="scenario-readout"></div>
+        </aside>
+      </div>
+
+      <div id="tooltip" class="tooltip"></div>
+    </section>
+  </main>
+</body>
+</html>
