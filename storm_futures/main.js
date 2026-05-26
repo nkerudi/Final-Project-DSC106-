@@ -3,12 +3,12 @@ const csvPath = "data/scripts/cmip6_sst_scenarios.csv";
 const svg = d3.select("#sst-chart");
 const tooltip = d3.select("#tooltip");
 
-const width = 900;
-const height = 520;
+const width = 1100;
+const height = 620;
 
 const margin = {
   top: 40,
-  right: 150,
+  right: 220,
   bottom: 70,
   left: 80
 };
@@ -80,7 +80,7 @@ d3.csv(csvPath, d3.autoType)
       const last = values[values.length - 1];
 
       svg.append("text")
-        .attr("x", x(last.year) + 8)
+        .attr("x", x(last.year) -90)
         .attr("y", y(last.mean_sst_c))
         .attr("fill", scenarioColors[scenario] || "#555")
         .attr("font-size", 13)
