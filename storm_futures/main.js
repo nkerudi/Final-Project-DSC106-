@@ -27,6 +27,11 @@ const scenarioColors = {
 
 d3.csv(csvPath, d3.autoType)
   .then(data => {
+    data.forEach(d => {
+      d.mean_sst_c = +d.mean_sst_c + 273.15;
+  });
+
+
     console.log("CSV loaded:", data);
 
     data = data
