@@ -4,11 +4,9 @@
   <meta charset="UTF-8" />
   <title>Future of Storms: Ocean Warming Projections</title>
   <link rel="stylesheet" href="style.css" />
-
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script defer src="main.js"></script>
 </head>
-
 <body>
   <main class="page">
     <section class="hero">
@@ -19,7 +17,6 @@
         under low, moderate, and high-emissions futures.
       </p>
     </section>
-
     <section class="viz-card">
       <div class="viz-header">
         <div>
@@ -30,32 +27,30 @@
             for severe storm intensification.
           </p>
         </div>
-
         <div class="year-box">
           <span>Selected year</span>
           <strong id="selected-year">----</strong>
         </div>
       </div>
-
       <div class="slider-row">
         <label for="year-slider">Year</label>
         <input type="range" id="year-slider" />
       </div>
-
       <div class="viz-layout">
         <svg id="sst-chart" width="900" height="520"></svg>
-
         <aside class="insight-panel">
           <h3 id="insight-title">Choose a year</h3>
           <p id="insight-text">
             Move the slider to see how climate scenarios separate over time.
           </p>
-
           <div id="scenario-readout" class="scenario-readout"></div>
         </aside>
       </div>
-
       <div id="tooltip" class="tooltip"></div>
+    </section>
+    <section class="writeup-card">
+      <p>So far we have solidified the purpose behind our project. We wish to showcase how different future climate metrics are impacted under different emission scenarios, with our chosen topics being greenhouse gases, sea surface temperatures, and land surface temperatures. We have gathered and processed the required data to create our visuals as well as created initial prototypes with Python. Our next task is to load and render them using D3. Design wise, we have completed our first interactive prototype and page design, specifically for sea surface temperatures. We created an interactive line chart that allows users to explore how ocean temperatures change over the years through a time slider, as well as a summary panel that shows the data based on the current year selection and the difference in temperature between the low and high emission models. In addition to the interactive visual, we worked on the design of our webpage, making it simple and clean so users have an easy time navigating through it.</p>
+      <p>The most challenging part of our project to design will most likely be making a cohesive and easy to digest story. Since we are working with many different climate, social, and scientific metrics, finding a way to properly explain everything and tie it all into a narrative that non-experts can understand is our biggest challenge. We will need to be careful with our visual design choices and layout in order to make the data feel cohesive and intuitive rather than overwhelming. Finding the balance between engaging visuals and clear, easy to digest explanations is the key to making our project successful.</p>
     </section>
   </main>
 </body>
