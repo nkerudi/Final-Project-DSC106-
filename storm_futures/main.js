@@ -4,10 +4,10 @@
 
 const csvPath = "data/scripts/cmip6_sst_scenarios.csv";
 
-const svg     = d3.select("#sst-chart");
+const svg = d3.select("#sst-chart");
 const tooltip = d3.select("#tooltip");
 
-const width  = 1100;
+const width = 1100;
 const height = 620;
 
 const margin = { top: 40, right: 220, bottom: 70, left: 80 };
@@ -28,13 +28,13 @@ d3.csv(csvPath, d3.autoType)
   .then(raw => {
     // Values are already in Celsius — do NOT add 273.15
     let data = raw
-      .filter(d => d.year != null && d.mean_sst_c != null && d.scenario)
+      .filter(d => d.year != null && d.mean_sst_c != null && d.scenario && d.year <= 2100)
       .sort((a, b) => a.year - b.year);
 
-    const years     = [...new Set(data.map(d => d.year))].sort((a, b) => a - b);
+    const years = [...new Set(data.map(d => d.year))].sort((a, b) => a - b);
     const scenarios = [...new Set(data.map(d => d.scenario))];
-    const minYear   = d3.min(years);
-    const maxYear   = d3.max(years);
+    const minYear = d3.min(years);
+    const maxYear = d3.max(years);
 
     const x = d3.scaleLinear()
       .domain([minYear, maxYear])
@@ -166,7 +166,7 @@ d3.csv(csvPath, d3.autoType)
         .on("mousemove", function (event) {
           tooltip
             .style("left", `${event.pageX + 14}px`)
-            .style("top",  `${event.pageY - 20}px`);
+            .style("top", `${event.pageY - 20}px`);
         })
         .on("mouseout", () => tooltip.style("opacity", 0))
         .merge(dots)

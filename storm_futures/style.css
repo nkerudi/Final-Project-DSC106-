@@ -290,6 +290,10 @@ h1 {
   flex: 1;
   accent-color: #2b6cb0;
 }
+#land-year-slider {
+  flex: 1;
+  accent-color: #2b6cb0;
+}
 .viz-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
