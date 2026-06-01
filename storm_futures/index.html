@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="style.css" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
+
 <body>
   <main class="page">
 
@@ -22,15 +24,17 @@
 
     <!-- ── TAB NAV ── -->
     <nav class="tab-nav" role="tablist" aria-label="Visualization sections">
-      <button class="tab-btn active" role="tab" aria-selected="true"
-              aria-controls="panel-ghg" id="tab-ghg"
-              onclick="switchTab('ghg')">
+      <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-ghg" id="tab-ghg"
+        onclick="switchTab('ghg')">
         Greenhouse Gas Projections
       </button>
-      <button class="tab-btn" role="tab" aria-selected="false"
-              aria-controls="panel-sst" id="tab-sst"
-              onclick="switchTab('sst')">
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-sst" id="tab-sst"
+        onclick="switchTab('sst')">
         Sea Surface Temperature
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-land" id="tab-land"
+        onclick="switchTab('land')">
+        Land Surface Temperature
       </button>
     </nav>
 
@@ -66,8 +70,8 @@
         <!-- Chart + side panel -->
         <div class="ghg-layout">
           <div class="ghg-chart-wrap">
-            <svg id="ghg-molecule" class="molecule-badge" viewBox="0 0 72 72"
-                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+            <svg id="ghg-molecule" class="molecule-badge" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"></svg>
             <svg id="ghg-chart" aria-label="Greenhouse gas concentration line chart"></svg>
             <div id="ghg-tooltip" class="tooltip"></div>
           </div>
@@ -103,8 +107,7 @@
           <input type="range" id="year-slider" />
         </div>
         <div class="viz-layout">
-          <svg id="sst-chart" width="900" height="520"
-               aria-label="Atlantic SST projections line chart"></svg>
+          <svg id="sst-chart" width="900" height="520" aria-label="Atlantic SST projections line chart"></svg>
           <aside class="insight-panel">
             <h3 id="insight-title">Choose a year</h3>
             <p id="insight-text">
@@ -117,18 +120,81 @@
       </section>
     </div>
 
+    <!-- ════════════════════════════════════════
+         TAB 3 — LAND SURFACE TEMPERATURE
+    ════════════════════════════════════════ -->
+    <div id="panel-land" class="tab-panel" role="tabpanel" aria-labelledby="tab-land">
+      <section class="viz-card">
+        <div class="viz-header">
+          <div>
+            <h2>Projected Land Surface Temperature</h2>
+            <p>
+              Geographic heatmap showing projected land surface temperatures
+              across CMIP6 emissions scenarios from 2015 to 2100.
+            </p>
+          </div>
+          <div class="year-box">
+            <span>Selected year</span>
+            <strong id="land-selected-year">2015</strong>
+          </div>
+        </div>
+
+        <!-- Scenario selector -->
+        <div class="gas-btn-row" role="group" aria-label="Select emissions scenario">
+          <button class="gas-btn active-co2" id="land-btn-ssp126" onclick="switchLandScenario('ssp126')">
+            Low Emissions (SSP1-2.6)
+          </button>
+          <button class="gas-btn" id="land-btn-ssp245" onclick="switchLandScenario('ssp245')">
+            Moderate Emissions (SSP2-4.5)
+          </button>
+          <button class="gas-btn" id="land-btn-ssp585" onclick="switchLandScenario('ssp585')">
+            High Emissions (SSP5-8.5)
+          </button>
+        </div>
+
+        <!-- Year slider -->
+        <div class="slider-row">
+          <label for="land-year-slider">Year</label>
+          <input type="range" id="land-year-slider" min="2015" max="2100" step="1" value="2015" />
+        </div>
+
+        <div class="viz-layout">
+          <div id="land-map-container" style="position:relative;">
+            <svg id="land-chart" style="width:100%;min-height:520px;display:block;background:#d4e9f7;
+                        border:1px solid #e1e8f0;border-radius:20px;overflow:visible;">
+            </svg>
+            <div id="land-tooltip" class="tooltip"></div>
+          </div>
+          <aside class="insight-panel">
+            <h3 id="land-insight-title">Land futures</h3>
+            <p id="land-insight-text">
+              Select a scenario and drag the slider to explore how land
+              temperatures change over time.
+            </p>
+            <div id="land-scenario-readout" class="scenario-readout"></div>
+            <div class="legend-bar-wrap">
+              <p style="color:#cbd5e1;font-size:12px;margin:16px 0 6px;font-weight:bold;">
+                TEMPERATURE (°C)
+              </p>
+              <svg id="land-legend-bar" width="220" height="40"></svg>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
+
     <!-- ── WRITEUP ── -->
     <section class="writeup-card">
       <p>So far we have solidified the purpose behind our project. We wish to showcase how
-      different future climate metrics are impacted under different emission scenarios, with
-      our chosen topics being greenhouse gases, sea surface temperatures, and land surface
-      temperatures. We have gathered and processed the required data to create our visuals
-      as well as created initial prototypes with Python. Our next task is to load and render
-      them using D3.</p>
+        different future climate metrics are impacted under different emission scenarios, with
+        our chosen topics being greenhouse gases, sea surface temperatures, and land surface
+        temperatures. We have gathered and processed the required data to create our visuals
+        as well as created initial prototypes with Python. Our next task is to load and render
+        them using D3.</p>
       <p>The most challenging part of our project to design will most likely be making a
-      cohesive and easy to digest story. Since we are working with many different climate,
-      social, and scientific metrics, finding a way to properly explain everything and tie
-      it all into a narrative that non-experts can understand is our biggest challenge.</p>
+        cohesive and easy to digest story. Since we are working with many different climate,
+        social, and scientific metrics, finding a way to properly explain everything and tie
+        it all into a narrative that non-experts can understand is our biggest challenge.</p>
     </section>
 
   </main>
@@ -136,6 +202,7 @@
   <!-- scripts loaded after DOM -->
   <script src="ghg.js"></script>
   <script src="main.js"></script>
+  <script src="land.js"></script>
   <script>
     // ── Tab switching ──────────────────────────────────────────────────────
     function switchTab(tabId) {
@@ -151,11 +218,10 @@
       document.getElementById('tab-' + tabId).setAttribute('aria-selected', 'true');
       document.getElementById('panel-' + tabId).classList.add('active');
 
-      // Resize SST chart on first show so D3 can read container dimensions
-      if (tabId === 'sst') {
-        window.dispatchEvent(new Event('resize'));
-      }
+      if (tabId === 'sst') window.dispatchEvent(new Event('resize'));
+      if (tabId === 'land') window.dispatchEvent(new Event('resize'));
     }
   </script>
 </body>
+
 </html>
