@@ -7,16 +7,30 @@
   <link rel="stylesheet" href="./style.css">
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 </head>
-<body>
 
+<body>
   <header>
     <h1>Atlantic Hurricane <span>Timeline</span></h1>
-    <p class="subtitle">2005 – 2024 · peak intensity per storm · hover for details</p>
+    <p class="subtitle">1975 – 2024 · peak intensity per storm · hover for details</p>
   </header>
 
   <div class="legend">
-    <div class="legend-item"><div class="legend-dot ts"></div> Tropical storm force diameter (avg, nmi)</div>
-    <div class="legend-item"><div class="legend-dot hur"></div> Hurricane force diameter (avg, nmi)</div>
+    <div class="legend-item">
+      <div class="legend-dot ts"></div>
+      Tropical storm force diameter (avg, nmi)
+    </div>
+
+    <div class="legend-item">
+      <div class="legend-dot hur"></div>
+      Hurricane force diameter (avg, nmi)
+    </div>
+  </div>
+
+  <div class="slider-block">
+    <label for="decade-slider">
+      Decade: <span id="decade-label">1970s</span>
+    </label>
+    <input id="decade-slider" type="range" min="0" max="5" step="1" value="0">
   </div>
 
   <div id="chart-container">
