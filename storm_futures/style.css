@@ -1,24 +1,23 @@
+/* ── Reset & base ───────────────────────────────────────────────────────── */
 * {
   box-sizing: border-box;
 }
-
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   background: #f3f6fa;
   color: #172033;
 }
-
 .page {
   width: min(1400px, 95vw);
   margin: 0 auto;
   padding: 48px 0 72px;
 }
 
+/* ── Hero ────────────────────────────────────────────────────────────────── */
 .hero {
   margin-bottom: 32px;
 }
-
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -27,14 +26,12 @@ body {
   color: #2b6cb0;
   margin-bottom: 12px;
 }
-
 h1 {
-  font-size: clamp(52px, 6vw, 84px);
+  font-size: clamp(42px, 6vw, 84px);
   line-height: 1.02;
-  margin: 0;
+  margin: 0 0 16px;
   max-width: 1050px;
 }
-
 .subtitle {
   font-size: 18px;
   line-height: 1.55;
@@ -42,6 +39,45 @@ h1 {
   max-width: 820px;
 }
 
+/* ── Tab navigation ─────────────────────────────────────────────────────── */
+.tab-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  border-bottom: 2px solid #dbe3ee;
+  padding-bottom: 0;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 0;
+  transition: color 0.18s, border-color 0.18s;
+  letter-spacing: 0.01em;
+}
+.tab-btn:hover {
+  color: #172033;
+}
+.tab-btn.active {
+  color: #172033;
+  border-bottom-color: #2b6cb0;
+}
+
+/* ── Tab panels ─────────────────────────────────────────────────────────── */
+.tab-panel {
+  display: none;
+}
+.tab-panel.active {
+  display: block;
+}
+
+/* ── Shared viz card ────────────────────────────────────────────────────── */
 .viz-card {
   background: white;
   border-radius: 26px;
@@ -49,19 +85,17 @@ h1 {
   box-shadow: 0 18px 48px rgba(20, 35, 60, 0.12);
   border: 1px solid #dbe3ee;
 }
-
 .viz-header {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 28px;
   margin-bottom: 24px;
 }
-
 .viz-header h2 {
   margin: 0 0 8px;
-  font-size: 30px;
+  font-size: 28px;
 }
-
 .viz-header p {
   margin: 0;
   color: #64748b;
@@ -69,6 +103,156 @@ h1 {
   max-width: 780px;
 }
 
+/* ════════════════════════════════════════
+   GHG SECTION STYLES
+════════════════════════════════════════ */
+
+/* Gas toggle buttons */
+.gas-btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.gas-btn {
+  padding: 8px 22px;
+  border-radius: 22px;
+  border: 1.5px solid #cbd5e1;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: #64748b;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+.gas-btn:hover {
+  background: #f1f5f9;
+}
+.gas-btn.active-co2 {
+  background: #dbeafe;
+  color: #1e40af;
+  border-color: #3b82f6;
+}
+.gas-btn.active-ch4 {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #f59e0b;
+}
+.gas-btn.active-n2o {
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #10b981;
+}
+
+/* GHG chart layout */
+.ghg-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 28px;
+  align-items: start;
+  margin-bottom: 20px;
+}
+.ghg-chart-wrap {
+  position: relative;
+}
+#ghg-chart {
+  width: 100%;
+  height: 440px;
+  display: block;
+  overflow: visible;
+}
+
+/* Molecule badge — top-right corner of chart */
+.molecule-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 76px;
+  height: 76px;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+/* GHG info panel */
+.ghg-info-panel {
+  background: #172033;
+  color: white;
+  border-radius: 20px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ghg-info-panel .gas-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 2px;
+}
+.ghg-info-panel h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+}
+.info-fact {
+  border-left: 3px solid #94a3b8;
+  padding: 8px 10px;
+  border-radius: 0;
+}
+.info-fact.co2 { border-color: #60a5fa; }
+.info-fact.ch4 { border-color: #fbbf24; }
+.info-fact.n2o { border-color: #34d399; }
+.info-fact-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+.info-fact p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+/* GHG legend */
+.ghg-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e1e8f0;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #526173;
+}
+.legend-swatch {
+  width: 24px;
+  height: 0;
+  border-top-width: 2.5px;
+  border-top-style: solid;
+  flex-shrink: 0;
+}
+
+/* D3 axis styles for GHG chart */
+#ghg-chart .domain { stroke: #cbd5e1; }
+#ghg-chart .tick line { stroke: #e1e8f0; }
+#ghg-chart .tick text { fill: #64748b; font-size: 11px; font-family: Arial, sans-serif; }
+#ghg-chart .axis-label { fill: #526173; font-size: 12px; font-family: Arial, sans-serif; }
+
+/* ════════════════════════════════════════
+   SST SECTION STYLES
+════════════════════════════════════════ */
 .year-box {
   min-width: 160px;
   background: #172033;
@@ -76,8 +260,8 @@ h1 {
   border-radius: 18px;
   padding: 18px;
   text-align: center;
+  flex-shrink: 0;
 }
-
 .year-box span {
   display: block;
   font-size: 11px;
@@ -86,11 +270,9 @@ h1 {
   text-transform: uppercase;
   font-weight: bold;
 }
-
 .year-box strong {
   font-size: 36px;
 }
-
 .slider-row {
   display: flex;
   align-items: center;
@@ -101,26 +283,22 @@ h1 {
   padding: 16px;
   margin-bottom: 26px;
 }
-
 .slider-row label {
   font-weight: bold;
 }
-
 #year-slider {
   flex: 1;
   accent-color: #2b6cb0;
 }
-
 .viz-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
   gap: 24px;
   align-items: stretch;
 }
-
 #sst-chart {
   width: 100%;
-  min-height: 620px;
+  min-height: 520px;
   display: block;
   background: #fbfdff;
   border: 1px solid #e1e8f0;
@@ -128,83 +306,53 @@ h1 {
   padding: 10px;
   overflow: visible;
 }
-
 .insight-panel {
   background: #172033;
   color: white;
   border-radius: 20px;
   padding: 24px;
 }
-
 .insight-panel h3 {
   margin-top: 0;
   font-size: 24px;
   line-height: 1.1;
 }
-
 .insight-panel p {
   color: #d4dce8;
   line-height: 1.55;
 }
-
 .scenario-readout {
   margin-top: 20px;
   display: grid;
   gap: 12px;
 }
-
 .readout-item {
   background: rgba(255, 255, 255, 0.09);
   border-left: 5px solid white;
   border-radius: 12px;
   padding: 12px;
 }
-
 .readout-item span {
   display: block;
   font-size: 12px;
   color: #cbd5e1;
   margin-bottom: 4px;
 }
-
 .readout-item strong {
   font-size: 22px;
 }
 
+/* D3 axis styles for SST chart */
 .axis path,
 .axis line {
   stroke: #cbd5e1;
 }
-
 .axis text {
   fill: #64748b;
   font-size: 12px;
 }
 
-.axis-label {
-  fill: #334155;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.scenario-line {
-  fill: none;
-  stroke-width: 4;
-  opacity: 0.95;
-}
-
-.selected-dot {
-  stroke: white;
-  stroke-width: 3;
-}
-
-.year-marker {
-  stroke: #172033;
-  stroke-width: 2;
-  stroke-dasharray: 6 6;
-  opacity: 0.55;
-}
-
+/* ── Shared tooltip ─────────────────────────────────────────────────────── */
 .tooltip {
   position: absolute;
   opacity: 0;
@@ -216,26 +364,49 @@ h1 {
   font-size: 13px;
   line-height: 1.4;
   box-shadow: 0 10px 24px rgba(20, 35, 60, 0.25);
+  z-index: 10;
 }
 
+/* ── Writeup card ───────────────────────────────────────────────────────── */
+.writeup-card {
+  background: white;
+  border-radius: 20px;
+  padding: 32px 40px;
+  margin-top: 28px;
+  border: 1px solid #dbe3ee;
+  line-height: 1.7;
+  color: #334155;
+  font-size: 15px;
+}
+.writeup-card p + p {
+  margin-top: 16px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 1000px) {
   .viz-header {
     flex-direction: column;
   }
-
   .viz-layout {
     grid-template-columns: 1fr;
   }
-
-  h1 {
-    font-size: 42px;
+  .ghg-layout {
+    grid-template-columns: 1fr;
   }
-
+  h1 {
+    font-size: 38px;
+  }
   .viz-card {
     padding: 24px;
   }
-
   #sst-chart {
-    min-height: 480px;
+    min-height: 400px;
+  }
+  #ghg-chart {
+    height: 320px;
+  }
+  .molecule-badge {
+    width: 56px;
+    height: 56px;
   }
 }
