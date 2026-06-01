@@ -1,60 +1,52 @@
+// main.js — SST Chart (Tab 2)
+// Reads: data/scripts/cmip6_sst_scenarios.csv
+// Columns: year, scenario, mean_sst_c  (values already in Celsius)
+
 const csvPath = "data/scripts/cmip6_sst_scenarios.csv";
 
-const svg = d3.select("#sst-chart");
+const svg     = d3.select("#sst-chart");
 const tooltip = d3.select("#tooltip");
 
-const width = 1100;
+const width  = 1100;
 const height = 620;
 
-const margin = {
-  top: 40,
-  right: 220,
-  bottom: 70,
-  left: 80
-};
+const margin = { top: 40, right: 220, bottom: 70, left: 80 };
 
 const scenarioLabels = {
   ssp126: "Low Emissions",
   ssp245: "Moderate Emissions",
-  ssp585: "High Emissions"
+  ssp585: "High Emissions",
 };
 
 const scenarioColors = {
   ssp126: "#2563eb",
   ssp245: "#f97316",
-  ssp585: "#16a34a"
+  ssp585: "#16a34a",
 };
 
 d3.csv(csvPath, d3.autoType)
-  .then(data => {
-    data.forEach(d => {
-      d.mean_sst_c = +d.mean_sst_c + 273.15;
-  });
-
-
-    console.log("CSV loaded:", data);
-
-    data = data
+  .then(raw => {
+    // Values are already in Celsius — do NOT add 273.15
+    let data = raw
       .filter(d => d.year != null && d.mean_sst_c != null && d.scenario)
       .sort((a, b) => a.year - b.year);
 
-    const years = [...new Set(data.map(d => d.year))].sort((a, b) => a - b);
+    const years     = [...new Set(data.map(d => d.year))].sort((a, b) => a - b);
     const scenarios = [...new Set(data.map(d => d.scenario))];
-
-    const minYear = d3.min(years);
-    const maxYear = d3.max(years);
+    const minYear   = d3.min(years);
+    const maxYear   = d3.max(years);
 
     const x = d3.scaleLinear()
       .domain([minYear, maxYear])
       .range([margin.left, width - margin.right]);
 
     const y = d3.scaleLinear()
-      .domain(d3.extent(data, d => d.mean_sst_c))
-      .nice()
+      .domain(d3.extent(data, d => d.mean_sst_c)).nice()
       .range([height - margin.bottom, margin.top]);
 
     svg.selectAll("*").remove();
 
+    // Axes
     svg.append("g")
       .attr("class", "axis x-axis")
       .attr("transform", `translate(0, ${height - margin.bottom})`)
@@ -65,7 +57,26 @@ d3.csv(csvPath, d3.autoType)
       .attr("transform", `translate(${margin.left}, 0)`)
       .call(d3.axisLeft(y).ticks(7));
 
-    const line = d3.line()
+    // Axis labels
+    svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", height - 22)
+      .attr("text-anchor", "middle")
+      .attr("fill", "#64748b")
+      .attr("font-size", 12)
+      .text("Year");
+
+    svg.append("text")
+      .attr("x", -(height / 2))
+      .attr("y", 24)
+      .attr("transform", "rotate(-90)")
+      .attr("text-anchor", "middle")
+      .attr("fill", "#64748b")
+      .attr("font-size", 12)
+      .text("Mean Sea Surface Temperature (°C)");
+
+    // Lines
+    const lineGen = d3.line()
       .x(d => x(d.year))
       .y(d => y(d.mean_sst_c))
       .curve(d3.curveMonotoneX);
@@ -74,56 +85,35 @@ d3.csv(csvPath, d3.autoType)
 
     for (const [scenario, values] of grouped) {
       values.sort((a, b) => a.year - b.year);
-
       svg.append("path")
         .datum(values)
         .attr("fill", "none")
         .attr("stroke", scenarioColors[scenario] || "#555")
         .attr("stroke-width", 4)
-        .attr("d", line);
-
-      const last = values[values.length - 1];
-
-
+        .attr("d", lineGen);
     }
+
+    // Legend
     const legend = svg.append("g")
-      .attr("class", "legend")
       .attr("transform", `translate(${margin.left + 20}, ${margin.top + 10})`);
 
     scenarios.forEach((scenario, i) => {
-      const legendRow = legend.append("g")
+      const row = legend.append("g")
         .attr("transform", `translate(0, ${i * 24})`);
-
-      legendRow.append("line")
-        .attr("x1", 0)
-        .attr("x2", 24)
-        .attr("y1", 0)
-        .attr("y2", 0)
+      row.append("line")
+        .attr("x1", 0).attr("x2", 24)
+        .attr("y1", 0).attr("y2", 0)
         .attr("stroke", scenarioColors[scenario] || "#555")
         .attr("stroke-width", 4);
-
-      legendRow.append("text")
-        .attr("x", 34)
-        .attr("y", 5)
+      row.append("text")
+        .attr("x", 34).attr("y", 5)
         .attr("fill", scenarioColors[scenario] || "#555")
         .attr("font-size", 13)
         .attr("font-weight", 700)
         .text(scenarioLabels[scenario] || scenario);
     });
 
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", height - 22)
-      .attr("text-anchor", "middle")
-      .text("Year");
-
-    svg.append("text")
-      .attr("x", -height / 2)
-      .attr("y", 24)
-      .attr("transform", "rotate(-90)")
-      .attr("text-anchor", "middle")
-      .text("Mean Sea Surface Temperature (°C)");
-
+    // Year marker line
     const yearMarker = svg.append("line")
       .attr("y1", margin.top)
       .attr("y2", height - margin.bottom)
@@ -133,17 +123,14 @@ d3.csv(csvPath, d3.autoType)
 
     const dotGroup = svg.append("g");
 
-    const slider = d3.select("#year-slider");
-
-    slider
+    // Slider
+    const slider = d3.select("#year-slider")
       .attr("min", minYear)
       .attr("max", maxYear)
       .attr("step", 1)
       .attr("value", minYear);
 
-    slider.on("input", event => {
-      update(+event.target.value);
-    });
+    slider.on("input", event => update(+event.target.value));
 
     update(minYear);
 
@@ -156,46 +143,37 @@ d3.csv(csvPath, d3.autoType)
 
       const selectedData = scenarios.map(scenario => {
         const scenarioData = data.filter(d => d.scenario === scenario);
-
-        return scenarioData.reduce((best, current) => {
-          return Math.abs(current.year - selectedYear) < Math.abs(best.year - selectedYear)
-            ? current
-            : best;
-        });
+        return scenarioData.reduce((best, curr) =>
+          Math.abs(curr.year - selectedYear) < Math.abs(best.year - selectedYear)
+            ? curr : best
+        );
       });
 
       const dots = dotGroup.selectAll("circle")
         .data(selectedData, d => d.scenario);
 
-      dots.enter()
-        .append("circle")
+      dots.enter().append("circle")
         .attr("r", 8)
         .attr("stroke", "white")
         .attr("stroke-width", 2)
         .attr("fill", d => scenarioColors[d.scenario] || "#555")
-        .on("mouseover", function(event, d) {
-          tooltip
-            .style("opacity", 1)
-            .html(`
-              <strong>${scenarioLabels[d.scenario] || d.scenario}</strong><br>
-              Year: ${d.year}<br>
-              Mean SST: ${d.mean_sst_c.toFixed(2)} °C
-            `);
+        .on("mouseover", function (event, d) {
+          tooltip.style("opacity", 1)
+            .html(`<strong>${scenarioLabels[d.scenario] || d.scenario}</strong><br>
+                   Year: ${d.year}<br>
+                   Mean SST: ${d.mean_sst_c.toFixed(2)} °C`);
         })
-        .on("mousemove", function(event) {
+        .on("mousemove", function (event) {
           tooltip
             .style("left", `${event.pageX + 14}px`)
-            .style("top", `${event.pageY - 20}px`);
+            .style("top",  `${event.pageY - 20}px`);
         })
-        .on("mouseout", function() {
-          tooltip.style("opacity", 0);
-        })
+        .on("mouseout", () => tooltip.style("opacity", 0))
         .merge(dots)
         .attr("cx", d => x(d.year))
         .attr("cy", d => y(d.mean_sst_c));
 
       dots.exit().remove();
-
       updateInsightPanel(selectedYear, selectedData);
     }
 
@@ -209,12 +187,10 @@ d3.csv(csvPath, d3.autoType)
         .text(`By ${selectedYear}, the warmest and coolest projected futures differ by about ${spread.toFixed(2)}°C.`);
 
       const readout = d3.select("#scenario-readout");
-
       const items = readout.selectAll(".readout-item")
         .data(selectedData, d => d.scenario);
 
-      items.enter()
-        .append("div")
+      items.enter().append("div")
         .attr("class", "readout-item")
         .merge(items)
         .style("border-left-color", d => scenarioColors[d.scenario] || "#fff")
@@ -226,6 +202,6 @@ d3.csv(csvPath, d3.autoType)
       items.exit().remove();
     }
   })
-  .catch(error => {
-    console.error("Could not load CSV:", error);
+  .catch(err => {
+    console.error("main.js: could not load SST CSV:", err);
   });
