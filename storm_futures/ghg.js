@@ -28,7 +28,6 @@
       name:     "Carbon dioxide",
       what:     "A colorless, odorless gas released when coal, oil, and gas are burned, and by cement manufacturing and deforestation.",
       harm:     "The primary driver of long-term warming. CO₂ persists for hundreds to thousands of years, making each emission effectively permanent on human timescales.",
-      potency:  "1× — the reference gas against which all others are measured",
       sources:  "Fossil fuel combustion, land-use change, cement production",
     },
     ch4_ppb: {
@@ -38,8 +37,7 @@
       factClass:   "ch4",
       name:     "Methane",
       what:     "Produced by livestock digestion, rice paddies, landfills, wetlands, and the extraction and transport of fossil fuels.",
-      harm:     "Roughly 80× more effective at trapping heat than CO₂ over a 20-year window, though it breaks down within about a decade — meaning cuts have fast payoff.",
-      potency:  "~80× CO₂ over 20 years · ~30× over 100 years",
+      harm:     "Roughly 80× more effective at trapping heat than CO₂ over a 20-year window, though it breaks down within about a decade.",
       sources:  "Livestock, wetlands, fossil fuel leakage, landfills, rice agriculture",
     },
     n2o_ppb: {
@@ -50,7 +48,6 @@
       name:     "Nitrous oxide",
       what:     "Produced primarily by nitrogen-based fertilizers in agricultural soils, livestock manure, and certain industrial processes.",
       harm:     "Nearly 270× more potent than CO₂ over 100 years and persists for ~110 years. Also destroys stratospheric ozone, the layer shielding Earth from UV radiation.",
-      potency:  "~270× CO₂ over 100 years · atmospheric lifetime ≈ 110 years",
       sources:  "Nitrogen fertilizers, livestock manure, industrial processes, combustion",
     },
   };
@@ -337,11 +334,7 @@
       <div class="info-fact ${fc}">
         <div class="info-fact-label">Why harmful?</div>
         <p>${m.harm}</p>
-      </div>
-      <div class="info-fact ${fc}">
-        <div class="info-fact-label">Warming potency</div>
-        <p>${m.potency}</p>
-      </div>
+      
       <div class="info-fact ${fc}">
         <div class="info-fact-label">Main sources</div>
         <p>${m.sources}</p>
