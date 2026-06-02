@@ -30,13 +30,21 @@ h1 {
   font-size: clamp(42px, 6vw, 84px);
   line-height: 1.02;
   margin: 0 0 16px;
+<<<<<<< HEAD
   max-width: 1050px;
+=======
+  max-width: 100%;
+>>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
 }
 .subtitle {
   font-size: 18px;
   line-height: 1.55;
   color: #526173;
+<<<<<<< HEAD
   max-width: 820px;
+=======
+  max-width: 100%;
+>>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
 }
 
 /* ── Chapter / story navigation ─────────────────────────────────────────── */
@@ -75,7 +83,10 @@ h1 {
   font-size: 14px;
   color: #526173;
   line-height: 1.55;
+<<<<<<< HEAD
   max-width: 700px;
+=======
+>>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
 }
 .chapter-dots {
   display: flex;
