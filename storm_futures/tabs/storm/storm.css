@@ -30,38 +30,6 @@ body {
   padding: 1.25rem 0 1.5rem;
 }
 
-header {
-  margin-bottom: 2rem;
-}
-
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--teal);
-  margin-bottom: 0.75rem;
-}
-
-h1 {
-  font-size: clamp(2.2rem, 5vw, 4.8rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  line-height: 0.96;
-  max-width: 900px;
-}
-
-h1 span {
-  color: var(--teal);
-}
-
-.subtitle {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  margin-top: 1rem;
-  letter-spacing: 0.03em;
-}
-
 .controls-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -132,19 +100,20 @@ h1 span {
 
 #chart-container {
   width: 100%;
-  overflow-x: auto;
-  overflow-y: visible;
+  overflow: visible;
   position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 24px;
-  padding: 1.5rem 1rem 1rem;
+  padding: 1.5rem;
   box-shadow: 0 4px 20px rgba(20, 35, 60, 0.08);
 }
 
 #chart {
   display: block;
-  min-width: 900px;
+  width: 100%;
+  height: auto;
+  min-width: 0;
 }
 
 svg text {
@@ -153,6 +122,11 @@ svg text {
 
 .storm-group {
   cursor: pointer;
+}
+
+.storm-group:hover .storm-card-bg {
+  stroke: #b8c5d6;
+  filter: drop-shadow(0 8px 16px rgba(20, 35, 60, 0.14));
 }
 
 .storm-group:hover .ts-circle {
@@ -165,15 +139,80 @@ svg text {
   stroke-opacity: 1;
 }
 
-.axis-line {
-  stroke: var(--axis-line);
+.storm-card-bg {
+  fill: #ffffff;
+  stroke: var(--border);
+  stroke-width: 1;
+  rx: 14;
+  filter: drop-shadow(0 3px 8px rgba(20, 35, 60, 0.08));
+}
+
+.section-divider {
+  stroke: var(--border);
   stroke-width: 1;
 }
 
+.avg-title {
+  fill: var(--text-primary);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.avg-subtitle {
+  fill: var(--text-secondary);
+  font-size: 13px;
+}
+
+.grid-title {
+  fill: var(--text-primary);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.avg-label-ts {
+  fill: var(--teal);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.avg-label-hur {
+  fill: var(--coral);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.avg-value {
+  fill: var(--text-primary);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.card-name {
+  fill: var(--text-primary);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.card-year {
+  fill: var(--text-secondary);
+  font-size: 11px;
+}
+
+.card-stat {
+  fill: var(--teal);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.card-pressure {
+  fill: var(--text-primary);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.axis-line,
 .tick-line {
-  stroke: var(--axis-line);
-  stroke-width: 1;
-  stroke-dasharray: 4 4;
+  display: none;
 }
 
 #tooltip {
@@ -234,10 +273,6 @@ svg text {
     padding-top: 2rem;
   }
 
-  h1 {
-    font-size: 2.4rem;
-  }
-
   .slider-block {
     flex-direction: column;
     align-items: stretch;
@@ -245,5 +280,9 @@ svg text {
 
   .slider-block label {
     min-width: unset;
+  }
+
+  #chart-container {
+    padding: 1rem;
   }
 }
