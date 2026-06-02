@@ -41,9 +41,9 @@ const OCEAN_BASINS = [
 
 const VARIABLE_INFO = {
   ts: {
-    label: 'Change in Global Atmospheric Temperature from 2015 Baseline',
-    chartTitle: 'Mean Global Temperature Anomaly by Ocean Basin',
-    desc: 'Global atmospheric temperature is a key indicator for storm risk and destructiveness globally, as a warmer atmosphere can hold more moisture and can lead to more intense rainfall. A study of 2017\'s Hurricane Harvey shows that global warming made precipitation from storms 15% more intense and 3 times more likely (van Oldenborgh et al. 2017). We note consistent increases across all emission scenarios, with more extreme increases in higher emissions scenarios, which is consistent with the fact that higher emissions lead to more warming globally.'
+    label: 'Change in Atmospheric Temperature from 2015 Baseline',
+    chartTitle: 'Mean Atmospheric Temperature Anomaly by Ocean Basin',
+    desc: 'Atmospheric temperature is a key indicator for storm risk and destructiveness globally, as a warmer atmosphere can hold more moisture and can lead to more intense rainfall. A study of 2017\'s Hurricane Harvey shows that global warming made precipitation from storms 15% more intense and 3 times more likely (van Oldenborgh et al. 2017). We note consistent increases across all emission scenarios, with more extreme increases in higher emissions scenarios, which is consistent with the fact that higher emissions lead to more warming globally.'
   },
   tos: {
     label: 'Change in Sea Surface Temperature from 2015 Baseline',
