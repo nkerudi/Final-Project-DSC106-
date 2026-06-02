@@ -1,44 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Hurricane Timeline</title>
-  <link rel="stylesheet" href="./style.css">
+
+  <link rel="stylesheet" href="./style.css" />
+
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script defer src="./storm.js"></script>
 </head>
 
 <body>
-  <header>
-    <h1>Atlantic Hurricane <span>Timeline</span></h1>
-    <p class="subtitle">1975 – 2024 · peak intensity per storm · hover for details</p>
-  </header>
+  <main class="page">
+    <header>
+      <p class="eyebrow">Atlantic storm record</p>
+      <h1>Atlantic Hurricane <span>Timeline</span></h1>
+      <p class="subtitle">
+        1975 – 2024 · storm size by decade · hover for details
+      </p>
+    </header>
 
-  <div class="legend">
-    <div class="legend-item">
-      <div class="legend-dot ts"></div>
-      Tropical storm force diameter (avg, nmi)
-    </div>
+    <section class="controls-card">
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot ts"></div>
+          Tropical storm force diameter, average nmi
+        </div>
 
-    <div class="legend-item">
-      <div class="legend-dot hur"></div>
-      Hurricane force diameter (avg, nmi)
-    </div>
-  </div>
+        <div class="legend-item">
+          <div class="legend-dot hur"></div>
+          Hurricane force diameter, average nmi
+        </div>
+      </div>
 
-  <div class="slider-block">
-    <label for="decade-slider">
-      Decade: <span id="decade-label">1970s</span>
-    </label>
-    <input id="decade-slider" type="range" min="0" max="5" step="1" value="0">
-  </div>
+      <div class="slider-block">
+        <label for="decade-slider">
+          Decade: <span id="decade-label">1970s</span>
+        </label>
 
-  <div id="chart-container">
-    <svg id="chart"></svg>
-  </div>
+        <input
+          id="decade-slider"
+          type="range"
+          min="0"
+          max="5"
+          step="1"
+          value="0"
+        />
+      </div>
+    </section>
 
-  <div id="tooltip"></div>
+    <section id="chart-container">
+      <svg id="chart"></svg>
+    </section>
 
-  <script src="./storm.js"></script>
+    <div id="tooltip"></div>
+  </main>
 </body>
 </html>
