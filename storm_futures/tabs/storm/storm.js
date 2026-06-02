@@ -9,7 +9,7 @@ function cleanNumber(value, missingCodes = []) {
   return num;
 }
 
-d3.csv("./storms_aggregated.csv", d => {
+d3.csv("../../data/storm/storms_aggregated.csv", d => {
   const start = parseDate(d.start_time);
   const end = parseDate(d.end_time);
 
