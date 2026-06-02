@@ -1,17 +1,48 @@
 const parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S");
 const fmtDate = d3.timeFormat("%b %d, %Y");
 
-d3.csv("./storms_aggregated.csv", d => ({
-  name: d.name.trim(),
-  start: parseDate(d.start_time),
-  end: parseDate(d.end_time),
-  duration_days: +d.duration_days,
-  wind: +d.wind,
-  pressure: +d.pressure,
-  tropicalstorm_force_diameter: +d.tropicalstorm_force_diameter,
-  hurricane_force_diameter: Math.max(0, +d.hurricane_force_diameter),
-})).then(DATA => {
-  DATA = DATA.filter(d => d.start && d.end);
+function cleanNumber(value, missingCodes = []) {
+  const num = +value;
+  if (Number.isNaN(num)) return null;
+  if (missingCodes.includes(num)) return null;
+  if (num < 0) return null;
+  return num;
+}
+
+d3.csv("./storms_aggregated.csv", d => {
+  const start = parseDate(d.start_time);
+  const end = parseDate(d.end_time);
+
+  const year = start ? start.getFullYear() : null;
+
+  return {
+    name: d.name ? d.name.trim() : "Unknown",
+    year: year,
+
+    start: start,
+    end: end,
+
+    duration_days: +d.duration_days || null,
+
+    wind: cleanNumber(d.wind),
+    pressure: cleanNumber(d.pressure, [-999]),
+
+    tropicalstorm_force_diameter: cleanNumber(
+      d.tropicalstorm_force_diameter,
+      [-1998]
+    ),
+
+    hurricane_force_diameter: cleanNumber(
+      d.hurricane_force_diameter,
+      [-1998]
+    )
+  };
+}).then(DATA => {
+  DATA = DATA.filter(d =>
+    d.year &&
+    d.wind !== null
+  );
+
   DATA.sort((a, b) => a.start - b.start);
 
   const decades = [1970, 1980, 1990, 2000, 2010, 2020];
@@ -33,6 +64,15 @@ d3.csv("./storms_aggregated.csv", d => ({
     .domain([0, maxDiameter])
     .range([MIN_R, MAX_R]);
 
+
+
+    
+  const maxWind = d3.max(DATA, d => d.wind);
+
+  const windScale = d3.scaleSqrt()
+    .domain([0, maxWind])
+    .range([MIN_R, MAX_R * 0.75]);
+
   const svg = d3.select("#chart");
   const tooltip = document.getElementById("tooltip");
   const slider = document.getElementById("decade-slider");
@@ -43,7 +83,9 @@ d3.csv("./storms_aggregated.csv", d => ({
   }
 
   function render(selectedDecade) {
-    const decadeData = DATA.filter(d => getDecade(d.start.getFullYear()) === selectedDecade);
+    const decadeData = DATA.filter(
+      d => getDecade(d.start.getFullYear()) === selectedDecade
+    );
 
     svg.selectAll("*").remove();
 
@@ -86,8 +128,10 @@ d3.csv("./storms_aggregated.csv", d => ({
       const cx = marginLeft + i * STEP + STEP / 2;
       const cy = axisY;
 
-      const tsR = rScale(d.tropicalstorm_force_diameter);
-      const hurR = d.hurricane_force_diameter > 0
+      const tsR = d.tropicalstorm_force_diameter !== null
+        ? rScale(d.tropicalstorm_force_diameter)
+        : windScale(d.wind);
+      const hurR = d.hurricane_force_diameter !== null
         ? rScale(d.hurricane_force_diameter)
         : 0;
 
@@ -109,6 +153,7 @@ d3.csv("./storms_aggregated.csv", d => ({
         .attr("fill", "rgba(45,212,191,0.15)")
         .attr("stroke", "#2dd4bf")
         .attr("stroke-width", 1.2)
+        .attr("stroke-dasharray", d.tropicalstorm_force_diameter === null ? "4 4" : "none")
         .attr("fill-opacity", 0.22)
         .attr("stroke-opacity", 0.8);
 
@@ -144,19 +189,26 @@ d3.csv("./storms_aggregated.csv", d => ({
         .text(d.start.getFullYear());
 
       g.on("mousemove", event => {
-        const hurLine = d.hurricane_force_diameter > 0
+        const pressureText = d.pressure !== null
+          ? `${d.pressure.toFixed(1)} mb`
+          : "missing";
+
+        const hurLine = d.hurricane_force_diameter !== null
           ? `<div class="tt-row"><span class="tt-label-hur">● hur. diam.</span><span>${d.hurricane_force_diameter.toFixed(1)} nmi</span></div>`
           : "";
+        const tsLine = d.tropicalstorm_force_diameter !== null 
+          ? `<div class="tt-row"><span class="tt-label-ts">● ts. diam.</span><span>${d.tropicalstorm_force_diameter.toFixed(1)} nmi</span></div>`
+          : `<div class="tt-row"><span class="tt-label-ts">● size estimate</span><span>based on wind</span></div>`;
 
         tooltip.innerHTML = `
           <div class="tt-name">${d.name}</div>
           <div class="tt-row"><span>start</span><span>${fmtDate(d.start)}</span></div>
           <div class="tt-row"><span>end</span><span>${fmtDate(d.end)}</span></div>
-          <div class="tt-row"><span>duration</span><span>${d.duration_days} days</span></div>
+          <div class="tt-row"><span>duration</span><span>${d.duration_days.toFixed(1)} days</span></div>
           <div class="tt-row"><span>max wind</span><span>${d.wind.toFixed(1)} kt</span></div>
-          <div class="tt-row"><span>pressure</span><span>${d.pressure.toFixed(1)} mb</span></div>
-          <div class="tt-row"><span class="tt-label-ts">● ts. diam.</span><span>${d.tropicalstorm_force_diameter.toFixed(1)} nmi</span></div>
+          <div class="tt-row"><span>pressure</span><span>${pressureText}</span></div>
           ${hurLine}
+          ${tsLine}
         `;
 
         tooltip.style.display = "block";
@@ -175,6 +227,11 @@ d3.csv("./storms_aggregated.csv", d => ({
     decadeLabel.textContent = `${selectedDecade}s`;
     render(selectedDecade);
   });
+
+  slider.min = 0;
+  slider.max = decades.length - 1;
+  slider.step = 1;
+  slider.value = 0;
 
   decadeLabel.textContent = "1970s";
   render(1970);
