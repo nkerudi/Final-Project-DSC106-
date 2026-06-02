@@ -9,7 +9,6 @@ const scenarioConfigs = [
 const variableConfigs = {
   ts:     { label: "Global Temperature",              maxAbsAnomaly: 10  },
   tos:    { label: "Sea Surface Temperature",          maxAbsAnomaly: 10  },
-  thetao: { label: "Sea Water Potential Temperature",  maxAbsAnomaly: 10  },
   zos:    { label: "Sea Level",                        maxAbsAnomaly: 1   },
   storm_risk: {
     label: "Naive Storm Risk",
@@ -41,19 +40,14 @@ const OCEAN_BASINS = [
 
 const VARIABLE_INFO = {
   ts: {
-    label: 'Change in Global Atmospheric Temperature from 2015 Baseline',
-    chartTitle: 'Mean Global Temperature Anomaly by Ocean Basin',
-    desc: 'Global atmospheric temperature is a key indicator for storm risk and destructiveness globally, as a warmer atmosphere can hold more moisture and can lead to more intense rainfall. A study of 2017\'s Hurricane Harvey shows that global warming made precipitation from storms 15% more intense and 3 times more likely (van Oldenborgh et al. 2017). We note consistent increases across all emission scenarios, with more extreme increases in higher emissions scenarios, which is consistent with the fact that higher emissions lead to more warming globally.'
+    label: 'Change in Atmospheric Temperature from 2015 Baseline',
+    chartTitle: 'Mean Atmospheric Temperature Anomaly by Ocean Basin',
+    desc: 'Atmospheric temperature is a key indicator for storm risk and destructiveness globally, as a warmer atmosphere can hold more moisture and can lead to more intense rainfall. A study of 2017\'s Hurricane Harvey shows that global warming made precipitation from storms 15% more intense and 3 times more likely (van Oldenborgh et al. 2017). We note consistent increases across all emission scenarios, with more extreme increases in higher emissions scenarios, which is consistent with the fact that higher emissions lead to more warming globally.'
   },
   tos: {
     label: 'Change in Sea Surface Temperature from 2015 Baseline',
     chartTitle: 'Mean Sea Surface Temperature Anomaly by Ocean Basin',
     desc: 'Sea surface temperature is a well-known indicator for tropical storm and hurricane risk. As warm seawater evaporates, it pumps water into the lower atmosphere (which has already been rising in temperature), and a convective cycle caused by winds in addition to dropping pressure causes hurricanes to form (NOAA Ocean Exploration, 2020). We see similar trends to global temperature, with more extreme sea surface temperature increases in higher emissions scenarios, which suggests that we can expect more intense tropical storms and hurricanes in the future as the oceans warm.'
-  },
-  thetao: {
-    label: 'Change in Sea Water Potential Temperature from 2015 Baseline',
-    chartTitle: 'Mean Ocean Potential Temperature Anomaly by Ocean Basin',
-    desc: 'In addition to the surface temperature, the temperature of sea water overall affects the formation of tropical storms and hurricanes. Before, cooler deeper water mixing with surface waters during hurricanes weakened them. However, as the oceans themselves become warmer, warmer deep water mixing creates a warmer surface to strengthen hurricanes (Woods Hole Oceanographic Institution). We once again see consistent increases across all emission scenarios, with more extreme increases in higher emissions scenarios, which is consistent with the fact that higher emissions lead to more warming globally.'
   },
   zos: {
     label: 'Change in Sea Level Rise from 2015 Baseline',
@@ -76,7 +70,6 @@ const VARIABLE_UNITS = {
   ts:         '°C anomaly',
   tos:        '°C anomaly',
   zos:        'm anomaly',
-  thetao:     '°C anomaly',
   storm_risk: 'Fraction at Risk',
   tchp:       'kJ/cm²'
 };
@@ -189,7 +182,29 @@ async function fetchPrecomputedMapAnomaly(ssp, variable = "tos") {
         : `../../data/map/${variable}_anom_${ssp}.json`;
       request = fetchWithRetry(urlPath)
         .then(async res => {
-          const data = await res.json();
+          // Read as text first — if GitHub Pages returns its HTML 404 page
+          // (content-type: text/html) instead of JSON, give a clear error.
+          const text = await res.text();
+          const ct = res.headers.get('content-type') ?? '';
+          if (ct.includes('text/html') || text.trimStart().startsWith('<')) {
+            throw new Error(
+              `Got HTML instead of JSON for "${urlPath}". ` +
+              `The file is likely missing from the deployment.`
+            );
+          }
+          if (text.startsWith('version https://git-lfs')) {
+            throw new Error(
+              `Got a Git LFS pointer instead of JSON data for "${urlPath}". ` +
+              `GitHub Pages cannot serve LFS files. Run: ` +
+              `git lfs untrack "*.json" && git rm --cached <file> && git add <file> && git push`
+            );
+          }
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch (e) {
+            throw new Error(`JSON parse error for "${urlPath}": ${e.message}`);
+          }
           if (!data || !Array.isArray(data.frames)) {
             throw new Error(`Invalid data format for ${variable}:${ssp}`);
           }
@@ -804,7 +819,7 @@ async function initMap() {
         loadedCount++;
         if (loadingEl) loadingEl.textContent = `Loading data… (${loadedCount} / ${total})`;
         console.warn(`Failed to load ${scenario} for ${activeMapVariable}:`, err);
-        drawCanvasStatus(getMapCanvasId(activeMapVariable, scenario), 'Failed to load', true);
+        drawCanvasStatus(getMapCanvasId(activeMapVariable, scenario), `Missing: ${activeMapVariable}_*_${scenario}.json`, true);
         return null;
       })
   );
