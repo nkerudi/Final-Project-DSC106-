@@ -6,7 +6,7 @@
 
   <title>Hurricane Timeline</title>
 
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./storm.css" />
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   <script defer src="./storm.js"></script>
@@ -14,14 +14,6 @@
 
 <body>
   <main class="page">
-    <header>
-      <p class="eyebrow">Atlantic storm record</p>
-      <h1>Atlantic Hurricane <span>Timeline</span></h1>
-      <p class="subtitle">
-        1975 – 2024 · storm size by decade · hover for details
-      </p>
-    </header>
-
     <section class="controls-card">
       <div class="legend">
         <div class="legend-item">
@@ -57,5 +49,12 @@
 
     <div id="tooltip"></div>
   </main>
+  <script>
+    const _sendH = () => window.parent.postMessage(
+      { type: 'iframeResize', height: document.documentElement.scrollHeight }, '*'
+    );
+    new ResizeObserver(_sendH).observe(document.documentElement);
+    window.addEventListener('load', _sendH);
+  </script>
 </body>
 </html>

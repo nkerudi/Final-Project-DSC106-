@@ -1,0 +1,160 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #172033;
+  padding: 12px;
+}
+
+.map-page {
+  width: 100%;
+}
+
+.maps-header {
+  margin-bottom: 0.45rem;
+}
+
+.maps-subtitle {
+  margin: 0 0 0.45rem;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #29434b;
+  line-height: 1.4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.region-select {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #0f6f73;
+  background: transparent;
+  border: none;
+  padding: 0 0.15rem;
+  cursor: pointer;
+  font-family: inherit;
+  outline: none;
+  margin: 0 0.1rem;
+}
+
+.region-select:hover {
+  text-decoration: underline;
+}
+
+.region-select:focus {
+  outline: 2px solid #0f6f73;
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+.slider-with-labels {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.slider-with-labels input[type="range"] {
+  width: 100%;
+  accent-color: #2b6cb0;
+}
+
+.year-label {
+  font-size: 0.85rem;
+  color: #526173;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+  align-items: stretch;
+}
+
+.map-grid > article {
+  background: #fff;
+  border: 1px solid #e0dacc;
+  border-radius: 12px;
+  padding: 0.65rem;
+  position: relative;
+  min-height: 100%;
+}
+
+.map-grid > article h2 {
+  margin: 0 0 0.45rem;
+  font-size: 0.98rem;
+  letter-spacing: 0.03em;
+}
+
+.map-canvas {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  background: #8ecae6;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.brush-overlay {
+  cursor: crosshair;
+}
+
+.scenario-subtitle {
+  color: #526173;
+  font-size: 0.78rem;
+  margin: 0 0 0.45rem;
+  line-height: 1.45;
+}
+
+.legend-wrap {
+  margin-top: 0.9rem;
+  border: 1px solid #e1dbcf;
+  border-radius: 10px;
+  padding: 0.65rem;
+  background: #fff;
+}
+
+#legend-svg {
+  width: 100%;
+  height: 56px;
+  display: block;
+}
+
+.tooltip {
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+  background: #172033;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  box-shadow: 0 10px 24px rgba(20, 35, 60, 0.25);
+  z-index: 10;
+}
+
+@media (max-width: 900px) {
+  .map-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .slider-with-labels {
+    grid-template-columns: 1fr;
+  }
+
+  .maps-subtitle {
+    flex-wrap: wrap;
+  }
+}
