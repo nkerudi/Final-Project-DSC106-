@@ -52,6 +52,52 @@
       <p>So far we have solidified the purpose behind our project. We wish to showcase how different future climate metrics are impacted under different emission scenarios, with our chosen topics being greenhouse gases, sea surface temperatures, and land surface temperatures. We have gathered and processed the required data to create our visuals as well as created initial prototypes with Python. Our next task is to load and render them using D3. Design wise, we have completed our first interactive prototype and page design, specifically for sea surface temperatures. We created an interactive line chart that allows users to explore how ocean temperatures change over the years through a time slider, as well as a summary panel that shows the data based on the current year selection and the difference in temperature between the low and high emission models. In addition to the interactive visual, we worked on the design of our webpage, making it simple and clean so users have an easy time navigating through it.</p>
       <p>The most challenging part of our project to design will most likely be making a cohesive and easy to digest story. Since we are working with many different climate, social, and scientific metrics, finding a way to properly explain everything and tie it all into a narrative that non-experts can understand is our biggest challenge. We will need to be careful with our visual design choices and layout in order to make the data feel cohesive and intuitive rather than overwhelming. Finding the balance between engaging visuals and clear, easy to digest explanations is the key to making our project successful.</p>
     </section>
+    
+    <div class="slider-with-labels">
+			<span class="year-label year-label-start">2015</span>
+      <input id="map-year-slider" type="range" min="0" max="0" step="1" value="0" disabled />
+			<span class="year-label year-label-end">2100</span>
+		</div>
+		<div class="maps-wrapper">
+			<div class="maps-header">
+          <p id="maps-subtitle" class="maps-subtitle">Projected anomaly for <select id="variable-select" class="region-select"><option value="ts">Global Temperature</option><option value="tos" selected>Sea Surface Temperature</option></select></p>
+			</div>
+			<section>
+				<section class="map-grid" id="map-grid">
+          <article data-scenario="SSP126" style="position:relative;">
+						<h2>SSP1-2.6 — Low Emissions</h2>
+						<p class="scenario-subtitle">Strong climate policy action. Temperatures projected to rise ~1–2 °C by 2100.</p>
+              <canvas class="map-canvas" id="tos-ssp126"></canvas>
+						<svg class="brush-overlay" data-scenario="SSP126" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+						<div class="tooltip"></div>
+					</article>
+					<article data-scenario="SSP245" style="position:relative;">
+						<h2>SSP2-4.5 — Moderate Emissions</h2>
+						<p class="scenario-subtitle">Some cooperative climate policy action (current world). Temperatures projected to rise ~2–3 °C by 2100.</p>
+              <canvas class="map-canvas" id="tos-ssp245"></canvas>
+						<svg class="brush-overlay" data-scenario="SSP245" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+						<div class="tooltip"></div>
+					</article>
+					<article data-scenario="SSP370" style="position:relative;">
+						<h2>SSP3-7.0 — High Emissions</h2>
+						<p class="scenario-subtitle">Limited policy action & regional fragmentation. Temperatures projected to rise ~3–4 °C by 2100.</p>
+              <canvas class="map-canvas" id="tos-ssp370"></canvas>
+						<svg class="brush-overlay" data-scenario="SSP370" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+						<div class="tooltip"></div>
+					</article>
+					<article data-scenario="SSP585" style="position:relative;">
+						<h2>SSP5-8.5 — Extreme Emissions</h2>
+						<p class="scenario-subtitle">Fossil-fuel intensive & no climate change mitigation. Temperatures projected to rise ~4–5 °C by 2100.</p>
+              <canvas class="map-canvas" id="tos-ssp585"></canvas>
+						<svg class="brush-overlay" data-scenario="SSP585" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+						<div class="tooltip"></div>
+					</article>
+				</section>
+				<section>
+					<svg id="legend-svg" aria-label="Shared anomaly legend"></svg>
+				</section>
+			</section>
+		</div>
   </main>
 </body>
 </html>
