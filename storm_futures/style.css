@@ -30,13 +30,13 @@ h1 {
   font-size: clamp(42px, 6vw, 84px);
   line-height: 1.02;
   margin: 0 0 16px;
-  max-width: 1050px;
+  max-width: 100%;
 }
 .subtitle {
   font-size: 18px;
   line-height: 1.55;
   color: #526173;
-  max-width: 820px;
+  max-width: 100%;
 }
 
 /* ── Chapter / story navigation ─────────────────────────────────────────── */
@@ -75,7 +75,6 @@ h1 {
   font-size: 14px;
   color: #526173;
   line-height: 1.55;
-  max-width: 700px;
 }
 .chapter-dots {
   display: flex;

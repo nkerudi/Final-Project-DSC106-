@@ -9,53 +9,149 @@
 </head>
 <body>
   <div class="map-page">
-    <div class="maps-header">
-      <p class="maps-subtitle">
-        Projected anomaly for
-        <select id="variable-select" class="region-select">
-          <option value="ts">Global Temperature</option>
-          <option value="tos" selected>Sea Surface Temperature</option>
-          <option value="zos">Sea Level</option>
-        </select>
-      </p>
+
+    <!-- ── HEADER ROW: variable rail + info card ── -->
+    <div class="map-header-row">
+      <nav class="variable-rail" aria-label="Variable selection">
+        <button class="var-btn active" data-var="ts"         aria-pressed="true"  title="Global Temperature">1</button>
+        <span class="var-connector" aria-hidden="true"></span>
+        <button class="var-btn"        data-var="tos"         aria-pressed="false" title="Sea Surface Temperature">2</button>
+        <span class="var-connector" aria-hidden="true"></span>
+        <button class="var-btn"        data-var="thetao"      aria-pressed="false" title="Sea Water Potential Temperature">3</button>
+        <span class="var-connector" aria-hidden="true"></span>
+        <button class="var-btn"        data-var="zos"         aria-pressed="false" title="Sea Level Rise">4</button>
+        <span class="var-connector" aria-hidden="true"></span>
+        <button class="var-btn"        data-var="storm_risk"  aria-pressed="false" title="Naive Storm Risk (SST > 27 °C)">5</button>
+        <span class="var-connector" aria-hidden="true"></span>
+        <button class="var-btn"        data-var="tchp"        aria-pressed="false" title="TC Heat Potential Proxy">6</button>
+      </nav>
+      <div class="variable-info-card">
+        <div class="var-info-label" id="var-info-label">Global Temperature</div>
+        <p class="var-info-desc" id="var-info-desc">Global temperature is a key indicator for storm risk and destructiveness globally, as a warmer atmosphere can hold more moisture and can lead to more intense rainfall.</p>
+      </div>
     </div>
+
+    <!-- ── TIME SLIDER ── -->
     <div class="slider-with-labels">
       <span class="year-label">2015</span>
       <input id="map-year-slider" type="range" min="0" max="0" step="1" value="0" disabled />
       <span class="year-label" id="year-display">2100</span>
     </div>
-    <section class="map-grid" id="map-grid">
-      <article data-scenario="SSP126" style="position:relative;">
+
+    <!-- ── CHOROPLETH MAPS ── -->
+    <section class="map-grid" id="map-grid" style="position:relative;">
+      <button id="zoom-reset-btn" class="zoom-reset-btn" style="display:none;" title="Double-click any map to reset">&#8617; Reset Zoom</button>
+      <article data-scenario="SSP126">
         <h2>SSP1-2.6 — Low Emissions</h2>
         <p class="scenario-subtitle">Strong climate policy action. Temperatures projected to rise ~1–2 °C by 2100.</p>
-        <canvas class="map-canvas" id="tos-ssp126"></canvas>
-        <svg class="brush-overlay" data-scenario="SSP126" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+        <div class="canvas-wrap">
+          <canvas class="map-canvas" id="tos-ssp126"></canvas>
+          <svg class="brush-overlay" data-scenario="SSP126"></svg>
+        </div>
       </article>
-      <article data-scenario="SSP245" style="position:relative;">
+      <article data-scenario="SSP245">
         <h2>SSP2-4.5 — Moderate Emissions</h2>
         <p class="scenario-subtitle">Some cooperative climate policy action (current world). Temperatures projected to rise ~2–3 °C by 2100.</p>
-        <canvas class="map-canvas" id="tos-ssp245"></canvas>
-        <svg class="brush-overlay" data-scenario="SSP245" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+        <div class="canvas-wrap">
+          <canvas class="map-canvas" id="tos-ssp245"></canvas>
+          <svg class="brush-overlay" data-scenario="SSP245"></svg>
+        </div>
       </article>
-      <article data-scenario="SSP370" style="position:relative;">
+      <article data-scenario="SSP370">
         <h2>SSP3-7.0 — High Emissions</h2>
         <p class="scenario-subtitle">Limited policy action &amp; regional fragmentation. Temperatures projected to rise ~3–4 °C by 2100.</p>
-        <canvas class="map-canvas" id="tos-ssp370"></canvas>
-        <svg class="brush-overlay" data-scenario="SSP370" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+        <div class="canvas-wrap">
+          <canvas class="map-canvas" id="tos-ssp370"></canvas>
+          <svg class="brush-overlay" data-scenario="SSP370"></svg>
+        </div>
       </article>
-      <article data-scenario="SSP585" style="position:relative;">
+      <article data-scenario="SSP585">
         <h2>SSP5-8.5 — Extreme Emissions</h2>
         <p class="scenario-subtitle">Fossil-fuel intensive &amp; no climate change mitigation. Temperatures projected to rise ~4–5 °C by 2100.</p>
-        <canvas class="map-canvas" id="tos-ssp585"></canvas>
-        <svg class="brush-overlay" data-scenario="SSP585" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+        <div class="canvas-wrap">
+          <canvas class="map-canvas" id="tos-ssp585"></canvas>
+          <svg class="brush-overlay" data-scenario="SSP585"></svg>
+        </div>
       </article>
     </section>
+
+    <!-- ── SCALE / LEGEND ── -->
     <div class="legend-wrap">
       <svg id="legend-svg" aria-label="Shared anomaly legend"></svg>
     </div>
+
+    <!-- ── BASIN BAR CHART ── -->
+    <div id="basin-chart-container" style="display:none;">
+      <div class="basin-chart-title">Mean Variable by Ocean Basin</div>
+      <div id="basin-chart-formula" style="display:none;">
+        TCHP<sub>proxy</sub> = 4,097,844 · max(SST<sub>anom</sub>, 0) · (75 + 4·SLA) / 10<sup>7</sup>&nbsp;[kJ cm<sup>−2</sup>]
+      </div>
+      <!-- skeleton shown while data loads -->
+      <div id="basin-chart-loading" class="basin-skeleton" style="display:none;">
+        <div class="basin-skeleton-row">
+          <div class="basin-skeleton-group">
+            <div class="basin-skeleton-bar" style="height:28px"></div>
+            <div class="basin-skeleton-bar" style="height:55px"></div>
+            <div class="basin-skeleton-bar" style="height:72px"></div>
+            <div class="basin-skeleton-bar" style="height:95px"></div>
+          </div>
+          <div class="basin-skeleton-group">
+            <div class="basin-skeleton-bar" style="height:32px"></div>
+            <div class="basin-skeleton-bar" style="height:48px"></div>
+            <div class="basin-skeleton-bar" style="height:68px"></div>
+            <div class="basin-skeleton-bar" style="height:88px"></div>
+          </div>
+          <div class="basin-skeleton-group">
+            <div class="basin-skeleton-bar" style="height:22px"></div>
+            <div class="basin-skeleton-bar" style="height:42px"></div>
+            <div class="basin-skeleton-bar" style="height:60px"></div>
+            <div class="basin-skeleton-bar" style="height:78px"></div>
+          </div>
+          <div class="basin-skeleton-group">
+            <div class="basin-skeleton-bar" style="height:35px"></div>
+            <div class="basin-skeleton-bar" style="height:58px"></div>
+            <div class="basin-skeleton-bar" style="height:82px"></div>
+            <div class="basin-skeleton-bar" style="height:105px"></div>
+          </div>
+        </div>
+      </div>
+      <svg id="basin-chart-svg" style="width:100%; display:block;" height="210"></svg>
+      <div class="basin-legend">
+        <span><span style="color:#3b82f6;">■</span> SSP1-2.6</span>
+        <span><span style="color:#22c55e;">■</span> SSP2-4.5</span>
+        <span><span style="color:#f97316;">■</span> SSP3-7.0</span>
+        <span><span style="color:#ef4444;">■</span> SSP5-8.5</span>
+      </div>
+    </div>
+
   </div>
+
+  <!-- hidden select kept so map.js variable-select listener degrades gracefully -->
+  <select id="variable-select" style="display:none;" aria-hidden="true">
+    <option value="ts" selected>Global Temperature</option>
+    <option value="tos">Sea Surface Temperature</option>
+    <option value="zos">Sea Level</option>
+    <option value="thetao">Sea Water Potential Temperature</option>
+    <option value="storm_risk">Naive Storm Risk (SST &gt; 27 °C)</option>
+    <option value="tchp">TC Heat Potential Proxy</option>
+  </select>
+
   <script src="map.js"></script>
   <script>
+    // Wire variable-rail buttons to map.js
+    document.querySelectorAll('.var-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.var-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        setMapVariable(btn.dataset.var)
+          .catch(err => console.error('Could not switch variable:', err));
+      });
+    });
+
     const _sendH = () => window.parent.postMessage(
       { type: 'iframeResize', height: document.documentElement.scrollHeight }, '*'
     );
