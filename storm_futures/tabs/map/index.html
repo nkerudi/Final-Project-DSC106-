@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Climate Anomaly Maps</title>
+  <link rel="stylesheet" href="map.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <div class="map-page">
+    <div class="maps-header">
+      <p class="maps-subtitle">
+        Projected anomaly for
+        <select id="variable-select" class="region-select">
+          <option value="ts">Global Temperature</option>
+          <option value="tos" selected>Sea Surface Temperature</option>
+          <option value="zos">Sea Level</option>
+        </select>
+      </p>
+    </div>
+    <div class="slider-with-labels">
+      <span class="year-label">2015</span>
+      <input id="map-year-slider" type="range" min="0" max="0" step="1" value="0" disabled />
+      <span class="year-label" id="year-display">2100</span>
+    </div>
+    <section class="map-grid" id="map-grid">
+      <article data-scenario="SSP126" style="position:relative;">
+        <h2>SSP1-2.6 — Low Emissions</h2>
+        <p class="scenario-subtitle">Strong climate policy action. Temperatures projected to rise ~1–2 °C by 2100.</p>
+        <canvas class="map-canvas" id="tos-ssp126"></canvas>
+        <svg class="brush-overlay" data-scenario="SSP126" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+      </article>
+      <article data-scenario="SSP245" style="position:relative;">
+        <h2>SSP2-4.5 — Moderate Emissions</h2>
+        <p class="scenario-subtitle">Some cooperative climate policy action (current world). Temperatures projected to rise ~2–3 °C by 2100.</p>
+        <canvas class="map-canvas" id="tos-ssp245"></canvas>
+        <svg class="brush-overlay" data-scenario="SSP245" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+      </article>
+      <article data-scenario="SSP370" style="position:relative;">
+        <h2>SSP3-7.0 — High Emissions</h2>
+        <p class="scenario-subtitle">Limited policy action &amp; regional fragmentation. Temperatures projected to rise ~3–4 °C by 2100.</p>
+        <canvas class="map-canvas" id="tos-ssp370"></canvas>
+        <svg class="brush-overlay" data-scenario="SSP370" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+      </article>
+      <article data-scenario="SSP585" style="position:relative;">
+        <h2>SSP5-8.5 — Extreme Emissions</h2>
+        <p class="scenario-subtitle">Fossil-fuel intensive &amp; no climate change mitigation. Temperatures projected to rise ~4–5 °C by 2100.</p>
+        <canvas class="map-canvas" id="tos-ssp585"></canvas>
+        <svg class="brush-overlay" data-scenario="SSP585" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:auto;"></svg>
+      </article>
+    </section>
+    <div class="legend-wrap">
+      <svg id="legend-svg" aria-label="Shared anomaly legend"></svg>
+    </div>
+  </div>
+  <script src="map.js"></script>
+  <script>
+    const _sendH = () => window.parent.postMessage(
+      { type: 'iframeResize', height: document.documentElement.scrollHeight }, '*'
+    );
+    new ResizeObserver(_sendH).observe(document.documentElement);
+    window.addEventListener('load', _sendH);
+  </script>
+</body>
+</html>

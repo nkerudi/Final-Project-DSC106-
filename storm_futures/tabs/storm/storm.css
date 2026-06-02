@@ -1,0 +1,288 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #f3f6fa;
+  --surface: #ffffff;
+  --surface-soft: #f8fafc;
+  --border: #dbe3ee;
+  --text-primary: #172033;
+  --text-secondary: #526173;
+  --teal: #0891b2;
+  --teal-dim: rgba(8, 145, 178, 0.12);
+  --coral: #e11d48;
+  --coral-dim: rgba(225, 29, 72, 0.12);
+  --axis-line: #e1e8f0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.page {
+  width: min(1280px, 94vw);
+  margin: 0 auto;
+  padding: 1.25rem 0 1.5rem;
+}
+
+.controls-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(20, 35, 60, 0.06);
+}
+
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+}
+
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-dot.ts {
+  background: var(--teal-dim);
+  border: 1.5px solid var(--teal);
+}
+
+.legend-dot.hur {
+  background: var(--coral-dim);
+  border: 1.5px solid var(--coral);
+}
+
+.slider-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+}
+
+.slider-block label {
+  min-width: 150px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+#decade-label {
+  color: var(--teal);
+}
+
+#decade-slider {
+  flex: 1;
+  accent-color: #2b6cb0;
+}
+
+#chart-container {
+  width: 100%;
+  overflow: visible;
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(20, 35, 60, 0.08);
+}
+
+#chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 0;
+}
+
+svg text {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.storm-group {
+  cursor: pointer;
+}
+
+.storm-group:hover .storm-card-bg {
+  stroke: #b8c5d6;
+  filter: drop-shadow(0 8px 16px rgba(20, 35, 60, 0.14));
+}
+
+.storm-group:hover .ts-circle {
+  fill-opacity: 0.35;
+  stroke-opacity: 1;
+}
+
+.storm-group:hover .hur-circle {
+  fill-opacity: 0.45;
+  stroke-opacity: 1;
+}
+
+.storm-card-bg {
+  fill: #ffffff;
+  stroke: var(--border);
+  stroke-width: 1;
+  rx: 14;
+  filter: drop-shadow(0 3px 8px rgba(20, 35, 60, 0.08));
+}
+
+.section-divider {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.avg-title {
+  fill: var(--text-primary);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.avg-subtitle {
+  fill: var(--text-secondary);
+  font-size: 13px;
+}
+
+.grid-title {
+  fill: var(--text-primary);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.avg-label-ts {
+  fill: var(--teal);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.avg-label-hur {
+  fill: var(--coral);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.avg-value {
+  fill: var(--text-primary);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.card-name {
+  fill: var(--text-primary);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.card-year {
+  fill: var(--text-secondary);
+  font-size: 11px;
+}
+
+.card-stat {
+  fill: var(--teal);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.card-pressure {
+  fill: var(--text-primary);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.axis-line,
+.tick-line {
+  display: none;
+}
+
+#tooltip {
+  position: fixed;
+  display: none;
+  background: #172033;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  pointer-events: none;
+  z-index: 999;
+  min-width: 220px;
+  box-shadow: 0 10px 24px rgba(20, 35, 60, 0.25);
+  color: #f0f4ff;
+}
+
+.tt-name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #f0f4ff;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
+}
+
+.tt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  padding: 0.28rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tt-row:last-child {
+  border-bottom: none;
+}
+
+.tt-row span:last-child {
+  color: #f0f4ff;
+  text-align: right;
+  font-weight: 700;
+}
+
+.tt-label-ts {
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.tt-label-hur {
+  color: var(--coral);
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .page {
+    width: min(96vw, 1280px);
+    padding-top: 2rem;
+  }
+
+  .slider-block {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .slider-block label {
+    min-width: unset;
+  }
+
+  #chart-container {
+    padding: 1rem;
+  }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Hurricane Timeline</title>
+
+  <link rel="stylesheet" href="./storm.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script defer src="./storm.js"></script>
+</head>
+
+<body>
+  <main class="page">
+    <section class="controls-card">
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot ts"></div>
+          Tropical storm force diameter, average nmi
+        </div>
+
+        <div class="legend-item">
+          <div class="legend-dot hur"></div>
+          Hurricane force diameter, average nmi
+        </div>
+      </div>
+
+      <div class="slider-block">
+        <label for="decade-slider">
+          Decade: <span id="decade-label">1970s</span>
+        </label>
+
+        <input
+          id="decade-slider"
+          type="range"
+          min="0"
+          max="5"
+          step="1"
+          value="0"
+        />
+      </div>
+    </section>
+
+    <section id="chart-container">
+      <svg id="chart"></svg>
+    </section>
+
+    <div id="tooltip"></div>
+  </main>
+  <script>
+    const _sendH = () => window.parent.postMessage(
+      { type: 'iframeResize', height: document.documentElement.scrollHeight }, '*'
+    );
+    new ResizeObserver(_sendH).observe(document.documentElement);
+    window.addEventListener('load', _sendH);
+  </script>
+</body>
+</html>

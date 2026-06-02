@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Greenhouse Gas Projections</title>
+  <link rel="stylesheet" href="ghg.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <div class="ghg-page">
+    <div class="gas-btn-row" role="group" aria-label="Select greenhouse gas">
+      <button class="gas-btn active-co2" id="btn-co2" onclick="switchGas('co2')">
+        CO₂ &mdash; carbon dioxide
+      </button>
+      <button class="gas-btn" id="btn-ch4" onclick="switchGas('ch4')">
+        CH₄ &mdash; methane
+      </button>
+      <button class="gas-btn" id="btn-n2o" onclick="switchGas('n2o')">
+        N₂O &mdash; nitrous oxide
+      </button>
+    </div>
+
+    <div class="ghg-layout">
+      <div class="ghg-chart-wrap">
+        <svg id="ghg-molecule" class="molecule-badge" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+        <svg id="ghg-chart" aria-label="Greenhouse gas concentration line chart"></svg>
+        <div id="ghg-tooltip" class="tooltip"></div>
+      </div>
+      <aside class="ghg-info-panel" id="ghg-info-panel" aria-live="polite"></aside>
+    </div>
+
+    <div class="ghg-legend" id="ghg-legend"></div>
+  </div>
+  <script src="ghg.js"></script>
+  <script>
+    const _sendH = () => window.parent.postMessage(
+      { type: 'iframeResize', height: document.documentElement.scrollHeight }, '*'
+    );
+    new ResizeObserver(_sendH).observe(document.documentElement);
+    window.addEventListener('load', _sendH);
+  </script>
+</body>
+</html>

@@ -202,6 +202,7 @@ d3.csv(csvPath, d3.autoType)
       items.exit().remove();
     }
   })
-  .catch(err => {
-    console.error("main.js: could not load SST CSV:", err);
+  .catch(error => {
+    console.error("Could not load CSV:", error);
   });
+
