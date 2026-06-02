@@ -1,56 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <title>Future of Storms: Ocean Warming Projections</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Future of Storms: Climate Projections</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script defer src="main.js"></script>
 </head>
+
 <body>
   <main class="page">
+
+    <!-- ── HERO ── -->
     <section class="hero">
       <p class="eyebrow">CMIP6 Climate Futures</p>
-      <h1>How do human climate choices reshape future oceans?</h1>
+      <h1>How do human climate choices reshape our future?</h1>
       <p class="subtitle">
-        Drag through time to compare projected Atlantic sea surface temperatures
-        under low, moderate, and high-emissions futures.
+        Explore how greenhouse gas concentrations and Atlantic sea surface
+        temperatures diverge dramatically depending on the emissions path humanity chooses.
       </p>
     </section>
-    <section class="viz-card">
-      <div class="viz-header">
-        <div>
-          <h2>Projected Atlantic Sea Surface Temperature</h2>
-          <p>
-            Each line represents a different CMIP6 emissions pathway.
-            Higher sea surface temperatures can create more favorable conditions
-            for severe storm intensification.
-          </p>
+
+    <!-- ── TAB NAV ── -->
+    <nav class="tab-nav" role="tablist" aria-label="Visualization sections">
+      <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-ghg" id="tab-ghg"
+        onclick="switchTab('ghg')">
+        Greenhouse Gas Projections
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-sst" id="tab-sst"
+        onclick="switchTab('sst')">
+        Sea Surface Temperature
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-land" id="tab-land"
+        onclick="switchTab('land')">
+        Land Surface Temperature
+      </button>
+    </nav>
+
+    <!-- ════════════════════════════════════════
+         TAB 1 — GHG PROJECTIONS
+    ════════════════════════════════════════ -->
+    <div id="panel-ghg" class="tab-panel active" role="tabpanel" aria-labelledby="tab-ghg">
+      <section class="viz-card">
+        <div class="viz-header">
+          <div>
+            <h2>Greenhouse gas projections, 1850–2100</h2>
+            <p>
+              Select a gas to explore how concentrations have risen since the
+              Industrial Revolution and where they are headed under each
+              CMIP6 emissions scenario.
+            </p>
+          </div>
         </div>
-        <div class="year-box">
-          <span>Selected year</span>
-          <strong id="selected-year">----</strong>
+
+        <!-- Gas toggle buttons -->
+        <div class="gas-btn-row" role="group" aria-label="Select greenhouse gas">
+          <button class="gas-btn active-co2" id="btn-co2" onclick="switchGas('co2')">
+            CO₂ &mdash; carbon dioxide
+          </button>
+          <button class="gas-btn" id="btn-ch4" onclick="switchGas('ch4')">
+            CH₄ &mdash; methane
+          </button>
+          <button class="gas-btn" id="btn-n2o" onclick="switchGas('n2o')">
+            N₂O &mdash; nitrous oxide
+          </button>
         </div>
-      </div>
-      <div class="slider-row">
-        <label for="year-slider">Year</label>
-        <input type="range" id="year-slider" />
-      </div>
-      <div class="viz-layout">
-        <svg id="sst-chart" width="900" height="520"></svg>
-        <aside class="insight-panel">
-          <h3 id="insight-title">Choose a year</h3>
-          <p id="insight-text">
-            Move the slider to see how climate scenarios separate over time.
-          </p>
-          <div id="scenario-readout" class="scenario-readout"></div>
-        </aside>
-      </div>
-      <div id="tooltip" class="tooltip"></div>
-    </section>
+
+        <!-- Chart + side panel -->
+        <div class="ghg-layout">
+          <div class="ghg-chart-wrap">
+            <svg id="ghg-molecule" class="molecule-badge" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"></svg>
+            <svg id="ghg-chart" aria-label="Greenhouse gas concentration line chart"></svg>
+            <div id="ghg-tooltip" class="tooltip"></div>
+          </div>
+          <aside class="ghg-info-panel" id="ghg-info-panel" aria-live="polite"></aside>
+        </div>
+
+        <!-- Legend -->
+        <div class="ghg-legend" id="ghg-legend"></div>
+      </section>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         TAB 2 — SEA SURFACE TEMPERATURE
+    ════════════════════════════════════════ -->
+    <div id="panel-sst" class="tab-panel" role="tabpanel" aria-labelledby="tab-sst">
+      <section class="viz-card">
+        <div class="viz-header">
+          <div>
+            <h2>Projected Atlantic Sea Surface Temperature</h2>
+            <p>
+              Each line represents a different CMIP6 emissions pathway.
+              Higher sea surface temperatures create more favorable conditions
+              for severe storm intensification.
+            </p>
+          </div>
+          <div class="year-box">
+            <span>Selected year</span>
+            <strong id="selected-year">----</strong>
+          </div>
+        </div>
+        <div class="slider-row">
+          <label for="year-slider">Year</label>
+          <input type="range" id="year-slider" />
+        </div>
+        <div class="viz-layout">
+          <svg id="sst-chart" width="900" height="520" aria-label="Atlantic SST projections line chart"></svg>
+          <aside class="insight-panel">
+            <h3 id="insight-title">Choose a year</h3>
+            <p id="insight-text">
+              Move the slider to see how climate scenarios separate over time.
+            </p>
+            <div id="scenario-readout" class="scenario-readout"></div>
+          </aside>
+        </div>
+        <div id="tooltip" class="tooltip"></div>
+      </section>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         TAB 3 — LAND SURFACE TEMPERATURE
+    ════════════════════════════════════════ -->
+    <div id="panel-land" class="tab-panel" role="tabpanel" aria-labelledby="tab-land">
+      <section class="viz-card">
+        <div class="viz-header">
+          <div>
+            <h2>Projected Land Surface Temperature</h2>
+            <p>
+              Geographic heatmap showing projected land surface temperatures
+              across CMIP6 emissions scenarios from 2015 to 2100.
+            </p>
+          </div>
+          <div class="year-box">
+            <span>Selected year</span>
+            <strong id="land-selected-year">2015</strong>
+          </div>
+        </div>
+
+        <!-- Scenario selector -->
+        <div class="gas-btn-row" role="group" aria-label="Select emissions scenario">
+          <button class="gas-btn active-co2" id="land-btn-ssp126" onclick="switchLandScenario('ssp126')">
+            Low Emissions (SSP1-2.6)
+          </button>
+          <button class="gas-btn" id="land-btn-ssp245" onclick="switchLandScenario('ssp245')">
+            Moderate Emissions (SSP2-4.5)
+          </button>
+          <button class="gas-btn" id="land-btn-ssp585" onclick="switchLandScenario('ssp585')">
+            High Emissions (SSP5-8.5)
+          </button>
+        </div>
+
+        <!-- Year slider -->
+        <div class="slider-row">
+          <label for="land-year-slider">Year</label>
+          <input type="range" id="land-year-slider" min="2015" max="2100" step="1" value="2015" />
+        </div>
+
+        <div class="viz-layout">
+          <div id="land-map-container" style="position:relative;">
+            <svg id="land-chart" style="width:100%;min-height:520px;display:block;background:#d4e9f7;
+                        border:1px solid #e1e8f0;border-radius:20px;overflow:visible;">
+            </svg>
+            <div id="land-tooltip" class="tooltip"></div>
+          </div>
+          <aside class="insight-panel">
+            <h3 id="land-insight-title">Land futures</h3>
+            <p id="land-insight-text">
+              Select a scenario and drag the slider to explore how land
+              temperatures change over time.
+            </p>
+            <div id="land-scenario-readout" class="scenario-readout"></div>
+            <div class="legend-bar-wrap">
+              <p style="color:#cbd5e1;font-size:12px;margin:16px 0 6px;font-weight:bold;">
+                TEMPERATURE (°C)
+              </p>
+              <svg id="land-legend-bar" width="220" height="40"></svg>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── WRITEUP ── -->
     <section class="writeup-card">
-      <p>So far we have solidified the purpose behind our project. We wish to showcase how different future climate metrics are impacted under different emission scenarios, with our chosen topics being greenhouse gases, sea surface temperatures, and land surface temperatures. We have gathered and processed the required data to create our visuals as well as created initial prototypes with Python. Our next task is to load and render them using D3. Design wise, we have completed our first interactive prototype and page design, specifically for sea surface temperatures. We created an interactive line chart that allows users to explore how ocean temperatures change over the years through a time slider, as well as a summary panel that shows the data based on the current year selection and the difference in temperature between the low and high emission models. In addition to the interactive visual, we worked on the design of our webpage, making it simple and clean so users have an easy time navigating through it.</p>
-      <p>The most challenging part of our project to design will most likely be making a cohesive and easy to digest story. Since we are working with many different climate, social, and scientific metrics, finding a way to properly explain everything and tie it all into a narrative that non-experts can understand is our biggest challenge. We will need to be careful with our visual design choices and layout in order to make the data feel cohesive and intuitive rather than overwhelming. Finding the balance between engaging visuals and clear, easy to digest explanations is the key to making our project successful.</p>
+      <p>So far we have solidified the purpose behind our project. We wish to showcase how
+        different future climate metrics are impacted under different emission scenarios, with
+        our chosen topics being greenhouse gases, sea surface temperatures, and land surface
+        temperatures. We have gathered and processed the required data to create our visuals
+        as well as created initial prototypes with Python. Our next task is to load and render
+        them using D3.</p>
+      <p>The most challenging part of our project to design will most likely be making a
+        cohesive and easy to digest story. Since we are working with many different climate,
+        social, and scientific metrics, finding a way to properly explain everything and tie
+        it all into a narrative that non-experts can understand is our biggest challenge.</p>
     </section>
     
     <div class="slider-with-labels">
@@ -99,5 +243,30 @@
 			</section>
 		</div>
   </main>
+
+  <!-- scripts loaded after DOM -->
+  <script src="ghg.js"></script>
+  <script src="main.js"></script>
+  <script src="land.js"></script>
+  <script>
+    // ── Tab switching ──────────────────────────────────────────────────────
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.tab-panel').forEach(p => {
+        p.classList.remove('active');
+      });
+
+      document.getElementById('tab-' + tabId).classList.add('active');
+      document.getElementById('tab-' + tabId).setAttribute('aria-selected', 'true');
+      document.getElementById('panel-' + tabId).classList.add('active');
+
+      if (tabId === 'sst') window.dispatchEvent(new Event('resize'));
+      if (tabId === 'land') window.dispatchEvent(new Event('resize'));
+    }
+  </script>
 </body>
+
 </html>
