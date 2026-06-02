@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 /* ── Reset & base ───────────────────────────────────────────────────────── */
 * { box-sizing: border-box; }
-=======
-* {
-  box-sizing: border-box;
-}
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
 
 body {
   margin: 0;
@@ -15,18 +9,9 @@ body {
   padding: 16px 20px 20px;
 }
 
-<<<<<<< HEAD
 .ghg-page { width: 100%; }
 
 /* ── Gas toggle buttons ─────────────────────────────────────────────────── */
-/* Matches style.css .gas-btn exactly */
-=======
-.ghg-page {
-  width: 100%;
-}
-
-/* Gas toggle buttons */
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
 .gas-btn-row {
   display: flex;
   gap: 8px;
@@ -45,21 +30,12 @@ body {
   transition: background 0.18s, color 0.18s, border-color 0.18s;
   font-family: inherit;
 }
-<<<<<<< HEAD
 .gas-btn:hover       { background: #f1f5f9; }
 .gas-btn.active-co2  { background: #dbeafe; color: #1e40af; border-color: #3b82f6; }
 .gas-btn.active-ch4  { background: #fef3c7; color: #92400e; border-color: #f59e0b; }
 .gas-btn.active-n2o  { background: #d1fae5; color: #065f46; border-color: #10b981; }
 
 /* ── Chart layout ───────────────────────────────────────────────────────── */
-=======
-.gas-btn:hover { background: #f1f5f9; }
-.gas-btn.active-co2 { background: #dbeafe; color: #1e40af; border-color: #3b82f6; }
-.gas-btn.active-ch4 { background: #fef3c7; color: #92400e; border-color: #f59e0b; }
-.gas-btn.active-n2o { background: #d1fae5; color: #065f46; border-color: #10b981; }
-
-/* Chart layout */
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
 .ghg-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 260px;
@@ -67,35 +43,20 @@ body {
   align-items: start;
   margin-bottom: 16px;
 }
-<<<<<<< HEAD
 .ghg-chart-wrap { position: relative; }
 
-=======
-.ghg-chart-wrap {
-  position: relative;
-}
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
 #ghg-chart {
   width: 100%;
   height: 420px;
   display: block;
   overflow: visible;
 }
-<<<<<<< HEAD
-#ghg-chart .domain        { stroke: #cbd5e1; }
-#ghg-chart .tick line     { stroke: #e1e8f0; }
-#ghg-chart .tick text     { fill: #64748b; font-size: 11px; font-family: Arial, sans-serif; }
-#ghg-chart .axis-label    { fill: #526173; font-size: 12px; font-family: Arial, sans-serif; }
-
-/* ── Molecule badge ─────────────────────────────────────────────────────── */
-=======
-#ghg-chart .domain { stroke: #cbd5e1; }
-#ghg-chart .tick line { stroke: #e1e8f0; }
-#ghg-chart .tick text { fill: #64748b; font-size: 11px; font-family: Arial, sans-serif; }
+#ghg-chart .domain     { stroke: #cbd5e1; }
+#ghg-chart .tick line  { stroke: #e1e8f0; }
+#ghg-chart .tick text  { fill: #64748b; font-size: 11px; font-family: Arial, sans-serif; }
 #ghg-chart .axis-label { fill: #526173; font-size: 12px; font-family: Arial, sans-serif; }
 
-/* Molecule badge */
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
+/* ── Molecule badge ─────────────────────────────────────────────────────── */
 .molecule-badge {
   position: absolute;
   top: 4px;
@@ -106,11 +67,7 @@ body {
   opacity: 0.7;
 }
 
-<<<<<<< HEAD
-/* ── Info panel — matches style.css .insight-panel ──────────────────────── */
-=======
-/* Info panel */
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
+/* ── Info panel ─────────────────────────────────────────────────────────── */
 .ghg-info-panel {
   background: #172033;
   color: white;
@@ -147,11 +104,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-<<<<<<< HEAD
   color: #94a3b8;
-=======
-  color: #64748b;
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
   margin-bottom: 4px;
 }
 .info-fact p {
@@ -161,21 +114,14 @@ body {
   color: #cbd5e1;
 }
 
-<<<<<<< HEAD
-/* ── Legend — matches style.css pattern ─────────────────────────────────── */
-=======
-/* Legend */
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
+/* ── Legend ─────────────────────────────────────────────────────────────── */
 .ghg-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 20px;
   padding-top: 14px;
   border-top: 1px solid #e1e8f0;
-<<<<<<< HEAD
   margin-bottom: 24px;
-=======
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
 }
 .legend-item {
   display: flex;
@@ -192,8 +138,7 @@ body {
   flex-shrink: 0;
 }
 
-<<<<<<< HEAD
-/* ── SSP Explainer — matches style.css .ssp-explainer ───────────────────── */
+/* ── SSP Explainer ──────────────────────────────────────────────────────── */
 .ssp-explainer {
   margin-top: 28px;
   padding-top: 24px;
@@ -247,56 +192,6 @@ body {
   line-height: 1.55;
 }
 
-/* ── Data sources ───────────────────────────────────────────────────────── */
-.data-sources {
-  margin-top: 28px;
-  padding-top: 24px;
-  border-top: 1px solid #e1e8f0;
-}
-.data-sources h4 {
-  font-size: 14px;
-  font-weight: 700;
-  color: #172033;
-  margin: 0 0 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-.data-sources ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.data-sources li {
-  background: #f8fafc;
-  border: 1px solid #e1e8f0;
-  border-radius: 12px;
-  padding: 14px 16px;
-  font-size: 13px;
-  color: #526173;
-  line-height: 1.65;
-}
-.data-sources li strong {
-  display: block;
-  font-size: 13px;
-  color: #172033;
-  margin-bottom: 4px;
-}
-.data-sources a {
-  color: #2b6cb0;
-  text-decoration: none;
-}
-.data-sources a:hover { text-decoration: underline; }
-.data-sources code {
-  background: #e1e8f0;
-  border-radius: 4px;
-  padding: 1px 5px;
-  font-size: 12px;
-  color: #334155;
-}
-
 /* ── Citation links inside info panel ───────────────────────────────────── */
 a.cite {
   color: #94a3b8;
@@ -309,10 +204,7 @@ a.cite {
 }
 a.cite:hover { color: #e2e8f0; text-decoration: underline; }
 
-/* ── Tooltip — matches style.css .tooltip ───────────────────────────────── */
-=======
-/* Tooltip */
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
+/* ── Tooltip ────────────────────────────────────────────────────────────── */
 .tooltip {
   position: absolute;
   opacity: 0;
@@ -327,7 +219,6 @@ a.cite:hover { color: #e2e8f0; text-decoration: underline; }
   z-index: 10;
 }
 
-<<<<<<< HEAD
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .ghg-layout { grid-template-columns: 1fr; }
@@ -335,17 +226,3 @@ a.cite:hover { color: #e2e8f0; text-decoration: underline; }
   .molecule-badge { width: 28px; height: 28px; }
   .ssp-grid { grid-template-columns: 1fr; }
 }
-=======
-@media (max-width: 900px) {
-  .ghg-layout {
-    grid-template-columns: 1fr;
-  }
-  #ghg-chart {
-    height: 300px;
-  }
-  .molecule-badge {
-    width: 28px;
-    height: 28px;
-  }
-}
->>>>>>> 222b305be1578946d943b0a599b4887b5ebf4be8
