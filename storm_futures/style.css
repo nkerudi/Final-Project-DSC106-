@@ -245,15 +245,12 @@ h1 {
   flex: 1;
   accent-color: #2b6cb0;
 }
-<<<<<<< HEAD
-=======
 
 #land-year-slider {
   flex: 1;
   accent-color: #2b6cb0;
 }
 
->>>>>>> 1e821ab7b2e26f6aab511a919683f1232a5fde54
 .viz-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
@@ -331,75 +328,6 @@ h1 {
   z-index: 10;
 }
 
-<<<<<<< HEAD
-/* ── SSP Explainer ──────────────────────────────────────────────────────── */
-.ssp-explainer {
-  margin-top: 28px;
-  padding-top: 24px;
-  border-top: 1px solid #e1e8f0;
-}
-.ssp-explainer h4 {
-  font-size: 14px;
-  font-weight: 700;
-  color: #172033;
-  margin: 0 0 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-.ssp-explainer > p {
-  font-size: 13.5px;
-  color: #526173;
-  line-height: 1.65;
-  max-width: 860px;
-  margin: 0 0 20px;
-}
-.ssp-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 12px;
-}
-.ssp-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  background: #f8fafc;
-  border: 1px solid #e1e8f0;
-  border-radius: 12px;
-  padding: 12px 14px;
-}
-.ssp-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-.ssp-item strong {
-  display: block;
-  font-size: 13px;
-  color: #172033;
-  margin-bottom: 3px;
-}
-.ssp-item span {
-  font-size: 12px;
-  color: #64748b;
-  line-height: 1.55;
-}
-.writeup-card {
-  background: white;
-  border-radius: 20px;
-  padding: 32px 40px;
-  margin-top: 28px;
-  border: 1px solid #dbe3ee;
-  line-height: 1.7;
-  color: #334155;
-  font-size: 15px;
-}
-.writeup-card p + p {
-  margin-top: 16px;
-}
-=======
->>>>>>> 1e821ab7b2e26f6aab511a919683f1232a5fde54
 
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 1000px) {
