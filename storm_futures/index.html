@@ -39,85 +39,12 @@
     <!-- ════════════════════════════════════════
          CHAPTER 1 — STORM TIMELINE
     ════════════════════════════════════════ -->
-<<<<<<< HEAD
-    <div id="panel-ghg" class="tab-panel active" role="tabpanel" aria-labelledby="tab-ghg">
-      <section class="viz-card">
-        <div class="viz-header">
-          <div>
-            <h2>Greenhouse gas projections, 1850–2100</h2>
-            <p>
-              Select a gas to explore how concentrations have risen since the
-              Industrial Revolution and where they are headed under each
-              CMIP6 emissions scenario.
-            </p>
-          </div>
-        </div>
-
-        <!-- Gas toggle buttons -->
-        <div class="gas-btn-row" role="group" aria-label="Select greenhouse gas">
-          <button class="gas-btn active-co2" id="btn-co2" onclick="switchGas('co2')">
-            CO₂ &mdash; carbon dioxide
-          </button>
-          <button class="gas-btn" id="btn-ch4" onclick="switchGas('ch4')">
-            CH₄ &mdash; methane
-          </button>
-          <button class="gas-btn" id="btn-n2o" onclick="switchGas('n2o')">
-            N₂O &mdash; nitrous oxide
-          </button>
-        </div>
-
-        <!-- Chart + side panel -->
-        <div class="ghg-layout">
-          <div class="ghg-chart-wrap">
-            <svg id="ghg-molecule" class="molecule-badge" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"></svg>
-            <svg id="ghg-chart" aria-label="Greenhouse gas concentration line chart"></svg>
-            <div id="ghg-tooltip" class="tooltip"></div>
-          </div>
-          <aside class="ghg-info-panel" id="ghg-info-panel" aria-live="polite"></aside>
-        </div>
-
-        <!-- Legend -->
-        <div class="ghg-legend" id="ghg-legend"></div>
-        <div class="ssp-explainer">
-  <h4>What do these scenarios mean?</h4>
-  <p>Each line is a <strong>Shared Socioeconomic Pathway (SSP)</strong> — a scenario of future human choices. The number after the dash indicates how much extra heat the atmosphere traps by 2100. Higher = more warming.</p>
-  <div class="ssp-grid">
-    <div class="ssp-item">
-      <div class="ssp-dot" style="background:#888780"></div>
-      <div><strong>Historical</strong><span>Real measured data, 1850–2015. The shared baseline.</span></div>
-    </div>
-    <div class="ssp-item">
-      <div class="ssp-dot" style="background:#1D9E75"></div>
-      <div><strong>SSP1-1.9 — Very Low</strong><span>Rapid green transition. Limits warming to ~1.5°C.</span></div>
-    </div>
-    <div class="ssp-item">
-      <div class="ssp-dot" style="background:#378ADD"></div>
-      <div><strong>SSP1-2.6 — Low</strong><span>Strong climate policy. Warming stays below 2°C.</span></div>
-    </div>
-    <div class="ssp-item">
-      <div class="ssp-dot" style="background:#EF9F27"></div>
-      <div><strong>SSP2-4.5 — Intermediate</strong><span>Middle of the road. ~2.7°C by 2100. Closest to current policies.</span></div>
-    </div>
-    <div class="ssp-item">
-      <div class="ssp-dot" style="background:#D85A30"></div>
-      <div><strong>SSP3-7.0 — High</strong><span>Slow action, heavy fossil fuels. ~3.6°C by 2100.</span></div>
-    </div>
-    <div class="ssp-item">
-      <div class="ssp-dot" style="background:#A32D2D"></div>
-      <div><strong>SSP5-8.5 — Very High</strong><span>Full fossil fuel throttle. Worst case — 4–5°C+ by 2100.</span></div>
-    </div>
-  </div>
-</div>
-      </section>
-=======
     <div id="panel-storms" class="tab-panel active" role="tabpanel">
       <div class="tab-frame">
         <iframe id="storms-iframe" data-src="tabs/storm/index.html"
           style="width:100%;height:500px;border:none;display:block;"
           title="Storm Timeline"></iframe>
       </div>
->>>>>>> 1e821ab7b2e26f6aab511a919683f1232a5fde54
     </div>
 
     <!-- ════════════════════════════════════════
