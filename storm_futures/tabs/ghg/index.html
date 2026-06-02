@@ -65,33 +65,6 @@
       </div>
     </div>
 
-    <!-- Data Sources -->
-    <div class="data-sources">
-      <h4>Data sources</h4>
-      <ul>
-        <li>
-          <strong>CMIP6 — Coupled Model Intercomparison Project Phase 6</strong><br>
-          Climate model simulations produced by NOAA's Geophysical Fluid Dynamics Laboratory (GFDL-ESM4).
-          GHG concentration data accessed via the
-          <a href="https://console.cloud.google.com/marketplace/product/noaa-public/cmip6" target="_blank" rel="noopener">NOAA Public CMIP6 Dataset on Google Cloud</a>.
-          Variables used: <code>co2s</code> (surface CO₂, Emon table), <code>ch4</code> and <code>n2o</code> (Amon table).
-        </li>
-        <li>
-          <strong>SSP scenario definitions</strong><br>
-          Shared Socioeconomic Pathways defined by the
-          <a href="https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6" target="_blank" rel="noopener">World Climate Research Programme (WCRP)</a>
-          and described in the
-          <a href="https://www.ipcc.ch/report/ar6/wg1/" target="_blank" rel="noopener">IPCC Sixth Assessment Report (AR6), Working Group I</a>.
-        </li>
-        <li>
-          <strong>Processing</strong><br>
-          Monthly global grids collapsed to annual global means using cosine-latitude weighted spatial averaging.
-          Units converted from mole fractions (mol mol⁻¹) to ppm (CO₂) and ppb (CH₄, N₂O).
-          Radiative forcing derived using the standard IPCC log formula: RF = 5.35 × ln(C / 278).
-        </li>
-      </ul>
-    </div>
-
   </div>
 
   <script src="ghg.js"></script>

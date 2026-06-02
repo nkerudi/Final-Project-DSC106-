@@ -243,6 +243,18 @@ body {
   color: #334155;
 }
 
+/* ── Citation links inside info panel ───────────────────────────────────── */
+a.cite {
+  color: #94a3b8;
+  font-size: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  vertical-align: super;
+  margin-left: 2px;
+}
+a.cite:hover { color: #e2e8f0; text-decoration: underline; }
+
 /* ── Tooltip — matches style.css .tooltip ───────────────────────────────── */
 .tooltip {
   position: absolute;
