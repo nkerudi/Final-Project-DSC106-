@@ -216,7 +216,8 @@ const scenarioConfigs = [
 
 const variableConfigs = {
   ts: { label: "Global Temperature", maxAbsAnomaly: 10 },
-  tos: { label: "Sea Surface Temperature", maxAbsAnomaly: 10 }
+  tos: { label: "Sea Surface Temperature", maxAbsAnomaly: 10 },
+  zos: { label: "Sea Level", maxAbsAnomaly: 1 }
 };
 
 let activeMapFrameIndex = 0;
