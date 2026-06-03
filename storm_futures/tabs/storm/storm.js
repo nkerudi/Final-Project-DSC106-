@@ -86,7 +86,7 @@ d3.csv("../../data/storm/storms_aggregated.csv", d => {
 
     const avgTop = 40;
     const avgCenterY = 160;
-    const gridTop = 340;
+    const gridTop = 360; // bumped down slightly to accommodate wind label
     const svgHeight = gridTop + rows * (cardH + gapY) + 70;
 
     svg
@@ -124,6 +124,7 @@ d3.csv("../../data/storm/storms_aggregated.csv", d => {
     const avgTSRadius = rScale(avgTS);
     const avgHurRadius = rScale(avgHur);
 
+    // ── Section title & subtitle ──────────────────────────────────────────────
     svg.append("text")
       .attr("class", "avg-title")
       .attr("x", svgWidth / 2)
@@ -138,6 +139,7 @@ d3.csv("../../data/storm/storms_aggregated.csv", d => {
       .attr("text-anchor", "middle")
       .text(`Average size across ${decadeData.length} storms`);
 
+    // ── Average circles ───────────────────────────────────────────────────────
     const avgGroup = svg.append("g")
       .attr("transform", `translate(${svgWidth / 2}, ${avgCenterY})`);
 
@@ -159,6 +161,7 @@ d3.csv("../../data/storm/storms_aggregated.csv", d => {
       .attr("r", 3)
       .attr("fill", "#e11d48");
 
+    // ── TS label (left) ───────────────────────────────────────────────────────
     svg.append("text")
       .attr("x", svgWidth / 2 - 260)
       .attr("y", avgCenterY - 10)
@@ -171,6 +174,7 @@ d3.csv("../../data/storm/storms_aggregated.csv", d => {
       .attr("class", "avg-value")
       .text(`${avgTS.toFixed(1)} nmi${validTS.length === 0 ? " est." : ""}`);
 
+    // ── Hurricane label (right) ───────────────────────────────────────────────
     svg.append("text")
       .attr("x", svgWidth / 2 + 210)
       .attr("y", avgCenterY - 10)
@@ -183,20 +187,84 @@ d3.csv("../../data/storm/storms_aggregated.csv", d => {
       .attr("class", "avg-value")
       .text(`${avgHur.toFixed(1)} nmi${validHur.length === 0 ? " est." : ""}`);
 
+    // ── Avg Wind Speed label (centered, below circles) ───────────────────────
+    // Extra gap so it sits clearly beneath the TS ring with breathing room
+    const windLabelY = avgCenterY + avgTSRadius + 52;
+    const windColor = "#d97706"; // amber-orange — distinct from teal and coral
+    const windCenterX = svgWidth / 2;
+
+    // Icon is 20px wide + 8px gap + label ~90px = ~118px total → start at center - 59
+    const windRowStartX = windCenterX - 59;
+
+    // Wind icon + label: vertically centered as a unit
+    // Icon is 18px tall, label line-height ~14px → center icon at label midpoint
+    const iconH = 18;
+    const labelLineH = 14;
+    const blockH = Math.max(iconH, labelLineH);
+    const iconTopY = windLabelY - blockH / 2 - 1;
+    const labelMidY = windLabelY - blockH / 2 + labelLineH * 0.75;
+
+    const windIconG = svg.append("g")
+      .attr("transform", `translate(${windRowStartX}, ${iconTopY})`);
+
+    // Top line + small curl upward at right end
+    windIconG.append("path")
+      .attr("d", "M0 3 L13 3 Q17 3 17 0.5 Q17 -1.5 14.5 -1.5 Q12 -1.5 12 1")
+      .attr("fill", "none")
+      .attr("stroke", windColor)
+      .attr("stroke-width", 1.8)
+      .attr("stroke-linecap", "round")
+      .attr("stroke-linejoin", "round");
+
+    // Middle line + curl downward at right end (longest)
+    windIconG.append("path")
+      .attr("d", "M0 8 L16 8 Q20 8 20 11 Q20 14 17 14 Q14 14 14 11")
+      .attr("fill", "none")
+      .attr("stroke", windColor)
+      .attr("stroke-width", 1.8)
+      .attr("stroke-linecap", "round")
+      .attr("stroke-linejoin", "round");
+
+    // Bottom line + curl downward at right end (shorter)
+    windIconG.append("path")
+      .attr("d", "M0 13 L10 13 Q14 13 14 16 Q14 19 11 19 Q8 19 8 16")
+      .attr("fill", "none")
+      .attr("stroke", windColor)
+      .attr("stroke-width", 1.8)
+      .attr("stroke-linecap", "round")
+      .attr("stroke-linejoin", "round");
+
+    // "Avg wind speed" label — vertically centered with icon, 10px gap after icon
+    svg.append("text")
+      .attr("x", windRowStartX + 26)
+      .attr("y", labelMidY)
+      .attr("class", "avg-label-wind")
+      .text("Avg wind speed");
+
+    // Value — centered below, with consistent spacing
+    svg.append("text")
+      .attr("x", windCenterX)
+      .attr("y", windLabelY + blockH / 2 + 16)
+      .attr("text-anchor", "middle")
+      .attr("class", "avg-value")
+      .text(`${avgWind.toFixed(1)} kt`);
+
+    // ── Section divider ───────────────────────────────────────────────────────
     svg.append("line")
       .attr("class", "section-divider")
       .attr("x1", 20)
       .attr("x2", svgWidth - 20)
-      .attr("y1", 280)
-      .attr("y2", 280);
+      .attr("y1", 295)
+      .attr("y2", 295);
 
     svg.append("text")
       .attr("class", "grid-title")
       .attr("x", svgWidth / 2)
-      .attr("y", 315)
+      .attr("y", 330)
       .attr("text-anchor", "middle")
       .text(`Storms in the ${selectedDecade}s`);
 
+    // ── Storm cards grid ──────────────────────────────────────────────────────
     const gridWidth = columns * cardW + (columns - 1) * gapX;
     const gridLeft = (svgWidth - gridWidth) / 2;
 
@@ -348,3 +416,5 @@ d3.csv("../../data/storm/storms_aggregated.csv", d => {
 }).catch(error => {
   console.error("Error loading or drawing storm timeline:", error);
 });
+
+
