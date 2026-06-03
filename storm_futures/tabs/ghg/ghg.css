@@ -1,6 +1,5 @@
-* {
-  box-sizing: border-box;
-}
+/* ── Reset & base ───────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -10,11 +9,10 @@ body {
   padding: 16px 20px 20px;
 }
 
-.ghg-page {
-  width: 100%;
-}
+.ghg-page { width: 100%; }
 
-/* Gas toggle buttons */
+/* ── Gas toggle buttons ─────────────────────────────────────────────────── */
+/* Matches style.css .gas-btn exactly */
 .gas-btn-row {
   display: flex;
   gap: 8px;
@@ -33,12 +31,12 @@ body {
   transition: background 0.18s, color 0.18s, border-color 0.18s;
   font-family: inherit;
 }
-.gas-btn:hover { background: #f1f5f9; }
-.gas-btn.active-co2 { background: #dbeafe; color: #1e40af; border-color: #3b82f6; }
-.gas-btn.active-ch4 { background: #fef3c7; color: #92400e; border-color: #f59e0b; }
-.gas-btn.active-n2o { background: #d1fae5; color: #065f46; border-color: #10b981; }
+.gas-btn:hover       { background: #f1f5f9; }
+.gas-btn.active-co2  { background: #dbeafe; color: #1e40af; border-color: #3b82f6; }
+.gas-btn.active-ch4  { background: #fef3c7; color: #92400e; border-color: #f59e0b; }
+.gas-btn.active-n2o  { background: #d1fae5; color: #065f46; border-color: #10b981; }
 
-/* Chart layout */
+/* ── Chart layout ───────────────────────────────────────────────────────── */
 .ghg-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 260px;
@@ -46,21 +44,20 @@ body {
   align-items: start;
   margin-bottom: 16px;
 }
-.ghg-chart-wrap {
-  position: relative;
-}
+.ghg-chart-wrap { position: relative; }
+
 #ghg-chart {
   width: 100%;
   height: 420px;
   display: block;
   overflow: visible;
 }
-#ghg-chart .domain { stroke: #cbd5e1; }
-#ghg-chart .tick line { stroke: #e1e8f0; }
-#ghg-chart .tick text { fill: #64748b; font-size: 11px; font-family: Arial, sans-serif; }
-#ghg-chart .axis-label { fill: #526173; font-size: 12px; font-family: Arial, sans-serif; }
+#ghg-chart .domain        { stroke: #cbd5e1; }
+#ghg-chart .tick line     { stroke: #e1e8f0; }
+#ghg-chart .tick text     { fill: #64748b; font-size: 11px; font-family: Arial, sans-serif; }
+#ghg-chart .axis-label    { fill: #526173; font-size: 12px; font-family: Arial, sans-serif; }
 
-/* Molecule badge */
+/* ── Molecule badge ─────────────────────────────────────────────────────── */
 .molecule-badge {
   position: absolute;
   top: 4px;
@@ -71,7 +68,7 @@ body {
   opacity: 0.7;
 }
 
-/* Info panel */
+/* ── Info panel — matches style.css .insight-panel ──────────────────────── */
 .ghg-info-panel {
   background: #ffffff;
   color: #172033;
@@ -119,13 +116,14 @@ body {
   color: #374151;
 }
 
-/* Legend */
+/* ── Legend — matches style.css pattern ─────────────────────────────────── */
 .ghg-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 20px;
   padding-top: 14px;
   border-top: 1px solid #e1e8f0;
+  margin-bottom: 24px;
 }
 .legend-item {
   display: flex;
@@ -142,7 +140,123 @@ body {
   flex-shrink: 0;
 }
 
-/* Tooltip */
+/* ── SSP Explainer — matches style.css .ssp-explainer ───────────────────── */
+.ssp-explainer {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #e1e8f0;
+}
+.ssp-explainer h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #172033;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.ssp-explainer > p {
+  font-size: 13.5px;
+  color: #526173;
+  line-height: 1.65;
+  max-width: 860px;
+  margin: 0 0 20px;
+}
+.ssp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.ssp-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e1e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.ssp-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.ssp-item strong {
+  display: block;
+  font-size: 13px;
+  color: #172033;
+  margin-bottom: 3px;
+}
+.ssp-item span {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* ── Data sources ───────────────────────────────────────────────────────── */
+.data-sources {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #e1e8f0;
+}
+.data-sources h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #172033;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.data-sources ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.data-sources li {
+  background: #f8fafc;
+  border: 1px solid #e1e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #526173;
+  line-height: 1.65;
+}
+.data-sources li strong {
+  display: block;
+  font-size: 13px;
+  color: #172033;
+  margin-bottom: 4px;
+}
+.data-sources a {
+  color: #2b6cb0;
+  text-decoration: none;
+}
+.data-sources a:hover { text-decoration: underline; }
+.data-sources code {
+  background: #e1e8f0;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 12px;
+  color: #334155;
+}
+
+/* ── Citation links inside info panel ───────────────────────────────────── */
+a.cite {
+  color: #2b6cb0;
+  font-size: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  vertical-align: super;
+  margin-left: 2px;
+}
+a.cite:hover { color: #1e40af; text-decoration: underline; }
+
+/* ── Tooltip — matches style.css .tooltip ───────────────────────────────── */
 .tooltip {
   position: absolute;
   opacity: 0;
@@ -158,15 +272,10 @@ body {
   z-index: 10;
 }
 
+/* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .ghg-layout {
-    grid-template-columns: 1fr;
-  }
-  #ghg-chart {
-    height: 300px;
-  }
-  .molecule-badge {
-    width: 28px;
-    height: 28px;
-  }
+  .ghg-layout { grid-template-columns: 1fr; }
+  #ghg-chart  { height: 300px; }
+  .molecule-badge { width: 28px; height: 28px; }
+  .ssp-grid { grid-template-columns: 1fr; }
 }

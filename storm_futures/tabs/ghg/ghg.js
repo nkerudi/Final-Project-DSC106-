@@ -26,8 +26,8 @@
       accentClass: "active-co2",
       factClass:   "co2",
       name:     "Carbon dioxide",
-      what:     "A colorless, odorless gas released when coal, oil, and gas are burned, and by cement manufacturing and deforestation.",
-      harm:     "The primary driver of long-term warming. CO₂ persists for hundreds to thousands of years, making each emission effectively permanent on human timescales.",
+      what:     `A colorless, odorless gas released when coal, oil, and gas are burned, and by cement manufacturing and deforestation. <a class="cite" href="https://www.epa.gov/ghgemissions/overview-greenhouse-gases" target="_blank" rel="noopener">[EPA]</a>`,
+      harm:     `The primary driver of long-term warming. CO₂ persists for hundreds to thousands of years, making each emission effectively permanent on human timescales. <a class="cite" href="https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-2/" target="_blank" rel="noopener">[IPCC AR6]</a>`,
       sources:  "Fossil fuel combustion, land-use change, cement production",
     },
     ch4_ppb: {
@@ -36,8 +36,8 @@
       accentClass: "active-ch4",
       factClass:   "ch4",
       name:     "Methane",
-      what:     "Produced by livestock digestion, rice paddies, landfills, wetlands, and the extraction and transport of fossil fuels.",
-      harm:     "Roughly 80× more effective at trapping heat than CO₂ over a 20-year window, though it breaks down within about a decade.",
+      what:     `Produced by livestock digestion, rice paddies, landfills, wetlands, and the extraction and transport of fossil fuels. <a class="cite" href="https://www.epa.gov/ghgemissions/overview-greenhouse-gases#methane" target="_blank" rel="noopener">[EPA]</a>`,
+      harm:     `Roughly 80× more effective at trapping heat than CO₂ over a 20-year window, though it breaks down within about a decade. <a class="cite" href="https://www.ipcc.ch/report/ar6/wg1/" target="_blank" rel="noopener">[IPCC AR6]</a>`,
       sources:  "Livestock, wetlands, fossil fuel leakage, landfills, rice agriculture",
     },
     n2o_ppb: {
@@ -46,8 +46,8 @@
       accentClass: "active-n2o",
       factClass:   "n2o",
       name:     "Nitrous oxide",
-      what:     "Produced primarily by nitrogen-based fertilizers in agricultural soils, livestock manure, and certain industrial processes.",
-      harm:     "Nearly 270× more potent than CO₂ over 100 years and persists for ~110 years. Also destroys stratospheric ozone, the layer shielding Earth from UV radiation.",
+      what:     `Produced primarily by nitrogen-based fertilizers in agricultural soils, livestock manure, and certain industrial processes. <a class="cite" href="https://www.epa.gov/ghgemissions/overview-greenhouse-gases#nitrous-oxide" target="_blank" rel="noopener">[EPA]</a>`,
+      harm:     `Nearly 270× more potent than CO₂ over 100 years and persists for ~110 years. Also destroys stratospheric ozone, the layer shielding Earth from UV radiation. <a class="cite" href="https://www.ipcc.ch/report/ar6/wg1/" target="_blank" rel="noopener">[IPCC AR6]</a>`,
       sources:  "Nitrogen fertilizers, livestock manure, industrial processes, combustion",
     },
   };

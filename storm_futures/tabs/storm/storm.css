@@ -157,6 +157,14 @@ svg text {
   font-weight: 800;
 }
 
+/* Wind speed label */
+.avg-label-wind {
+  fill: #d97706;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
 .avg-value {
   fill: var(--text-primary);
   font-size: 15px;
