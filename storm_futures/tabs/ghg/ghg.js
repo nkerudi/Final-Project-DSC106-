@@ -223,6 +223,16 @@
 
     // ── Hover overlay ────────────────────────────────────────────────────
     const bisect = d3.bisector(d => d.year).left;
+    const PROJ_START = 2015;
+
+    const hoverLine = svg.append("line")
+      .attr("y1", margin.top)
+      .attr("y2", margin.top + ih)
+      .attr("stroke", "#94a3b8")
+      .attr("stroke-width", 1)
+      .attr("stroke-dasharray", "4 3")
+      .attr("opacity", 0)
+      .attr("pointer-events", "none");
 
     svg.append("rect")
       .attr("x", margin.left)
@@ -234,6 +244,9 @@
       .on("mousemove", function (event) {
         const [mx] = d3.pointer(event, this);
         const year = Math.round(x.invert(mx + margin.left));
+        const lineX = x(year);
+
+        hoverLine.attr("x1", lineX).attr("x2", lineX).attr("opacity", 1);
 
         const lines = [];
         for (const [scenario, rows] of grouped) {
@@ -249,19 +262,29 @@
 
         const rows = lines
           .sort((a, b) => b.value - a.value)
-          .map(l => `<div style="display:flex;justify-content:space-between;gap:12px">
-            <span style="color:${l.color};font-weight:600">${l.scenario}</span>
-            <span>${l.value.toFixed(1)}</span>
-          </div>`)
+          .map(l => {
+            const isHistorical  = l.scenario === "Historical";
+            const showNull = (isHistorical && year >= PROJ_START) || (!isHistorical && year < PROJ_START);
+            const valueStr = showNull
+              ? `<span style="color:#94a3b8">—</span>`
+              : `<span style="color:#172033;font-weight:600">${l.value.toFixed(1)}</span>`;
+            return `<div style="display:flex;justify-content:space-between;gap:12px">
+              <span style="color:${l.color};font-weight:600">${l.scenario}</span>
+              ${valueStr}
+            </div>`;
+          })
           .join("");
 
         d3.select(tooltipEl)
           .style("opacity", 1)
           .style("left", px + "px")
           .style("top",  py + "px")
-          .html(`<div style="font-weight:700;margin-bottom:6px">${year}</div>${rows}`);
+          .html(`<div style="font-weight:700;margin-bottom:6px;color:#172033">${year}</div>${rows}`);
       })
-      .on("mouseleave", () => d3.select(tooltipEl).style("opacity", 0));
+      .on("mouseleave", () => {
+        hoverLine.attr("opacity", 0);
+        d3.select(tooltipEl).style("opacity", 0);
+      });
 
     // ── X axis ───────────────────────────────────────────────────────────
     svg.append("g")
@@ -334,7 +357,7 @@
       <div class="info-fact ${fc}">
         <div class="info-fact-label">Why harmful?</div>
         <p>${m.harm}</p>
-      
+      </div>
       <div class="info-fact ${fc}">
         <div class="info-fact-label">Main sources</div>
         <p>${m.sources}</p>

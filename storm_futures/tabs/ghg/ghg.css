@@ -73,49 +73,50 @@ body {
 
 /* Info panel */
 .ghg-info-panel {
-  background: #172033;
-  color: white;
+  background: #ffffff;
+  color: #172033;
+  border: 1px solid #dbe3ee;
   border-radius: 20px;
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
+  box-shadow: 0 2px 8px rgba(20, 35, 60, 0.06);
 }
 .ghg-info-panel .gas-label {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: #526173;
   margin-bottom: 2px;
 }
 .ghg-info-panel h3 {
   margin: 0 0 4px;
   font-size: 18px;
   font-weight: 700;
-  color: white;
+  color: #172033;
   line-height: 1.2;
 }
 .info-fact {
-  border-left: 3px solid #94a3b8;
-  padding: 8px 10px;
+  padding: 0;
 }
-.info-fact.co2 { border-color: #60a5fa; }
-.info-fact.ch4 { border-color: #fbbf24; }
-.info-fact.n2o { border-color: #34d399; }
 .info-fact-label {
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #64748b;
+  color: #526173;
   margin-bottom: 4px;
 }
+.info-fact.co2 .info-fact-label { color: #2563eb; }
+.info-fact.ch4 .info-fact-label { color: #d97706; }
+.info-fact.n2o .info-fact-label { color: #059669; }
 .info-fact p {
   margin: 0;
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: #cbd5e1;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #374151;
 }
 
 /* Legend */
@@ -146,13 +147,14 @@ body {
   position: absolute;
   opacity: 0;
   pointer-events: none;
-  background: #172033;
-  color: white;
+  background: #ffffff;
+  color: #172033;
+  border: 1px solid #dbe3ee;
   padding: 10px 12px;
   border-radius: 10px;
   font-size: 13px;
   line-height: 1.4;
-  box-shadow: 0 10px 24px rgba(20, 35, 60, 0.25);
+  box-shadow: 0 4px 16px rgba(20, 35, 60, 0.10);
   z-index: 10;
 }
 

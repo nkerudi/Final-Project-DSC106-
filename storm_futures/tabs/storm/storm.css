@@ -19,57 +19,38 @@
 }
 
 body {
-  background: var(--bg);
+  background: #ffffff;
   color: var(--text-primary);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 16px 20px 20px;
 }
 
 .page {
-  width: min(1280px, 94vw);
-  margin: 0 auto;
-  padding: 1.25rem 0 1.5rem;
+  width: 100%;
 }
 
-.controls-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(20, 35, 60, 0.06);
-}
-
-.legend {
+.storm-legend {
   display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1.25rem;
   flex-wrap: wrap;
+  gap: 8px 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  font-size: 0.78rem;
+  gap: 7px;
+  font-size: 12px;
   color: var(--text-secondary);
-  letter-spacing: 0.03em;
 }
 
-.legend-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
+.legend-swatch {
+  width: 24px;
+  height: 0;
+  border-top-width: 2.5px;
   flex-shrink: 0;
-}
-
-.legend-dot.ts {
-  background: var(--teal-dim);
-  border: 1.5px solid var(--teal);
-}
-
-.legend-dot.hur {
-  background: var(--coral-dim);
-  border: 1.5px solid var(--coral);
 }
 
 .slider-block {
@@ -102,11 +83,6 @@ body {
   width: 100%;
   overflow: visible;
   position: relative;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(20, 35, 60, 0.08);
 }
 
 #chart {
@@ -218,21 +194,21 @@ svg text {
 #tooltip {
   position: fixed;
   display: none;
-  background: #172033;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1rem 1.1rem;
   pointer-events: none;
   z-index: 999;
   min-width: 220px;
-  box-shadow: 0 10px 24px rgba(20, 35, 60, 0.25);
-  color: #f0f4ff;
+  box-shadow: 0 8px 24px rgba(20, 35, 60, 0.12);
+  color: var(--text-primary);
 }
 
 .tt-name {
   font-size: 1rem;
   font-weight: 800;
-  color: #f0f4ff;
+  color: var(--text-primary);
   margin-bottom: 0.6rem;
   letter-spacing: -0.01em;
 }
@@ -242,9 +218,9 @@ svg text {
   justify-content: space-between;
   gap: 1rem;
   font-size: 0.72rem;
-  color: #94a3b8;
+  color: var(--text-secondary);
   padding: 0.28rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border);
 }
 
 .tt-row:last-child {
@@ -252,7 +228,7 @@ svg text {
 }
 
 .tt-row span:last-child {
-  color: #f0f4ff;
+  color: var(--text-primary);
   text-align: right;
   font-weight: 700;
 }
@@ -265,6 +241,13 @@ svg text {
 .tt-label-hur {
   color: var(--coral);
   font-weight: 700;
+}
+
+.tt-subrow {
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  padding: 0.1rem 0 0.3rem;
+  font-style: italic;
 }
 
 @media (max-width: 760px) {
@@ -282,7 +265,4 @@ svg text {
     min-width: unset;
   }
 
-  #chart-container {
-    padding: 1rem;
-  }
 }

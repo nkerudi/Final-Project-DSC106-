@@ -42,17 +42,17 @@ const VARIABLE_INFO = {
   ts: {
     label: 'Change in Atmospheric Temperature from 2015 Baseline',
     chartTitle: 'Mean Atmospheric Temperature Anomaly by Ocean Basin',
-    desc: 'Atmospheric temperature is a key indicator for storm risk and destructiveness globally, as a warmer atmosphere can hold more moisture and can lead to more intense rainfall. A study of 2017\'s Hurricane Harvey shows that global warming made precipitation from storms 15% more intense and 3 times more likely (van Oldenborgh et al. 2017). We note consistent increases across all emission scenarios, with more extreme increases in higher emissions scenarios, which is consistent with the fact that higher emissions lead to more warming globally.'
+    desc: 'Atmospheric temperature is a key indicator for storm risk and destructiveness globally, as a warmer atmosphere can hold more moisture and can lead to more intense rainfall. A study of 2017\'s Hurricane Harvey shows that global warming made precipitation from storms 15% more intense and 3 times more likely (<a href="https://iopscience.iop.org/article/10.1088/1748-9326/aa9ef2" target="_blank" rel="noopener noreferrer">van Oldenborgh et al. 2017</a>). We note consistent increases across all emission scenarios, with more extreme increases in higher emissions scenarios, which is consistent with the fact that higher emissions lead to more warming globally.'
   },
   tos: {
     label: 'Change in Sea Surface Temperature from 2015 Baseline',
     chartTitle: 'Mean Sea Surface Temperature Anomaly by Ocean Basin',
-    desc: 'Sea surface temperature is a well-known indicator for tropical storm and hurricane risk. As warm seawater evaporates, it pumps water into the lower atmosphere (which has already been rising in temperature), and a convective cycle caused by winds in addition to dropping pressure causes hurricanes to form (NOAA Ocean Exploration, 2020). We see similar trends to global temperature, with more extreme sea surface temperature increases in higher emissions scenarios, which suggests that we can expect more intense tropical storms and hurricanes in the future as the oceans warm.'
+    desc: 'Sea surface temperature is a well-known indicator for tropical storm and hurricane risk. As warm seawater evaporates, it pumps water into the lower atmosphere (which has already been rising in temperature), and a convective cycle caused by winds in addition to dropping pressure causes hurricanes to form (<a href="https://oceanexplorer.noaa.gov/ocean-fact/hurricanes/" target="_blank" rel="noopener noreferrer">NOAA Ocean Exploration, 2020</a>). We see similar trends to global temperature, with more extreme sea surface temperature increases in higher emissions scenarios, which suggests that we can expect more intense tropical storms and hurricanes in the future as the oceans warm.'
   },
   zos: {
     label: 'Change in Sea Level Rise from 2015 Baseline',
     chartTitle: 'Mean Sea Level Anomaly by Ocean Basin',
-    desc: 'Sea level rise can also make storms worse. A storm surge happens when waters rise above normal levels and are pushed inland by the wind — as sea levels rise, previous infrastructure to defend against these becomes worse, making tropical storms and hurricanes more destructive (Environmental Defense Fund). For example, Hurricane Ian in 2022 had its storm surge reach as high as 15 feet in Fort Myers Beach, Florida. Note that by 2100, we see the highest sea level rise from our baseline in the North Atlantic Ocean, which is also the region we traditionally associate with tropical storms and hurricanes.'
+    desc: 'Sea level rise can also make storms worse. A storm surge happens when waters rise above normal levels and are pushed inland by the wind — as sea levels rise, previous infrastructure to defend against these becomes worse, making tropical storms and hurricanes more destructive (<a href="https://www.edf.org/climate/how-climate-change-makes-hurricanes-more-destructive" target="_blank" rel="noopener noreferrer">Environmental Defense Fund</a>). For example, Hurricane Ian in 2022 had its storm surge reach as high as 15 feet in Fort Myers Beach, Florida. Note that by 2100, we see the highest sea level rise from our baseline in the North Atlantic Ocean, which is also the region we traditionally associate with tropical storms and hurricanes.'
   },
   storm_risk: {
     label: 'Naive Storm Risk (SST > 27 °C)',
@@ -62,7 +62,7 @@ const VARIABLE_INFO = {
   tchp: {
     label: 'Change in TCHP (Tropical Cyclone Heat Potential) from 2015 Baseline',
     chartTitle: 'Mean TC Heat Potential Proxy by Ocean Basin',
-    desc: 'This is AOML\'s Tropical Cyclone Heat Potential, a robust measure of how much energy is available in the ocean to sustain or modify the intensity of a tropical storm (NOAA Coastwatch, 2019). In our use case, we utilize a proxy for TCHP using raw sea surface temperature and sea level anomaly to determine storm risk per region. We note that there are increases throughout emission scenarios, but the increase in much more extreme in SSP3-7.0 and SSP5-8.5, which is consistent with the fact that these scenarios have much more extreme sea surface temperature and sea level rise increases. This suggests that under higher emissions scenarios, we can expect much more intense tropical storms and hurricanes in the future.'
+    desc: 'This is AOML\'s Tropical Cyclone Heat Potential, a robust measure of how much energy is available in the ocean to sustain or modify the intensity of a tropical storm (<a href="https://oceanexplorer.noaa.gov/ocean-fact/hurricanes/" target="_blank" rel="noopener noreferrer">NOAA Coastwatch, 2019</a>; <a href="https://www.whoi.edu/ocean-learning-hub/ocean-facts/how-does-the-ocean-affect-storms/" target="_blank" rel="noopener noreferrer">WHOI</a>). In our use case, we utilize a proxy for TCHP using raw sea surface temperature and sea level anomaly to determine storm risk per region. We note that there are increases throughout emission scenarios, but the increase in much more extreme in SSP3-7.0 and SSP5-8.5, which is consistent with the fact that these scenarios have much more extreme sea surface temperature and sea level rise increases. This suggests that under higher emissions scenarios, we can expect much more intense tropical storms and hurricanes in the future.'
   }
 };
 
@@ -929,7 +929,7 @@ function updateInfoCard(variable) {
   const labelEl = document.getElementById('var-info-label');
   const descEl  = document.getElementById('var-info-desc');
   if (labelEl) labelEl.textContent = info.label;
-  if (descEl)  descEl.textContent  = info.desc;
+  if (descEl)  descEl.innerHTML    = info.desc;
 }
 
 async function setMapVariable(variable) {
