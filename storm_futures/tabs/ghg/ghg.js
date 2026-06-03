@@ -334,7 +334,7 @@
       <div class="info-fact ${fc}">
         <div class="info-fact-label">Why harmful?</div>
         <p>${m.harm}</p>
-      
+      </div>
       <div class="info-fact ${fc}">
         <div class="info-fact-label">Main sources</div>
         <p>${m.sources}</p>
