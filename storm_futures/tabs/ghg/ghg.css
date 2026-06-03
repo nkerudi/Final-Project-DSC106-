@@ -12,6 +12,7 @@ body {
 .ghg-page { width: 100%; }
 
 /* ── Gas toggle buttons ─────────────────────────────────────────────────── */
+/* Matches style.css .gas-btn exactly */
 .gas-btn-row {
   display: flex;
   gap: 8px;
@@ -51,10 +52,10 @@ body {
   display: block;
   overflow: visible;
 }
-#ghg-chart .domain     { stroke: #cbd5e1; }
-#ghg-chart .tick line  { stroke: #e1e8f0; }
-#ghg-chart .tick text  { fill: #64748b; font-size: 11px; font-family: Arial, sans-serif; }
-#ghg-chart .axis-label { fill: #526173; font-size: 12px; font-family: Arial, sans-serif; }
+#ghg-chart .domain        { stroke: #cbd5e1; }
+#ghg-chart .tick line     { stroke: #e1e8f0; }
+#ghg-chart .tick text     { fill: #64748b; font-size: 11px; font-family: Arial, sans-serif; }
+#ghg-chart .axis-label    { fill: #526173; font-size: 12px; font-family: Arial, sans-serif; }
 
 /* ── Molecule badge ─────────────────────────────────────────────────────── */
 .molecule-badge {
@@ -67,7 +68,7 @@ body {
   opacity: 0.7;
 }
 
-/* ── Info panel ─────────────────────────────────────────────────────────── */
+/* ── Info panel — matches style.css .insight-panel ──────────────────────── */
 .ghg-info-panel {
   background: #172033;
   color: white;
@@ -114,7 +115,7 @@ body {
   color: #cbd5e1;
 }
 
-/* ── Legend ─────────────────────────────────────────────────────────────── */
+/* ── Legend — matches style.css pattern ─────────────────────────────────── */
 .ghg-legend {
   display: flex;
   flex-wrap: wrap;
@@ -138,7 +139,7 @@ body {
   flex-shrink: 0;
 }
 
-/* ── SSP Explainer ──────────────────────────────────────────────────────── */
+/* ── SSP Explainer — matches style.css .ssp-explainer ───────────────────── */
 .ssp-explainer {
   margin-top: 28px;
   padding-top: 24px;
@@ -192,6 +193,56 @@ body {
   line-height: 1.55;
 }
 
+/* ── Data sources ───────────────────────────────────────────────────────── */
+.data-sources {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #e1e8f0;
+}
+.data-sources h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #172033;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.data-sources ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.data-sources li {
+  background: #f8fafc;
+  border: 1px solid #e1e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #526173;
+  line-height: 1.65;
+}
+.data-sources li strong {
+  display: block;
+  font-size: 13px;
+  color: #172033;
+  margin-bottom: 4px;
+}
+.data-sources a {
+  color: #2b6cb0;
+  text-decoration: none;
+}
+.data-sources a:hover { text-decoration: underline; }
+.data-sources code {
+  background: #e1e8f0;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 12px;
+  color: #334155;
+}
+
 /* ── Citation links inside info panel ───────────────────────────────────── */
 a.cite {
   color: #94a3b8;
@@ -204,7 +255,7 @@ a.cite {
 }
 a.cite:hover { color: #e2e8f0; text-decoration: underline; }
 
-/* ── Tooltip ────────────────────────────────────────────────────────────── */
+/* ── Tooltip — matches style.css .tooltip ───────────────────────────────── */
 .tooltip {
   position: absolute;
   opacity: 0;
