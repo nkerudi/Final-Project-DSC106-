@@ -32,11 +32,22 @@ const RAW_VARIABLES = new Set(['tos_raw', 'zos_raw']);
 
 // Ocean basins used for the regional bar chart (lon in -180…180)
 const OCEAN_BASINS = [
-  { id: 'natl', name: 'N. Atlantic', latMin:  0, latMax: 65, lonMin: -100, lonMax:  20 },
-  { id: 'satl', name: 'S. Atlantic', latMin: -60, latMax: 0, lonMin:  -70, lonMax:  20 },
-  { id: 'ind',  name: 'Indian',      latMin: -60, latMax: 30, lonMin:  20, lonMax: 120 },
-  { id: 'epac', name: 'E. Pacific',  latMin:   0, latMax: 65, lonMin: -180, lonMax: -70 },
+  { id: 'natl',  name: 'N. Atlantic', latMin:  0, latMax: 65, lonMin: -100, lonMax:  20 },
+  { id: 'nwpac', name: 'NW Pacific',  latMin:  0, latMax: 65, lonMin:  -250, lonMax: -180 },
+  { id: 'nind',  name: 'N. Indian',   latMin:  -10, latMax: 30, lonMin:   -300, lonMax: -225 },
 ];
+
+// Atmospheric temperature (ts) uses standard 0–360 lon conventions, so NW Pacific
+// and N. Indian need different bounds than the shifted ocean-grid coordinates above.
+const OCEAN_BASINS_TS = [
+  { id: 'natl',  name: 'N. Atlantic', latMin:  0, latMax: 65, lonMin: -100, lonMax:  20 },
+  { id: 'nwpac', name: 'NW Pacific',  latMin:  0, latMax: 65, lonMin:  100, lonMax: 180 },
+  { id: 'nind',  name: 'N. Indian',   latMin:  0, latMax: 30, lonMin:   20, lonMax: 100 },
+];
+
+function getActiveBasins() {
+  return activeMapVariable === 'ts' ? OCEAN_BASINS_TS : OCEAN_BASINS;
+}
 
 const VARIABLE_INFO = {
   ts: {
@@ -136,6 +147,7 @@ let mapResizeHandler    = null;
 let mapInitGeneration   = 0;
 let mapZoomState        = null; // { lonMin, lonMax, latMin, latMax } when zoomed, else null
 let activeDrawFrame     = null; // reference to current drawFrame closure, for the reset button
+let activeMapBasin      = 'world';
 
 function getActiveVariableConfig(variable = activeMapVariable) {
   return variableConfigs[variable] ?? variableConfigs.tos;
@@ -432,7 +444,7 @@ function buildBasinAverages(datasets, frameIndex) {
   const cfg = variableConfigs[activeMapVariable];
   const isSequential = cfg?.sequential;
   const isBinary     = cfg?.binary;
-  return OCEAN_BASINS.map(basin => {
+  return getActiveBasins().map(basin => {
     const scenarioAvgs = {};
     for (const ds of datasets) {
       const frame = ds.data.frames[frameIndex];
@@ -719,6 +731,12 @@ function updateZoomResetBtn() {
   if (btn) btn.style.display = mapZoomState ? '' : 'none';
 }
 
+function syncMapBasinBtns() {
+  document.querySelectorAll('.map-basin-btn[data-basin]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.basin === activeMapBasin);
+  });
+}
+
 // ── Brush / zoom ──────────────────────────────────────────────────────────────
 // Attaches a D3 brush to every .brush-overlay SVG.
 // Brush-end zooms all 4 canvases together; double-click resets.
@@ -754,7 +772,9 @@ function setupMapBrushes(sharedGeo, drawFrameFn) {
         };
 
         svgSel.call(brush.move, null); // clear selection rectangle
+        activeMapBasin = null;
         updateZoomResetBtn();
+        syncMapBasinBtns();
         drawFrameFn(activeMapFrameIndex);
       });
 
@@ -763,7 +783,9 @@ function setupMapBrushes(sharedGeo, drawFrameFn) {
     // Double-click resets zoom
     svgSel.on('dblclick.zoom', () => {
       mapZoomState = null;
+      activeMapBasin = 'world';
       updateZoomResetBtn();
+      syncMapBasinBtns();
       drawFrameFn(activeMapFrameIndex);
     });
   });
@@ -780,7 +802,9 @@ async function initMap() {
   }
   activeMapDatasets = [];
   mapZoomState = null;
+  activeMapBasin = 'world';
   updateZoomResetBtn();
+  syncMapBasinBtns();
 
   showBasinChartLoading();
   renderLegend();
@@ -901,6 +925,22 @@ async function initMap() {
   };
 
   activeDrawFrame = drawFrame;
+
+  window.jumpMapToBasin = (basinId) => {
+    if (basinId === 'world') {
+      mapZoomState = null;
+      activeMapBasin = 'world';
+    } else {
+      const basin = getActiveBasins().find(b => b.id === basinId);
+      if (!basin) return;
+      mapZoomState = { lonMin: basin.lonMin, lonMax: basin.lonMax, latMin: basin.latMin, latMax: basin.latMax };
+      activeMapBasin = basinId;
+    }
+    updateZoomResetBtn();
+    syncMapBasinBtns();
+    drawFrame(activeMapFrameIndex);
+  };
+
   drawFrame(0);
   setupMapBrushes(sharedGeo, drawFrame);
 
@@ -945,7 +985,9 @@ document.getElementById('variable-select')?.addEventListener('change', ({ target
 
 document.getElementById('zoom-reset-btn')?.addEventListener('click', () => {
   mapZoomState = null;
+  activeMapBasin = 'world';
   updateZoomResetBtn();
+  syncMapBasinBtns();
   activeDrawFrame?.(activeMapFrameIndex);
 });
 

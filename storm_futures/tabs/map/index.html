@@ -29,98 +29,178 @@
       </div>
     </div>
 
-    <!-- ── TIME SLIDER ── -->
-    <div class="slider-with-labels">
-      <span class="year-label">2015</span>
-      <input id="map-year-slider" type="range" min="0" max="0" step="1" value="0" disabled />
-      <span class="year-label" id="year-display">2100</span>
-    </div>
-
-    <!-- ── CHOROPLETH MAPS ── -->
-    <section class="map-grid" id="map-grid" style="position:relative;">
-      <button id="zoom-reset-btn" class="zoom-reset-btn" style="display:none;" title="Double-click any map to reset">&#8617; Reset Zoom</button>
-      <article data-scenario="SSP126">
-        <h2>SSP1-2.6 — Low Emissions</h2>
-        <p class="scenario-subtitle">Strong climate policy action. Temperatures projected to rise ~1–2 °C by 2100.</p>
-        <div class="canvas-wrap">
-          <canvas class="map-canvas" id="tos-ssp126"></canvas>
-          <svg class="brush-overlay" data-scenario="SSP126"></svg>
-        </div>
-      </article>
-      <article data-scenario="SSP245">
-        <h2>SSP2-4.5 — Moderate Emissions</h2>
-        <p class="scenario-subtitle">Some cooperative climate policy action (current world). Temperatures projected to rise ~2–3 °C by 2100.</p>
-        <div class="canvas-wrap">
-          <canvas class="map-canvas" id="tos-ssp245"></canvas>
-          <svg class="brush-overlay" data-scenario="SSP245"></svg>
-        </div>
-      </article>
-      <article data-scenario="SSP370">
-        <h2>SSP3-7.0 — High Emissions</h2>
-        <p class="scenario-subtitle">Limited policy action &amp; regional fragmentation. Temperatures projected to rise ~3–4 °C by 2100.</p>
-        <div class="canvas-wrap">
-          <canvas class="map-canvas" id="tos-ssp370"></canvas>
-          <svg class="brush-overlay" data-scenario="SSP370"></svg>
-        </div>
-      </article>
-      <article data-scenario="SSP585">
-        <h2>SSP5-8.5 — Extreme Emissions</h2>
-        <p class="scenario-subtitle">Fossil-fuel intensive &amp; no climate change mitigation. Temperatures projected to rise ~4–5 °C by 2100.</p>
-        <div class="canvas-wrap">
-          <canvas class="map-canvas" id="tos-ssp585"></canvas>
-          <svg class="brush-overlay" data-scenario="SSP585"></svg>
-        </div>
-      </article>
-    </section>
-
-    <!-- ── SCALE / LEGEND ── -->
-    <div class="legend-wrap">
-      <svg id="legend-svg" aria-label="Shared anomaly legend"></svg>
-    </div>
-
-    <!-- ── BASIN BAR CHART ── -->
-    <div id="basin-chart-container" style="display:none;">
-      <div class="basin-chart-title">Mean Variable by Ocean Basin</div>
-      <div id="basin-chart-formula" style="display:none;">
-        TCHP<sub>proxy</sub> = 4,097,844 · max(SST<sub>anom</sub>, 0) · (75 + 4·SLA) / 10<sup>7</sup>&nbsp;[kJ cm<sup>−2</sup>]
-      </div>
-      <!-- skeleton shown while data loads -->
-      <div id="basin-chart-loading" class="basin-skeleton" style="display:none;">
-        <div class="basin-skeleton-row">
-          <div class="basin-skeleton-group">
-            <div class="basin-skeleton-bar" style="height:28px"></div>
-            <div class="basin-skeleton-bar" style="height:55px"></div>
-            <div class="basin-skeleton-bar" style="height:72px"></div>
-            <div class="basin-skeleton-bar" style="height:95px"></div>
-          </div>
-          <div class="basin-skeleton-group">
-            <div class="basin-skeleton-bar" style="height:32px"></div>
-            <div class="basin-skeleton-bar" style="height:48px"></div>
-            <div class="basin-skeleton-bar" style="height:68px"></div>
-            <div class="basin-skeleton-bar" style="height:88px"></div>
-          </div>
-          <div class="basin-skeleton-group">
-            <div class="basin-skeleton-bar" style="height:22px"></div>
-            <div class="basin-skeleton-bar" style="height:42px"></div>
-            <div class="basin-skeleton-bar" style="height:60px"></div>
-            <div class="basin-skeleton-bar" style="height:78px"></div>
-          </div>
-          <div class="basin-skeleton-group">
-            <div class="basin-skeleton-bar" style="height:35px"></div>
-            <div class="basin-skeleton-bar" style="height:58px"></div>
-            <div class="basin-skeleton-bar" style="height:82px"></div>
-            <div class="basin-skeleton-bar" style="height:105px"></div>
-          </div>
-        </div>
-      </div>
-      <svg id="basin-chart-svg" style="width:100%; display:block;" height="210"></svg>
-      <div class="basin-legend">
-        <span><span style="color:#3b82f6;">■</span> SSP1-2.6</span>
-        <span><span style="color:#22c55e;">■</span> SSP2-4.5</span>
-        <span><span style="color:#f97316;">■</span> SSP3-7.0</span>
-        <span><span style="color:#ef4444;">■</span> SSP5-8.5</span>
+    <!-- ── VIEW TOGGLE ── -->
+    <div class="view-toggle-bar">
+      <div class="view-toggle-group" role="group" aria-label="View mode">
+        <button class="view-toggle-btn active" data-view="map" id="view-btn-map">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/>
+            <rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor"/>
+            <rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor"/>
+            <rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor"/>
+          </svg>
+          Map
+        </button>
+        <button class="view-toggle-btn" data-view="globe" id="view-btn-globe">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M1.5 7h11M7 1.5c-1.5 1.5-2.5 3.5-2.5 5.5s1 4 2.5 5.5M7 1.5c1.5 1.5 2.5 3.5 2.5 5.5s-1 4-2.5 5.5" stroke="currentColor" stroke-width="1.3" fill="none"/>
+          </svg>
+          Globe
+        </button>
       </div>
     </div>
+
+    <!-- ── MAP VIEW ── -->
+    <div id="map-view">
+
+      <!-- Time slider -->
+      <div class="slider-with-labels">
+        <span class="year-label">2015</span>
+        <input id="map-year-slider" type="range" min="0" max="0" step="1" value="0" disabled />
+        <span class="year-label" id="year-display">2100</span>
+      </div>
+
+      <!-- Basin focus -->
+      <div class="map-basin-bar">
+        <span class="map-basin-label">Focus:</span>
+        <div class="map-basin-btns">
+          <button class="map-basin-btn active" data-basin="world">World</button>
+          <button class="map-basin-btn" data-basin="natl">N. Atlantic</button>
+          <button class="map-basin-btn" data-basin="nwpac">NW Pacific</button>
+          <button class="map-basin-btn" data-basin="nind">N. Indian</button>
+        </div>
+      </div>
+
+      <!-- Choropleth maps -->
+      <section class="map-grid" id="map-grid" style="position:relative;">
+        <button id="zoom-reset-btn" class="zoom-reset-btn" style="display:none;" title="Double-click any map to reset">&#8617; Reset Zoom</button>
+        <article data-scenario="SSP126">
+          <h2>SSP1-2.6 — Low Emissions</h2>
+          <p class="scenario-subtitle">Strong climate policy action. Temperatures projected to rise ~1–2 °C by 2100.</p>
+          <div class="canvas-wrap">
+            <canvas class="map-canvas" id="tos-ssp126"></canvas>
+            <svg class="brush-overlay" data-scenario="SSP126"></svg>
+          </div>
+        </article>
+        <article data-scenario="SSP245">
+          <h2>SSP2-4.5 — Moderate Emissions</h2>
+          <p class="scenario-subtitle">Some cooperative climate policy action (current world). Temperatures projected to rise ~2–3 °C by 2100.</p>
+          <div class="canvas-wrap">
+            <canvas class="map-canvas" id="tos-ssp245"></canvas>
+            <svg class="brush-overlay" data-scenario="SSP245"></svg>
+          </div>
+        </article>
+        <article data-scenario="SSP370">
+          <h2>SSP3-7.0 — High Emissions</h2>
+          <p class="scenario-subtitle">Limited policy action &amp; regional fragmentation. Temperatures projected to rise ~3–4 °C by 2100.</p>
+          <div class="canvas-wrap">
+            <canvas class="map-canvas" id="tos-ssp370"></canvas>
+            <svg class="brush-overlay" data-scenario="SSP370"></svg>
+          </div>
+        </article>
+        <article data-scenario="SSP585">
+          <h2>SSP5-8.5 — Extreme Emissions</h2>
+          <p class="scenario-subtitle">Fossil-fuel intensive &amp; no climate change mitigation. Temperatures projected to rise ~4–5 °C by 2100.</p>
+          <div class="canvas-wrap">
+            <canvas class="map-canvas" id="tos-ssp585"></canvas>
+            <svg class="brush-overlay" data-scenario="SSP585"></svg>
+          </div>
+        </article>
+      </section>
+
+      <!-- Legend -->
+      <div class="legend-wrap">
+        <svg id="legend-svg" aria-label="Shared anomaly legend"></svg>
+      </div>
+
+      <!-- Basin bar chart -->
+      <div id="basin-chart-container" style="display:none;">
+        <div class="basin-chart-title">Mean Variable by Ocean Basin</div>
+        <div id="basin-chart-formula" style="display:none;">
+          TCHP<sub>proxy</sub> = 4,097,844 · max(SST<sub>anom</sub>, 0) · (75 + 4·SLA) / 10<sup>7</sup>&nbsp;[kJ cm<sup>−2</sup>]
+        </div>
+        <div id="basin-chart-loading" class="basin-skeleton" style="display:none;">
+          <div class="basin-skeleton-row">
+            <div class="basin-skeleton-group">
+              <div class="basin-skeleton-bar" style="height:28px"></div>
+              <div class="basin-skeleton-bar" style="height:55px"></div>
+              <div class="basin-skeleton-bar" style="height:72px"></div>
+              <div class="basin-skeleton-bar" style="height:95px"></div>
+            </div>
+            <div class="basin-skeleton-group">
+              <div class="basin-skeleton-bar" style="height:32px"></div>
+              <div class="basin-skeleton-bar" style="height:48px"></div>
+              <div class="basin-skeleton-bar" style="height:68px"></div>
+              <div class="basin-skeleton-bar" style="height:88px"></div>
+            </div>
+            <div class="basin-skeleton-group">
+              <div class="basin-skeleton-bar" style="height:22px"></div>
+              <div class="basin-skeleton-bar" style="height:42px"></div>
+              <div class="basin-skeleton-bar" style="height:60px"></div>
+              <div class="basin-skeleton-bar" style="height:78px"></div>
+            </div>
+          </div>
+        </div>
+        <svg id="basin-chart-svg" style="width:100%; display:block;" height="210"></svg>
+        <div class="basin-legend">
+          <span><span style="color:#3b82f6;">&#9632;</span> SSP1-2.6</span>
+          <span><span style="color:#22c55e;">&#9632;</span> SSP2-4.5</span>
+          <span><span style="color:#f97316;">&#9632;</span> SSP3-7.0</span>
+          <span><span style="color:#ef4444;">&#9632;</span> SSP5-8.5</span>
+        </div>
+      </div>
+
+    </div><!-- /#map-view -->
+
+    <!-- ── GLOBE VIEW ── -->
+    <div id="globe-view" style="display:none;">
+      <section class="globe-demo">
+
+        <!-- Year slider — identical structure to map view -->
+        <div class="slider-with-labels">
+          <span class="year-label">2015</span>
+          <input id="globe-year-slider" type="range" min="0" max="0" step="1" value="0" disabled />
+          <span class="year-label" id="globe-year-label">2015</span>
+        </div>
+
+        <!-- Scenario selector — pill buttons, same style as map focus bar -->
+        <div class="map-basin-bar">
+          <span class="map-basin-label">Scenario:</span>
+          <div class="map-basin-btns">
+            <button class="map-basin-btn globe-ssp-btn" data-ssp="ssp126">SSP1-2.6</button>
+            <button class="map-basin-btn globe-ssp-btn" data-ssp="ssp245">SSP2-4.5</button>
+            <button class="map-basin-btn globe-ssp-btn" data-ssp="ssp370">SSP3-7.0</button>
+            <button class="map-basin-btn globe-ssp-btn active" data-ssp="ssp585">SSP5-8.5</button>
+          </div>
+        </div>
+
+        <!-- Basin selector — pill buttons, same style as map focus bar -->
+        <div class="map-basin-bar">
+          <span class="map-basin-label">Focus:</span>
+          <div class="map-basin-btns">
+            <button class="map-basin-btn globe-basin-btn" data-lon="-40"  data-lat="32"  title="North Atlantic">N. Atlantic</button>
+            <button class="map-basin-btn globe-basin-btn" data-lon="145"  data-lat="25"  title="Northwest Pacific">NW Pacific</button>
+            <button class="map-basin-btn globe-basin-btn" data-lon="65"   data-lat="15"  title="North Indian Ocean">N. Indian</button>
+          </div>
+        </div>
+
+        <!-- Globe canvas — centered -->
+        <div class="globe-canvas-center">
+          <div class="globe-canvas-wrap">
+            <canvas id="globe-canvas" style="cursor:grab;display:block;border-radius:50%;"></canvas>
+            <span id="globe-status" class="globe-status"></span>
+          </div>
+        </div>
+
+        <!-- Legend — identical structure to map view -->
+        <div class="legend-wrap">
+          <svg id="globe-legend-svg" aria-label="Globe variable legend"></svg>
+        </div>
+        
+
+      </section>
+    </div><!-- /#globe-view -->
 
   </div>
 
@@ -133,9 +213,39 @@
     <option value="tchp">TC Heat Potential Proxy</option>
   </select>
 
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
   <script src="map.js"></script>
+  <script src="globe.js"></script>
   <script>
-    // Wire variable-rail buttons to map.js
+    // ── View toggle ──────────────────────────────────────────────────────────
+    document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const view = btn.dataset.view;
+        document.querySelectorAll('.view-toggle-btn').forEach(b =>
+          b.classList.toggle('active', b === btn));
+        document.getElementById('map-view').style.display   = view === 'map'   ? '' : 'none';
+        document.getElementById('globe-view').style.display = view === 'globe' ? '' : 'none';
+        if (view === 'globe') document.dispatchEvent(new CustomEvent('globe:show'));
+      });
+    });
+
+    // ── Map basin focus buttons ──────────────────────────────────────────────
+    document.querySelectorAll('.map-basin-btn[data-basin]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        window.jumpMapToBasin?.(btn.dataset.basin);
+      });
+    });
+
+    // ── Globe scenario buttons ───────────────────────────────────────────────
+    document.querySelectorAll('.globe-ssp-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.globe-ssp-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        window.setGlobeScenario?.(btn.dataset.ssp);
+      });
+    });
+
+    // ── Variable rail ────────────────────────────────────────────────────────
     document.querySelectorAll('.var-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.var-btn').forEach(b => {
@@ -146,6 +256,12 @@
         btn.setAttribute('aria-pressed', 'true');
         setMapVariable(btn.dataset.var)
           .catch(err => console.error('Could not switch variable:', err));
+
+        // Mirror variable to globe when globe view is active
+        const globeView = document.getElementById('globe-view');
+        if (globeView && globeView.style.display !== 'none') {
+          window.setGlobeVariable?.(btn.dataset.var);
+        }
       });
     });
 
