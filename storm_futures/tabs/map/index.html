@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,25 +8,29 @@
   <link rel="stylesheet" href="map.css" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
+
 <body>
   <div class="map-page">
 
     <!-- ── HEADER ROW: variable rail + info card ── -->
     <div class="map-header-row">
       <nav class="variable-rail" aria-label="Variable selection">
-        <button class="var-btn active" data-var="ts"         aria-pressed="true"  title="Global Temperature">1</button>
+        <button class="var-btn active" data-var="ts" aria-pressed="true" title="Global Temperature">1</button>
         <span class="var-connector" aria-hidden="true"></span>
-        <button class="var-btn"        data-var="tos"         aria-pressed="false" title="Sea Surface Temperature">2</button>
+        <button class="var-btn" data-var="tos" aria-pressed="false" title="Sea Surface Temperature">2</button>
         <span class="var-connector" aria-hidden="true"></span>
-        <button class="var-btn"        data-var="zos"         aria-pressed="false" title="Sea Level Rise">3</button>
+        <button class="var-btn" data-var="zos" aria-pressed="false" title="Sea Level Rise">3</button>
         <span class="var-connector" aria-hidden="true"></span>
-        <button class="var-btn"        data-var="storm_risk"  aria-pressed="false" title="Naive Storm Risk (SST > 27 °C)">4</button>
+        <button class="var-btn" data-var="storm_risk" aria-pressed="false"
+          title="Naive Storm Risk (SST > 27 °C)">4</button>
         <span class="var-connector" aria-hidden="true"></span>
-        <button class="var-btn"        data-var="tchp"        aria-pressed="false" title="TC Heat Potential Proxy">5</button>
+        <button class="var-btn" data-var="tchp" aria-pressed="false" title="TC Heat Potential Proxy">5</button>
       </nav>
       <div class="variable-info-card">
         <div class="var-info-label" id="var-info-label">Global Temperature</div>
-        <p class="var-info-desc" id="var-info-desc">Global temperature is a key indicator for storm risk and destructiveness globally, as a warmer atmosphere can hold more moisture and can lead to more intense rainfall.</p>
+        <p class="var-info-desc" id="var-info-desc">Global temperature is a key indicator for storm risk and
+          destructiveness globally, as a warmer atmosphere can hold more moisture and can lead to more intense rainfall.
+        </p>
       </div>
     </div>
 
@@ -39,18 +44,21 @@
         <input id="map-year-slider" type="range" min="0" max="0" step="1" value="0" disabled />
         <span class="year-label" id="year-display">2100</span>
         <div class="view-toggle-group" role="group" aria-label="View mode">
-          <button class="view-toggle-btn active" data-view="map" id="view-btn-map" title="Map view" aria-label="Map view">
+          <button class="view-toggle-btn active" data-view="map" id="view-btn-map" title="Map view"
+            aria-label="Map view">
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/>
-              <rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor"/>
-              <rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor"/>
-              <rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor"/>
+              <rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor" />
+              <rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor" />
+              <rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor" />
+              <rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor" />
             </svg>
           </button>
-          <button class="view-toggle-btn" data-view="globe" id="view-btn-globe" title="Globe view" aria-label="Globe view">
+          <button class="view-toggle-btn" data-view="globe" id="view-btn-globe" title="Globe view"
+            aria-label="Globe view">
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/>
-              <path d="M1.5 7h11M7 1.5c-1.5 1.5-2.5 3.5-2.5 5.5s1 4 2.5 5.5M7 1.5c1.5 1.5 2.5 3.5 2.5 5.5s-1 4-2.5 5.5" stroke="currentColor" stroke-width="1.3" fill="none"/>
+              <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3" />
+              <path d="M1.5 7h11M7 1.5c-1.5 1.5-2.5 3.5-2.5 5.5s1 4 2.5 5.5M7 1.5c1.5 1.5 2.5 3.5 2.5 5.5s-1 4-2.5 5.5"
+                stroke="currentColor" stroke-width="1.3" fill="none" />
             </svg>
           </button>
         </div>
@@ -69,7 +77,8 @@
 
       <!-- Choropleth maps -->
       <section class="map-grid" id="map-grid" style="position:relative;">
-        <button id="zoom-reset-btn" class="zoom-reset-btn" style="display:none;" title="Double-click any map to reset">&#8617; Reset Zoom</button>
+        <button id="zoom-reset-btn" class="zoom-reset-btn" style="display:none;"
+          title="Double-click any map to reset">&#8617; Reset Zoom</button>
         <article data-scenario="SSP126">
           <h2>SSP1-2.6 — Low Emissions</h2>
           <p class="scenario-subtitle">Strong climate policy action. Temperatures projected to rise ~1–2 °C by 2100.</p>
@@ -80,7 +89,8 @@
         </article>
         <article data-scenario="SSP245">
           <h2>SSP2-4.5 — Moderate Emissions</h2>
-          <p class="scenario-subtitle">Some cooperative climate policy action (current world). Temperatures projected to rise ~2–3 °C by 2100.</p>
+          <p class="scenario-subtitle">Some cooperative climate policy action (current world). Temperatures projected to
+            rise ~2–3 °C by 2100.</p>
           <div class="canvas-wrap">
             <canvas class="map-canvas" id="tos-ssp245"></canvas>
             <svg class="brush-overlay" data-scenario="SSP245"></svg>
@@ -88,7 +98,8 @@
         </article>
         <article data-scenario="SSP370">
           <h2>SSP3-7.0 — High Emissions</h2>
-          <p class="scenario-subtitle">Limited policy action &amp; regional fragmentation. Temperatures projected to rise ~3–4 °C by 2100.</p>
+          <p class="scenario-subtitle">Limited policy action &amp; regional fragmentation. Temperatures projected to
+            rise ~3–4 °C by 2100.</p>
           <div class="canvas-wrap">
             <canvas class="map-canvas" id="tos-ssp370"></canvas>
             <svg class="brush-overlay" data-scenario="SSP370"></svg>
@@ -96,7 +107,8 @@
         </article>
         <article data-scenario="SSP585">
           <h2>SSP5-8.5 — Extreme Emissions</h2>
-          <p class="scenario-subtitle">Fossil-fuel intensive &amp; no climate change mitigation. Temperatures projected to rise ~4–5 °C by 2100.</p>
+          <p class="scenario-subtitle">Fossil-fuel intensive &amp; no climate change mitigation. Temperatures projected
+            to rise ~4–5 °C by 2100.</p>
           <div class="canvas-wrap">
             <canvas class="map-canvas" id="tos-ssp585"></canvas>
             <svg class="brush-overlay" data-scenario="SSP585"></svg>
@@ -113,7 +125,8 @@
       <div id="basin-chart-container" style="display:none;">
         <div class="basin-chart-title">Mean Variable by Ocean Basin</div>
         <div id="basin-chart-formula" style="display:none;">
-          TCHP<sub>proxy</sub> = 4,097,844 · max(SST<sub>anom</sub>, 0) · (75 + 4·SLA) / 10<sup>7</sup>&nbsp;[kJ cm<sup>−2</sup>]
+          TCHP<sub>proxy</sub> = 4,097,844 · max(SST<sub>anom</sub>, 0) · (75 + 4·SLA) / 10<sup>7</sup>&nbsp;[kJ
+          cm<sup>−2</sup>]
         </div>
         <div id="basin-chart-loading" class="basin-skeleton" style="display:none;">
           <div class="basin-skeleton-row">
@@ -161,16 +174,18 @@
           <div class="view-toggle-group" role="group" aria-label="View mode">
             <button class="view-toggle-btn" data-view="map" title="Map view" aria-label="Map view">
               <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/>
-                <rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor"/>
-                <rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor"/>
-                <rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor"/>
+                <rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor" />
+                <rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor" />
+                <rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor" />
+                <rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor" />
               </svg>
             </button>
             <button class="view-toggle-btn active" data-view="globe" title="Globe view" aria-label="Globe view">
               <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/>
-                <path d="M1.5 7h11M7 1.5c-1.5 1.5-2.5 3.5-2.5 5.5s1 4 2.5 5.5M7 1.5c1.5 1.5 2.5 3.5 2.5 5.5s-1 4-2.5 5.5" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3" />
+                <path
+                  d="M1.5 7h11M7 1.5c-1.5 1.5-2.5 3.5-2.5 5.5s1 4 2.5 5.5M7 1.5c1.5 1.5 2.5 3.5 2.5 5.5s-1 4-2.5 5.5"
+                  stroke="currentColor" stroke-width="1.3" fill="none" />
               </svg>
             </button>
           </div>
@@ -191,9 +206,12 @@
         <div class="map-basin-bar">
           <span class="map-basin-label">Focus:</span>
           <div class="map-basin-btns">
-            <button class="map-basin-btn globe-basin-btn" data-lon="-40"  data-lat="32"  title="North Atlantic">N. Atlantic</button>
-            <button class="map-basin-btn globe-basin-btn" data-lon="145"  data-lat="25"  title="Northwest Pacific">NW Pacific</button>
-            <button class="map-basin-btn globe-basin-btn" data-lon="65"   data-lat="15"  title="North Indian Ocean">N. Indian</button>
+            <button class="map-basin-btn globe-basin-btn" data-lon="-40" data-lat="32" title="North Atlantic">N.
+              Atlantic</button>
+            <button class="map-basin-btn globe-basin-btn" data-lon="145" data-lat="25" title="Northwest Pacific">NW
+              Pacific</button>
+            <button class="map-basin-btn globe-basin-btn" data-lon="65" data-lat="15" title="North Indian Ocean">N.
+              Indian</button>
           </div>
         </div>
 
@@ -209,7 +227,7 @@
         <div class="legend-wrap">
           <svg id="globe-legend-svg" aria-label="Globe variable legend"></svg>
         </div>
-        
+
 
       </section>
     </div><!-- /#globe-view -->
@@ -235,7 +253,7 @@
         const view = btn.dataset.view;
         document.querySelectorAll('.view-toggle-btn').forEach(b =>
           b.classList.toggle('active', b.dataset.view === view));
-        document.getElementById('map-view').style.display   = view === 'map'   ? '' : 'none';
+        document.getElementById('map-view').style.display = view === 'map' ? '' : 'none';
         document.getElementById('globe-view').style.display = view === 'globe' ? '' : 'none';
         if (view === 'globe') document.dispatchEvent(new CustomEvent('globe:show'));
       });
@@ -266,22 +284,25 @@
         });
         btn.classList.add('active');
         btn.setAttribute('aria-pressed', 'true');
+
+        // Reset both sliders to 0
+        const mapSlider = document.getElementById('map-year-slider');
+        const globeSlider = document.getElementById('globe-year-slider');
+        if (mapSlider) mapSlider.value = 0;
+        if (globeSlider) globeSlider.value = 0;
+
         setMapVariable(btn.dataset.var)
           .catch(err => console.error('Could not switch variable:', err));
 
-        // Mirror variable to globe when globe view is active
-        const globeView = document.getElementById('globe-view');
-        if (globeView && globeView.style.display !== 'none') {
-          window.setGlobeVariable?.(btn.dataset.var);
-        }
+        window.setGlobeVariable?.(btn.dataset.var);
       });
     });
 
     // ── Autoplay helper ──────────────────────────────────────────────────────
     function makeAutoplay(sliderId, btnId, intervalMs = 150) {
       const slider = document.getElementById(sliderId);
-      const btn    = document.getElementById(btnId);
-      let timer    = null;
+      const btn = document.getElementById(btnId);
+      let timer = null;
 
       function step() {
         if (+slider.value >= +slider.max) { pause(); return; }
@@ -314,7 +335,7 @@
         .observe(slider, { attributes: true, attributeFilter: ['disabled'] });
     }
 
-    makeAutoplay('map-year-slider',   'map-play-btn',   150);
+    makeAutoplay('map-year-slider', 'map-play-btn', 150);
     makeAutoplay('globe-year-slider', 'globe-play-btn', 150);
 
     const _sendH = () => window.parent.postMessage(
@@ -324,4 +345,5 @@
     window.addEventListener('load', _sendH);
   </script>
 </body>
+
 </html>
