@@ -258,6 +258,43 @@ svg text {
   font-style: italic;
 }
 
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.metric-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 14px 10px;
+}
+
+.metric-header {
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.metric-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.mini-chart-container {
+  width: 100%;
+  overflow: visible;
+}
+
+.mini-chart-container svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 @media (max-width: 760px) {
   .page {
     width: min(96vw, 1280px);
@@ -273,4 +310,7 @@ svg text {
     min-width: unset;
   }
 
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
 }

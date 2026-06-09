@@ -318,7 +318,7 @@
     makeAutoplay('globe-year-slider', 'globe-play-btn', 150);
 
     const _sendH = () => window.parent.postMessage(
-      { type: 'iframeResize', height: document.documentElement.scrollHeight }, '*'
+      { type: 'iframeResize', height: document.body.offsetHeight }, '*'
     );
     new ResizeObserver(_sendH).observe(document.documentElement);
     window.addEventListener('load', _sendH);
