@@ -6,7 +6,7 @@
     ts: { label: 'Atmospheric Temperature Anomaly', maxAbs: 10, unit: '°C anomaly', sequential: false },
     tos: { label: 'Sea Surface Temperature Anomaly', maxAbs: 10, unit: '°C anomaly', sequential: false },
     zos: { label: 'Sea Level Anomaly', maxAbs: 1, unit: 'm anomaly', sequential: false },
-    storm_risk: { label: 'Storm Risk (SST > 27 °C)', maxAbs: 1, unit: 'fraction at risk', sequential: true },
+    storm_risk: { label: 'Storm Risk (SST > 27 °C)', maxAbs: 1, unit: 'fraction at risk', sequential: true, binary: true },
     tchp: { label: 'TC Heat Potential Proxy', maxAbs: 100, unit: 'kJ/cm²', sequential: true },
   };
 
@@ -68,7 +68,9 @@
   };
 
   function buildColorScale(varKey) {
-    const { maxAbs, sequential } = VAR_CONFIGS[varKey];
+    const { maxAbs, sequential, binary } = VAR_CONFIGS[varKey];
+    if (binary)
+      return v => (v != null && v > 0.5) ? '#ef4444' : '#e2e8f0';
     if (sequential)
       return d3.scaleSequential(d3.interpolateYlOrRd).domain([0, maxAbs]);
     return d3.scaleDiverging(t => d3.interpolateRdBu(1 - t))
@@ -131,31 +133,29 @@
     ctx.lineWidth = 1; ctx.stroke();
   }
 
-  // ── Drag to rotate ────────────────────────────────────────────────────────
-  let rotStart = null, dragOrigin = null;
-  d3.select(canvas).call(
-    d3.drag()
-      .on('start', e => {
-        rotStart = projection.rotate().slice();
-        dragOrigin = [e.x, e.y];
-        canvas.style.cursor = 'grabbing';
-      })
-      .on('drag', e => {
-        const dx = e.x - dragOrigin[0], dy = e.y - dragOrigin[1];
-        projection.rotate([
-          rotStart[0] + dx * 0.4,
-          Math.max(-90, Math.min(90, rotStart[1] - dy * 0.4)),
-        ]);
-        draw();
-      })
-      .on('end', () => { canvas.style.cursor = 'grab'; })
-  );
+  // ── Continuous auto-rotate (no drag interaction) ─────────────────────────
+  canvas.style.cursor = 'default';
+
+  let autoRotLast = null;
+  let isSpinningToBasin = false;
+
+  function autoRotFrame(now) {
+    if (!isSpinningToBasin) {
+      const dt = autoRotLast !== null ? now - autoRotLast : 0;
+      const [rx, ry] = projection.rotate();
+      projection.rotate([rx + dt * 0.008, ry]);
+      draw();
+    }
+    autoRotLast = now;
+    requestAnimationFrame(autoRotFrame);
+  }
+  requestAnimationFrame(autoRotFrame);
 
   // ── Legend ────────────────────────────────────────────────────────────────
   function drawLegend() {
     const svgEl = document.getElementById('globe-legend-svg');
     if (!svgEl) return;
-    const { maxAbs, unit, sequential } = VAR_CONFIGS[activeVar];
+    const { maxAbs, unit, sequential, binary } = VAR_CONFIGS[activeVar];
 
     const totalW = Math.max(svgEl.clientWidth || 600, 300);
     const totalH = 52;
@@ -170,6 +170,29 @@
       .attr('preserveAspectRatio', 'xMidYMid meet');
 
     const svg = d3.select(svgEl);
+
+    if (binary) {
+      const swW = 80, gap = 24;
+      const startX = (totalW - (2 * swW + gap)) / 2;
+      svg.append('rect').attr('x', startX).attr('y', barY)
+        .attr('width', swW).attr('height', barH)
+        .attr('fill', '#e2e8f0').attr('rx', 3)
+        .attr('stroke', '#dbe3ee').attr('stroke-width', 1);
+      svg.append('text')
+        .attr('x', startX + swW / 2).attr('y', barY + barH + 14)
+        .attr('text-anchor', 'middle').attr('font-size', '10px').attr('fill', '#526173')
+        .text('No risk (SST ≤ 27 °C)');
+      svg.append('rect').attr('x', startX + swW + gap).attr('y', barY)
+        .attr('width', swW).attr('height', barH)
+        .attr('fill', '#ef4444').attr('rx', 3)
+        .attr('stroke', '#dbe3ee').attr('stroke-width', 1);
+      svg.append('text')
+        .attr('x', startX + swW + gap + swW / 2).attr('y', barY + barH + 14)
+        .attr('text-anchor', 'middle').attr('font-size', '10px').attr('fill', '#526173')
+        .text('At risk (SST > 27 °C)');
+      return;
+    }
+
     const defs = svg.append('defs');
     const grad = defs.append('linearGradient').attr('id', 'globe-grad')
       .attr('x1', '0%').attr('x2', '100%');
@@ -304,27 +327,28 @@
   });
 
   // ── Basin spin ────────────────────────────────────────────────────────────
-  let spinTimer = null;
-
   function spinToBasin(targetLon, targetLat) {
-    if (spinTimer) { cancelAnimationFrame(spinTimer); spinTimer = null; }
     const startRot = projection.rotate().slice();
     let deltaLon = -targetLon - startRot[0];
     while (deltaLon > 180) deltaLon -= 360;
     while (deltaLon < -180) deltaLon += 360;
     const endRot = [startRot[0] + deltaLon, -targetLat];
     const rotateFn = d3.interpolate(startRot, endRot);
-    const duration = 900;
     const t0 = performance.now();
+    isSpinningToBasin = true;
 
     function step(now) {
-      const t = Math.min((now - t0) / duration, 1);
+      const t = Math.min((now - t0) / 900, 1);
       projection.rotate(rotateFn(d3.easeCubicInOut(t)));
       draw();
-      if (t < 1) spinTimer = requestAnimationFrame(step);
-      else spinTimer = null;
+      if (t < 1) {
+        requestAnimationFrame(step);
+      } else {
+        isSpinningToBasin = false;
+        autoRotLast = null;
+      }
     }
-    spinTimer = requestAnimationFrame(step);
+    requestAnimationFrame(step);
   }
 
   document.querySelectorAll('.globe-basin-btn').forEach(btn => {

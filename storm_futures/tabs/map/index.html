@@ -162,12 +162,18 @@
     <div id="globe-view" style="display:none;">
       <section class="globe-demo">
 
-        <!-- Year slider — identical structure to map view -->
-        <div class="slider-with-labels">
+        <!-- Single control row -->
+        <div class="globe-controls">
           <button class="play-btn" id="globe-play-btn" aria-label="Play animation" disabled>&#9654;</button>
           <span class="year-label">2015</span>
           <input id="globe-year-slider" type="range" min="0" max="0" step="1" value="0" disabled />
           <span class="year-label" id="globe-year-label">2015</span>
+          <div class="globe-ssp-pills">
+            <button class="globe-ssp-btn" data-ssp="ssp126">1-2.6</button>
+            <button class="globe-ssp-btn" data-ssp="ssp245">2-4.5</button>
+            <button class="globe-ssp-btn" data-ssp="ssp370">3-7.0</button>
+            <button class="globe-ssp-btn active" data-ssp="ssp585">5-8.5</button>
+          </div>
           <div class="view-toggle-group" role="group" aria-label="View mode">
             <button class="view-toggle-btn" data-view="map" title="Map view" aria-label="Map view">
               <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -180,51 +186,25 @@
             <button class="view-toggle-btn active" data-view="globe" title="Globe view" aria-label="Globe view">
               <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3" />
-                <path
-                  d="M1.5 7h11M7 1.5c-1.5 1.5-2.5 3.5-2.5 5.5s1 4 2.5 5.5M7 1.5c1.5 1.5 2.5 3.5 2.5 5.5s-1 4-2.5 5.5"
+                <path d="M1.5 7h11M7 1.5c-1.5 1.5-2.5 3.5-2.5 5.5s1 4 2.5 5.5M7 1.5c1.5 1.5 2.5 3.5 2.5 5.5s-1 4-2.5 5.5"
                   stroke="currentColor" stroke-width="1.3" fill="none" />
               </svg>
             </button>
           </div>
         </div>
 
-        <!-- Scenario selector — pill buttons, same style as map focus bar -->
-        <div class="map-basin-bar">
-          <span class="map-basin-label">Scenario:</span>
-          <div class="map-basin-btns">
-            <button class="map-basin-btn globe-ssp-btn" data-ssp="ssp126">SSP1-2.6</button>
-            <button class="map-basin-btn globe-ssp-btn" data-ssp="ssp245">SSP2-4.5</button>
-            <button class="map-basin-btn globe-ssp-btn" data-ssp="ssp370">SSP3-7.0</button>
-            <button class="map-basin-btn globe-ssp-btn active" data-ssp="ssp585">SSP5-8.5</button>
-          </div>
-        </div>
-
-        <!-- Basin selector — pill buttons, same style as map focus bar -->
-        <div class="map-basin-bar">
-          <span class="map-basin-label">Focus:</span>
-          <div class="map-basin-btns">
-            <button class="map-basin-btn globe-basin-btn" data-lon="-40" data-lat="32" title="North Atlantic">N.
-              Atlantic</button>
-            <button class="map-basin-btn globe-basin-btn" data-lon="145" data-lat="25" title="Northwest Pacific">NW
-              Pacific</button>
-            <button class="map-basin-btn globe-basin-btn" data-lon="65" data-lat="15" title="North Indian Ocean">N.
-              Indian</button>
-          </div>
-        </div>
-
         <!-- Globe canvas — centered -->
         <div class="globe-canvas-center">
           <div class="globe-canvas-wrap">
-            <canvas id="globe-canvas" style="cursor:grab;display:block;border-radius:50%;"></canvas>
+            <canvas id="globe-canvas" style="cursor:default;display:block;border-radius:50%;"></canvas>
             <span id="globe-status" class="globe-status"></span>
           </div>
         </div>
 
-        <!-- Legend — identical structure to map view -->
+        <!-- Legend -->
         <div class="legend-wrap">
           <svg id="globe-legend-svg" aria-label="Globe variable legend"></svg>
         </div>
-
 
       </section>
     </div><!-- /#globe-view -->
@@ -379,22 +359,41 @@
       const btn = document.getElementById(btnId);
       let timer = null;
 
+      function atEnd() { return +slider.value >= +slider.max && +slider.max > 0; }
+
+      function syncBtn() {
+        if (timer) {
+          btn.innerHTML = '&#9208;';
+          btn.setAttribute('aria-label', 'Pause animation');
+        } else if (atEnd()) {
+          btn.innerHTML = '&#8635;';
+          btn.setAttribute('aria-label', 'Restart animation');
+        } else {
+          btn.innerHTML = '&#9654;';
+          btn.setAttribute('aria-label', 'Play animation');
+        }
+      }
+
       function step() {
-        if (+slider.value >= +slider.max) { pause(); return; }
+        if (atEnd()) { pause(); return; }
         slider.value = +slider.value + 1;
         slider.dispatchEvent(new Event('input', { bubbles: true }));
+        if (atEnd()) syncBtn();
       }
 
       function pause() {
         clearInterval(timer);
         timer = null;
-        btn.innerHTML = '&#9654;';
-        btn.setAttribute('aria-label', 'Play animation');
+        syncBtn();
       }
 
       btn.addEventListener('click', () => {
         if (timer) {
           pause();
+        } else if (atEnd()) {
+          slider.value = 0;
+          slider.dispatchEvent(new Event('input', { bubbles: true }));
+          syncBtn();
         } else {
           btn.innerHTML = '&#9208;';
           btn.setAttribute('aria-label', 'Pause animation');
@@ -402,8 +401,9 @@
         }
       });
 
-      // Pause if user manually drags the slider
+      // Pause and sync icon when user manually moves the slider
       slider.addEventListener('pointerdown', pause);
+      slider.addEventListener('input', syncBtn);
 
       // Mirror slider's disabled state to the button
       new MutationObserver(() => { btn.disabled = slider.disabled; })

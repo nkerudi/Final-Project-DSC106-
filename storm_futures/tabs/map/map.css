@@ -541,6 +541,57 @@ body {
 
 /* .globe-basin-btn kept as JS selector hook — styling comes from .map-basin-btn */
 
+/* ── Globe compact controls ──────────────────────────────────────────────── */
+
+.globe-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid #dbe3ee;
+  border-radius: 14px;
+  padding: 10px 16px;
+  box-shadow: 0 1px 4px rgba(20,35,60,0.04);
+  flex-wrap: wrap;
+}
+
+.globe-controls input[type="range"] {
+  flex: 1;
+  min-width: 60px;
+  accent-color: #2b6cb0;
+}
+
+.globe-ssp-pills {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.globe-ssp-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 99px;
+  border: 1.5px solid #cbd5e1;
+  background: #fff;
+  color: #64748b;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.globe-ssp-btn:hover:not(.active) {
+  background: #e0f2fe;
+  border-color: #0891b2;
+  color: #0e7490;
+}
+
+.globe-ssp-btn.active {
+  background: #0891b2;
+  border-color: #0891b2;
+  color: #fff;
+}
+
 /* ── Basin Explainer ─────────────────────────────────────────────────────── */
 
 .basin-explainer {
