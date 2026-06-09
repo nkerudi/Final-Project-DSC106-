@@ -11,7 +11,7 @@
 
   // ── Canvas sizing ─────────────────────────────────────────────────────────
   const dpr  = window.devicePixelRatio || 1;
-  const SIZE = Math.max(300, Math.min(560, (canvas.parentElement.clientWidth || 560) - 32));
+  const SIZE = Math.max(550, Math.min(500, (canvas.parentElement.clientWidth || 500) - 16));
   canvas.width  = SIZE * dpr;
   canvas.height = SIZE * dpr;
   canvas.style.width  = SIZE + 'px';
@@ -251,10 +251,68 @@
     loadData();
   });
 
-  slider.addEventListener('input', () => {
-    pauseAutoRotate();
+  // ── Year slider autoplay ──────────────────────────────────────────────────
+  const playBtn = document.getElementById('scrolly-play-btn');
+  let playTimer = null;
+
+  function atEnd() { return +slider.value >= +slider.max && +slider.max > 0; }
+
+  function syncPlayBtn() {
+    if (!playBtn) return;
+    if (playTimer) {
+      playBtn.innerHTML = '&#9208;';
+      playBtn.setAttribute('aria-label', 'Pause animation');
+    } else if (atEnd()) {
+      playBtn.innerHTML = '&#8635;';
+      playBtn.setAttribute('aria-label', 'Restart animation');
+    } else {
+      playBtn.innerHTML = '&#9654;';
+      playBtn.setAttribute('aria-label', 'Play animation');
+    }
+  }
+
+  function stopPlay() {
+    clearInterval(playTimer);
+    playTimer = null;
+    syncPlayBtn();
+  }
+
+  function playStep() {
+    if (atEnd()) { stopPlay(); return; }
+    slider.value = +slider.value + 1;
     frameIdx = +slider.value;
     if (yearLabel) yearLabel.textContent = years[frameIdx] ?? frameIdx;
+    draw();
+    if (atEnd()) syncPlayBtn();
+  }
+
+  if (playBtn) {
+    playBtn.addEventListener('click', () => {
+      if (playTimer) {
+        stopPlay();
+      } else if (atEnd()) {
+        slider.value = 0;
+        frameIdx = 0;
+        if (yearLabel) yearLabel.textContent = years[0] ?? '';
+        draw();
+        syncPlayBtn();
+      } else {
+        playBtn.innerHTML = '&#9208;';
+        playBtn.setAttribute('aria-label', 'Pause animation');
+        playTimer = setInterval(playStep, 150);
+      }
+    });
+
+    new MutationObserver(() => { playBtn.disabled = slider.disabled; })
+      .observe(slider, { attributes: true, attributeFilter: ['disabled'] });
+  }
+
+  slider.addEventListener('input', () => {
+    pauseAutoRotate();
+    stopPlay();
+    frameIdx = +slider.value;
+    if (yearLabel) yearLabel.textContent = years[frameIdx] ?? frameIdx;
+    syncPlayBtn();
     draw();
   });
 
