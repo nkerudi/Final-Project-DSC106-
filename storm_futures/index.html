@@ -13,21 +13,21 @@
   <main class="page">
 
     <!-- ── HERO ── -->
-    <section class="hero">
+    <section class="hero hero-entering" id="hero">
       <h1>How do human climate choices reshape the storms of our future?</h1>
       <p class="subtitle">
         Explore how tropical storms and hurricanes have evolved in the past to the present, and how they are projected to evolve in the future under different greenhouse gas emissions scenarios. This story uses a variety of data from the Coupled Model Intercomparison Project Phase 6 (CMIP6) ensemble of climate models, which are used by the IPCC to understand past, present, and future climate conditions.
       </p>
     </section>
 
-    <!-- ── CHAPTER NAV ── -->
-    <div class="chapter-nav" id="chapter-nav">
-      <div class="chapter-meta">
-        <span class="chapter-number" id="chapter-number">01 / 03</span>
-        <h2 class="chapter-title" id="chapter-title">Storm Futures</h2>
-        <p class="chapter-desc" id="chapter-desc">Atlantic hurricanes are intensifying. Explore how storm activity has evolved and where it is headed under each emissions scenario.</p>
+    <!-- ── CHAPTER HEADER ── -->
+    <div class="chapter-header" id="chapter-header" hidden>
+      <div class="chapter-header-top">
+        <span class="chapter-number" id="chapter-number"></span>
+        <div class="chapter-dots" id="chapter-dots"></div>
       </div>
-      <div class="chapter-dots" id="chapter-dots"></div>
+      <h2 class="chapter-title" id="chapter-title"></h2>
+      <p class="chapter-desc" id="chapter-desc"></p>
     </div>
 
     <!-- ── FIXED ARROWS ── -->
@@ -37,7 +37,7 @@
     <!-- ════════════════════════════════════════
          CHAPTER 1 — STORM TIMELINE
     ════════════════════════════════════════ -->
-    <div id="panel-storms" class="tab-panel active" role="tabpanel">
+    <div id="panel-storms" class="tab-panel" role="tabpanel">
       <div class="tab-frame">
         <iframe id="storms-iframe" data-src="tabs/storm/index.html"
           style="width:100%;height:500px;border:none;display:block;"
@@ -71,6 +71,7 @@
 
   <script>
     const CHAPTERS = [
+      { id: 'intro' },
       {
         id: 'storms',
         title: 'The Past and Present of Storms',
@@ -90,17 +91,43 @@
 
     let currentChapter = 0;
 
+    function triggerEnter(el, cls) {
+      el.classList.remove(cls);
+      void el.offsetWidth;
+      el.classList.add(cls);
+    }
+
     function gotoChapter(index) {
       currentChapter = Math.max(0, Math.min(CHAPTERS.length - 1, index));
       const chapter = CHAPTERS[currentChapter];
+      const isIntro = chapter.id === 'intro';
+
+      const hero   = document.getElementById('hero');
+      const header = document.getElementById('chapter-header');
+
+      if (isIntro) {
+        hero.hidden = false;
+        triggerEnter(hero, 'hero-entering');
+        header.hidden = true;
+      } else {
+        hero.hidden = true;
+        header.hidden = false;
+        const contentIdx   = currentChapter;
+        const totalContent = CHAPTERS.length - 1;
+        document.getElementById('chapter-number').textContent =
+          String(contentIdx).padStart(2, '0') + ' / ' + String(totalContent).padStart(2, '0');
+        document.getElementById('chapter-title').textContent = chapter.title;
+        document.getElementById('chapter-desc').textContent  = chapter.desc;
+        triggerEnter(header, 'chapter-header-entering');
+      }
 
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      document.getElementById('panel-' + chapter.id).classList.add('active');
-
-      document.getElementById('chapter-number').textContent =
-        String(currentChapter + 1).padStart(2, '0') + ' / ' + String(CHAPTERS.length).padStart(2, '0');
-      document.getElementById('chapter-title').textContent = chapter.title;
-      document.getElementById('chapter-desc').textContent = chapter.desc;
+      if (!isIntro) {
+        const panel  = document.getElementById('panel-' + chapter.id);
+        panel.classList.add('active');
+        const iframe = panel.querySelector('iframe[data-src]');
+        if (iframe) { iframe.src = iframe.dataset.src; iframe.removeAttribute('data-src'); }
+      }
 
       document.querySelectorAll('.chapter-dot').forEach((dot, i) => {
         dot.classList.toggle('active', i === currentChapter);
@@ -109,13 +136,6 @@
 
       document.getElementById('btn-prev').disabled = currentChapter === 0;
       document.getElementById('btn-next').disabled = currentChapter === CHAPTERS.length - 1;
-
-      const panel = document.getElementById('panel-' + chapter.id);
-      const iframe = panel?.querySelector('iframe[data-src]');
-      if (iframe) {
-        iframe.src = iframe.dataset.src;
-        iframe.removeAttribute('data-src');
-      }
     }
 
     // Auto-size iframes to their content height via postMessage
@@ -138,8 +158,9 @@
       CHAPTERS.forEach((ch, i) => {
         const dot = document.createElement('button');
         dot.className = 'chapter-dot' + (i === 0 ? ' active' : '');
-        dot.title = ch.title;
-        dot.setAttribute('aria-label', ch.title);
+        const label = ch.title || 'Introduction';
+        dot.title = label;
+        dot.setAttribute('aria-label', label);
         dot.setAttribute('aria-current', i === 0 ? 'true' : 'false');
         dot.onclick = () => gotoChapter(i);
         container.appendChild(dot);

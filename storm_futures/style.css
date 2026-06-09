@@ -16,7 +16,16 @@ body {
 
 /* ── Hero ────────────────────────────────────────────────────────────────── */
 .hero {
-  margin-bottom: 32px;
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0;
+}
+.hero[hidden] {
+  display: none;
 }
 .eyebrow {
   text-transform: uppercase;
@@ -39,21 +48,15 @@ h1 {
   max-width: 100%;
 }
 
-/* ── Chapter / story navigation ─────────────────────────────────────────── */
-.chapter-nav {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
+/* ── Chapter header ──────────────────────────────────────────────────────── */
+.chapter-header {
   margin-bottom: 24px;
-  padding: 20px 24px;
-  background: white;
-  border-radius: 20px;
-  border: 1px solid #dbe3ee;
-  box-shadow: 0 2px 8px rgba(20, 35, 60, 0.06);
 }
-.chapter-meta {
-  flex: 1;
-  min-width: 0;
+.chapter-header-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
 }
 .chapter-number {
   display: block;
@@ -62,25 +65,24 @@ h1 {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #2b6cb0;
-  margin-bottom: 6px;
 }
-.chapter-nav h2 {
-  margin: 0 0 6px;
-  font-size: 20px;
+.chapter-header h2 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 52px);
   font-weight: 700;
   color: #172033;
+  line-height: 1.1;
 }
-.chapter-nav p {
+.chapter-header p {
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
   color: #526173;
   line-height: 1.55;
 }
 .chapter-dots {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
-  padding-top: 4px;
   flex-shrink: 0;
 }
 .chapter-dot {
@@ -144,12 +146,33 @@ h1 {
   background: white;
 }
 
+/* ── Transition animations ──────────────────────────────────────────────── */
+@keyframes fade-slide-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-entering {
+  animation: fade-slide-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.chapter-header-entering .chapter-header-top {
+  animation: fade-slide-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.chapter-header-entering h2 {
+  animation: fade-slide-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+.chapter-header-entering p {
+  animation: fade-slide-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
 /* ── Tab panels ─────────────────────────────────────────────────────────── */
 .tab-panel {
   display: none;
 }
 .tab-panel.active {
   display: block;
+  animation: fade-slide-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
 }
 
 /* ── Shared viz card ────────────────────────────────────────────────────── */
@@ -348,15 +371,6 @@ h1 {
 
   #sst-chart {
     min-height: 400px;
-  }
-
-  .chapter-nav {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .chapter-dots {
-    flex-direction: row;
   }
 
   .story-arrow {
