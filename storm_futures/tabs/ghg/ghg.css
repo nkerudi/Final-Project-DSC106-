@@ -1,5 +1,7 @@
 /* ── Reset & base ───────────────────────────────────────────────────────── */
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -9,7 +11,9 @@ body {
   padding: 16px 20px 20px;
 }
 
-.ghg-page { width: 100%; }
+.ghg-page {
+  width: 100%;
+}
 
 /* ── Gas toggle buttons ─────────────────────────────────────────────────── */
 /* Matches style.css .gas-btn exactly */
@@ -19,6 +23,7 @@ body {
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
+
 .gas-btn {
   padding: 8px 22px;
   border-radius: 22px;
@@ -31,10 +36,28 @@ body {
   transition: background 0.18s, color 0.18s, border-color 0.18s;
   font-family: inherit;
 }
-.gas-btn:hover       { background: #f1f5f9; }
-.gas-btn.active-co2  { background: #dbeafe; color: #1e40af; border-color: #3b82f6; }
-.gas-btn.active-ch4  { background: #fef3c7; color: #92400e; border-color: #f59e0b; }
-.gas-btn.active-n2o  { background: #d1fae5; color: #065f46; border-color: #10b981; }
+
+.gas-btn:hover {
+  background: #f1f5f9;
+}
+
+.gas-btn.active-co2 {
+  background: #dbeafe;
+  color: #1e40af;
+  border-color: #3b82f6;
+}
+
+.gas-btn.active-ch4 {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #f59e0b;
+}
+
+.gas-btn.active-n2o {
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #10b981;
+}
 
 /* ── Chart layout ───────────────────────────────────────────────────────── */
 .ghg-layout {
@@ -44,7 +67,10 @@ body {
   align-items: start;
   margin-bottom: 16px;
 }
-.ghg-chart-wrap { position: relative; }
+
+.ghg-chart-wrap {
+  position: relative;
+}
 
 #ghg-chart {
   width: 100%;
@@ -52,10 +78,26 @@ body {
   display: block;
   overflow: visible;
 }
-#ghg-chart .domain        { stroke: #cbd5e1; }
-#ghg-chart .tick line     { stroke: #e1e8f0; }
-#ghg-chart .tick text     { fill: #64748b; font-size: 11px; font-family: Arial, sans-serif; }
-#ghg-chart .axis-label    { fill: #526173; font-size: 12px; font-family: Arial, sans-serif; }
+
+#ghg-chart .domain {
+  stroke: #cbd5e1;
+}
+
+#ghg-chart .tick line {
+  stroke: #e1e8f0;
+}
+
+#ghg-chart .tick text {
+  fill: #64748b;
+  font-size: 11px;
+  font-family: Arial, sans-serif;
+}
+
+#ghg-chart .axis-label {
+  fill: #526173;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+}
 
 /* ── Molecule badge ─────────────────────────────────────────────────────── */
 .molecule-badge {
@@ -80,6 +122,7 @@ body {
   gap: 14px;
   box-shadow: 0 2px 8px rgba(20, 35, 60, 0.06);
 }
+
 .ghg-info-panel .gas-label {
   font-size: 10px;
   font-weight: 700;
@@ -88,6 +131,7 @@ body {
   color: #526173;
   margin-bottom: 2px;
 }
+
 .ghg-info-panel h3 {
   margin: 0 0 4px;
   font-size: 18px;
@@ -95,9 +139,11 @@ body {
   color: #172033;
   line-height: 1.2;
 }
+
 .info-fact {
   padding: 0;
 }
+
 .info-fact-label {
   font-size: 10px;
   font-weight: 700;
@@ -106,9 +152,19 @@ body {
   color: #526173;
   margin-bottom: 4px;
 }
-.info-fact.co2 .info-fact-label { color: #2563eb; }
-.info-fact.ch4 .info-fact-label { color: #d97706; }
-.info-fact.n2o .info-fact-label { color: #059669; }
+
+.info-fact.co2 .info-fact-label {
+  color: #2563eb;
+}
+
+.info-fact.ch4 .info-fact-label {
+  color: #d97706;
+}
+
+.info-fact.n2o .info-fact-label {
+  color: #059669;
+}
+
 .info-fact p {
   margin: 0;
   font-size: 13px;
@@ -125,6 +181,7 @@ body {
   border-top: 1px solid #e1e8f0;
   margin-bottom: 24px;
 }
+
 .legend-item {
   display: flex;
   align-items: center;
@@ -132,6 +189,7 @@ body {
   font-size: 12px;
   color: #526173;
 }
+
 .legend-swatch {
   width: 24px;
   height: 0;
@@ -146,6 +204,7 @@ body {
   padding-top: 24px;
   border-top: 1px solid #e1e8f0;
 }
+
 .ssp-explainer h4 {
   font-size: 14px;
   font-weight: 700;
@@ -154,18 +213,21 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
-.ssp-explainer > p {
+
+.ssp-explainer>p {
   font-size: 13.5px;
   color: #526173;
   line-height: 1.65;
   max-width: 860px;
   margin: 0 0 20px;
 }
+
 .ssp-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 12px;
 }
+
 .ssp-item {
   display: flex;
   align-items: flex-start;
@@ -175,6 +237,7 @@ body {
   border-radius: 12px;
   padding: 12px 14px;
 }
+
 .ssp-dot {
   width: 12px;
   height: 12px;
@@ -182,12 +245,14 @@ body {
   flex-shrink: 0;
   margin-top: 4px;
 }
+
 .ssp-item strong {
   display: block;
   font-size: 13px;
   color: #172033;
   margin-bottom: 3px;
 }
+
 .ssp-item span {
   font-size: 12px;
   color: #64748b;
@@ -200,6 +265,7 @@ body {
   padding-top: 24px;
   border-top: 1px solid #e1e8f0;
 }
+
 .data-sources h4 {
   font-size: 14px;
   font-weight: 700;
@@ -208,6 +274,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
+
 .data-sources ul {
   list-style: none;
   padding: 0;
@@ -216,6 +283,7 @@ body {
   flex-direction: column;
   gap: 12px;
 }
+
 .data-sources li {
   background: #f8fafc;
   border: 1px solid #e1e8f0;
@@ -225,17 +293,23 @@ body {
   color: #526173;
   line-height: 1.65;
 }
+
 .data-sources li strong {
   display: block;
   font-size: 13px;
   color: #172033;
   margin-bottom: 4px;
 }
+
 .data-sources a {
   color: #2b6cb0;
   text-decoration: none;
 }
-.data-sources a:hover { text-decoration: underline; }
+
+.data-sources a:hover {
+  text-decoration: underline;
+}
+
 .data-sources code {
   background: #e1e8f0;
   border-radius: 4px;
@@ -254,7 +328,11 @@ a.cite {
   vertical-align: super;
   margin-left: 2px;
 }
-a.cite:hover { color: #1e40af; text-decoration: underline; }
+
+a.cite:hover {
+  color: #1e40af;
+  text-decoration: underline;
+}
 
 /* ── Tooltip — matches style.css .tooltip ───────────────────────────────── */
 .tooltip {
@@ -274,8 +352,20 @@ a.cite:hover { color: #1e40af; text-decoration: underline; }
 
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .ghg-layout { grid-template-columns: 1fr; }
-  #ghg-chart  { height: 300px; }
-  .molecule-badge { width: 28px; height: 28px; }
-  .ssp-grid { grid-template-columns: 1fr; }
+  .ghg-layout {
+    grid-template-columns: 1fr;
+  }
+
+  #ghg-chart {
+    height: 300px;
+  }
+
+  .molecule-badge {
+    width: 28px;
+    height: 28px;
+  }
+
+  .ssp-grid {
+    grid-template-columns: 1fr;
+  }
 }

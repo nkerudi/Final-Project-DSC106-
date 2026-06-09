@@ -3,11 +3,11 @@
   const LAND_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json';
 
   const VAR_CONFIGS = {
-    ts:         { label: 'Atmospheric Temperature Anomaly', maxAbs: 10,  unit: '°C anomaly',     sequential: false },
-    tos:        { label: 'Sea Surface Temperature Anomaly', maxAbs: 10,  unit: '°C anomaly',     sequential: false },
-    zos:        { label: 'Sea Level Anomaly',               maxAbs:  1,  unit: 'm anomaly',      sequential: false },
-    storm_risk: { label: 'Storm Risk (SST > 27 °C)',        maxAbs:  1,  unit: 'fraction at risk', sequential: true },
-    tchp:       { label: 'TC Heat Potential Proxy',          maxAbs: 100, unit: 'kJ/cm²',         sequential: true  },
+    ts: { label: 'Atmospheric Temperature Anomaly', maxAbs: 10, unit: '°C anomaly', sequential: false },
+    tos: { label: 'Sea Surface Temperature Anomaly', maxAbs: 10, unit: '°C anomaly', sequential: false },
+    zos: { label: 'Sea Level Anomaly', maxAbs: 1, unit: 'm anomaly', sequential: false },
+    storm_risk: { label: 'Storm Risk (SST > 27 °C)', maxAbs: 1, unit: 'fraction at risk', sequential: true },
+    tchp: { label: 'TC Heat Potential Proxy', maxAbs: 100, unit: 'kJ/cm²', sequential: true },
   };
 
   const SSP_LABELS = {
@@ -15,21 +15,21 @@
     ssp370: 'SSP3-7.0', ssp585: 'SSP5-8.5',
   };
 
-  const canvas    = document.getElementById('globe-canvas');
-  const slider    = document.getElementById('globe-year-slider');
+  const canvas = document.getElementById('globe-canvas');
+  const slider = document.getElementById('globe-year-slider');
   const yearLabel = document.getElementById('globe-year-label');
-  const statusEl  = document.getElementById('globe-status');
+  const statusEl = document.getElementById('globe-status');
   const varSelect = document.getElementById('globe-var-select');
   const sspSelect = document.getElementById('globe-ssp-select');
   if (!canvas) return;
 
   // ── Canvas sizing ──────────────────────────────────────────────────────────
-  const dpr  = window.devicePixelRatio || 1;
+  const dpr = window.devicePixelRatio || 1;
   // parentElement.clientWidth is 0 when hidden; fall back to 440 so canvas is pre-sized correctly
   const SIZE = Math.max(280, Math.min(440, (canvas.parentElement.clientWidth || 440) - 32));
-  canvas.width  = SIZE * dpr;
+  canvas.width = SIZE * dpr;
   canvas.height = SIZE * dpr;
-  canvas.style.width  = SIZE + 'px';
+  canvas.style.width = SIZE + 'px';
   canvas.style.height = SIZE + 'px';
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
@@ -42,15 +42,15 @@
     .clipAngle(90)
     .rotate([0, -20]);
 
-  const pathGen   = d3.geoPath(projection, ctx);
+  const pathGen = d3.geoPath(projection, ctx);
   const graticule = d3.geoGraticule()();
-  const sphere    = { type: 'Sphere' };
+  const sphere = { type: 'Sphere' };
 
   // ── State ─────────────────────────────────────────────────────────────────
-  let climate   = null;
-  let land      = null;
-  let years     = [];
-  let frameIdx  = 0;
+  let climate = null;
+  let land = null;
+  let years = [];
+  let frameIdx = 0;
   let activeVar = document.querySelector('.var-btn.active')?.dataset.var ?? 'ts';
   let activeSsp = 'ssp585';
   let colorScale = buildColorScale(activeVar);
@@ -58,6 +58,7 @@
   window.setGlobeVariable = (varKey) => {
     if (!VAR_CONFIGS[varKey]) return;
     activeVar = varKey;
+    frameIdx = 0;
     loadData();
   };
 
@@ -88,7 +89,7 @@
     ctx.fillStyle = '#dbeafe'; ctx.fill();
 
     if (climate) {
-      const frame    = climate.frames[frameIdx];
+      const frame = climate.frames[frameIdx];
       const [rl, rp] = projection.rotate();
       const cLon = -rl, cLat = -rp;
       const cellPx = Math.max(1.5, radius * (360 / climate.nLon) * Math.PI / 180) * 1.05;
@@ -110,6 +111,7 @@
         ctx.fillStyle = colorScale(v);
         ctx.fillRect(p[0] - cellPx / 2, p[1] - cellPx / 2, cellPx, cellPx);
       }
+    
     }
 
     ctx.beginPath(); pathGen(graticule);
@@ -118,6 +120,8 @@
 
     if (land) {
       ctx.beginPath(); pathGen(land);
+      ctx.fillStyle = '#8db87a';
+      ctx.fill();
       ctx.strokeStyle = '#1e293b';
       ctx.lineWidth = 0.6; ctx.stroke();
     }
@@ -165,7 +169,7 @@
       .attr('viewBox', `0 0 ${totalW} ${totalH}`)
       .attr('preserveAspectRatio', 'xMidYMid meet');
 
-    const svg  = d3.select(svgEl);
+    const svg = d3.select(svgEl);
     const defs = svg.append('defs');
     const grad = defs.append('linearGradient').attr('id', 'globe-grad')
       .attr('x1', '0%').attr('x2', '100%');
@@ -208,7 +212,7 @@
 
     const fmt = v => {
       if (maxAbs >= 10) return v.toFixed(0);
-      if (maxAbs >= 1)  return v.toFixed(1);
+      if (maxAbs >= 1) return v.toFixed(1);
       return v.toFixed(2);
     };
 
@@ -259,13 +263,13 @@
     }
 
     promise.then(cd => {
-      climate  = cd;
-      years    = cd.years || [];
+      climate = cd;
+      years = cd.years || [];
       frameIdx = Math.min(frameIdx, cd.frames.length - 1);
       slider.min = 0; slider.max = cd.frames.length - 1;
       slider.value = frameIdx; slider.disabled = false;
       if (yearLabel) yearLabel.textContent = years[frameIdx] ?? '';
-      if (statusEl)  statusEl.textContent  = '';
+      if (statusEl) statusEl.textContent = '';
       colorScale = buildColorScale(activeVar);
       drawLegend();
       updateSubtitle();
@@ -305,13 +309,13 @@
   function spinToBasin(targetLon, targetLat) {
     if (spinTimer) { cancelAnimationFrame(spinTimer); spinTimer = null; }
     const startRot = projection.rotate().slice();
-    let deltaLon   = -targetLon - startRot[0];
-    while (deltaLon >  180) deltaLon -= 360;
+    let deltaLon = -targetLon - startRot[0];
+    while (deltaLon > 180) deltaLon -= 360;
     while (deltaLon < -180) deltaLon += 360;
-    const endRot   = [startRot[0] + deltaLon, -targetLat];
+    const endRot = [startRot[0] + deltaLon, -targetLat];
     const rotateFn = d3.interpolate(startRot, endRot);
     const duration = 900;
-    const t0       = performance.now();
+    const t0 = performance.now();
 
     function step(now) {
       const t = Math.min((now - t0) / duration, 1);
@@ -334,7 +338,7 @@
   document.addEventListener('globe:show', () => {
     const newVar = document.querySelector('.var-btn.active')?.dataset.var ?? activeVar;
     if (newVar !== activeVar) {
-      activeVar  = newVar;
+      activeVar = newVar;
       colorScale = buildColorScale(activeVar);
       loadData();
     } else {
