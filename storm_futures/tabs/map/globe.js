@@ -51,9 +51,9 @@
   let land      = null;
   let years     = [];
   let frameIdx  = 0;
-  let activeVar = 'ts';
+  let activeVar = document.querySelector('.var-btn.active')?.dataset.var ?? 'ts';
   let activeSsp = 'ssp585';
-  let colorScale = buildColorScale('ts');
+  let colorScale = buildColorScale(activeVar);
 
   window.setGlobeVariable = (varKey) => {
     if (!VAR_CONFIGS[varKey]) return;
@@ -331,5 +331,15 @@
     });
   });
 
-  document.addEventListener('globe:show', () => { draw(); drawLegend(); });
+  document.addEventListener('globe:show', () => {
+    const newVar = document.querySelector('.var-btn.active')?.dataset.var ?? activeVar;
+    if (newVar !== activeVar) {
+      activeVar  = newVar;
+      colorScale = buildColorScale(activeVar);
+      loadData();
+    } else {
+      draw();
+      drawLegend();
+    }
+  });
 })();
