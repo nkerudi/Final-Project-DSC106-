@@ -181,6 +181,9 @@ body {
   color: #526173;
   margin: 0;
 }
+.writeup-card p + p {
+  margin-top: 14px;
+}
 
 /* ── Responsive: stack on narrow screens ─────────────────────────────────── */
 @media (max-width: 900px) {
