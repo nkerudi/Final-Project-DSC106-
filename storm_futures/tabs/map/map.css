@@ -176,6 +176,8 @@ body {
   position: relative;
   min-height: 100%;
   box-shadow: 0 1px 4px rgba(20,35,60,0.04);
+  display: flex;   
+  flex-direction: column;   
 }
 
 .map-grid > article h2 {
@@ -191,6 +193,7 @@ body {
   font-size: 0.75rem;
   margin: 0 0 8px;
   line-height: 1.45;
+  flex: 1; 
 }
 
 .canvas-wrap {
