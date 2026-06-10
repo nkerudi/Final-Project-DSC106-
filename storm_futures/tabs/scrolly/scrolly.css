@@ -42,3 +42,17 @@ body {
 .writeup-card p + p {
   margin-top: 14px;
 }
+
+/* ── Inline chart links ───────────────────────────────────────────────────── */
+.nav-link {
+  color: #2b6cb0;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.nav-link:hover {
+  color: #1e40af;
+  text-decoration-style: solid;
+}
