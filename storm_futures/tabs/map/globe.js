@@ -97,8 +97,8 @@
       const cellPx = Math.max(1.5, radius * (360 / climate.nLon) * Math.PI / 180) * 1.05;
 
       for (let i = 0; i < frame.length; i++) {
-        const v = frame[i];
-        if (v == null || !Number.isFinite(v)) continue;
+        const v = frame[i] ?? 0;
+        if (!Number.isFinite(v)) continue;
         const { lat, lon } = latLonForIndex(climate, i);
         if (lat == null) continue;
 
@@ -133,23 +133,26 @@
     ctx.lineWidth = 1; ctx.stroke();
   }
 
-  // ── Continuous auto-rotate (no drag interaction) ─────────────────────────
-  canvas.style.cursor = 'default';
-
-  let autoRotLast = null;
-  let isSpinningToBasin = false;
-
-  function autoRotFrame(now) {
-    if (!isSpinningToBasin) {
-      const dt = autoRotLast !== null ? now - autoRotLast : 0;
-      const [rx, ry] = projection.rotate();
-      projection.rotate([rx + dt * 0.008, ry]);
-      draw();
-    }
-    autoRotLast = now;
-    requestAnimationFrame(autoRotFrame);
-  }
-  requestAnimationFrame(autoRotFrame);
+  // ── Drag to rotate ────────────────────────────────────────────────────────
+  canvas.style.cursor = 'grab';
+  let rotStart = null, dragOrigin = null;
+  d3.select(canvas).call(
+    d3.drag()
+      .on('start', e => {
+        rotStart = projection.rotate().slice();
+        dragOrigin = [e.x, e.y];
+        canvas.style.cursor = 'grabbing';
+      })
+      .on('drag', e => {
+        const dx = e.x - dragOrigin[0], dy = e.y - dragOrigin[1];
+        projection.rotate([
+          rotStart[0] + dx * 0.4,
+          Math.max(-90, Math.min(90, rotStart[1] - dy * 0.4)),
+        ]);
+        draw();
+      })
+      .on('end', () => { canvas.style.cursor = 'grab'; })
+  );
 
   // ── Legend ────────────────────────────────────────────────────────────────
   function drawLegend() {
@@ -335,18 +338,12 @@
     const endRot = [startRot[0] + deltaLon, -targetLat];
     const rotateFn = d3.interpolate(startRot, endRot);
     const t0 = performance.now();
-    isSpinningToBasin = true;
 
     function step(now) {
       const t = Math.min((now - t0) / 900, 1);
       projection.rotate(rotateFn(d3.easeCubicInOut(t)));
       draw();
-      if (t < 1) {
-        requestAnimationFrame(step);
-      } else {
-        isSpinningToBasin = false;
-        autoRotLast = null;
-      }
+      if (t < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   }

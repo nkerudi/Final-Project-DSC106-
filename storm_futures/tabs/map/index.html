@@ -162,18 +162,12 @@
     <div id="globe-view" style="display:none;">
       <section class="globe-demo">
 
-        <!-- Single control row -->
-        <div class="globe-controls">
+        <!-- Slider + year labels + view toggle -->
+        <div class="slider-with-labels">
           <button class="play-btn" id="globe-play-btn" aria-label="Play animation" disabled>&#9654;</button>
           <span class="year-label">2015</span>
           <input id="globe-year-slider" type="range" min="0" max="0" step="1" value="0" disabled />
           <span class="year-label" id="globe-year-label">2015</span>
-          <div class="globe-ssp-pills">
-            <button class="globe-ssp-btn" data-ssp="ssp126">1-2.6</button>
-            <button class="globe-ssp-btn" data-ssp="ssp245">2-4.5</button>
-            <button class="globe-ssp-btn" data-ssp="ssp370">3-7.0</button>
-            <button class="globe-ssp-btn active" data-ssp="ssp585">5-8.5</button>
-          </div>
           <div class="view-toggle-group" role="group" aria-label="View mode">
             <button class="view-toggle-btn" data-view="map" title="Map view" aria-label="Map view">
               <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -193,10 +187,32 @@
           </div>
         </div>
 
+        <!-- SSP scenario selection -->
+        <div class="map-basin-bar">
+          <span class="map-basin-label">Scenario:</span>
+          <div class="globe-ssp-pills">
+            <button class="globe-ssp-btn" data-ssp="ssp126">SSP 1-2.6</button>
+            <button class="globe-ssp-btn" data-ssp="ssp245">SSP 2-4.5</button>
+            <button class="globe-ssp-btn" data-ssp="ssp370">SSP 3-7.0</button>
+            <button class="globe-ssp-btn active" data-ssp="ssp585">SSP 5-8.5</button>
+          </div>
+        </div>
+
+        <!-- Basin focus -->
+        <div class="map-basin-bar">
+          <span class="map-basin-label">Focus:</span>
+          <div class="map-basin-btns">
+            <button class="globe-basin-btn map-basin-btn active" data-lon="0" data-lat="20">World</button>
+            <button class="globe-basin-btn map-basin-btn" data-lon="-60" data-lat="25">N. Atlantic</button>
+            <button class="globe-basin-btn map-basin-btn" data-lon="135" data-lat="20">NW Pacific</button>
+            <button class="globe-basin-btn map-basin-btn" data-lon="75" data-lat="15">N. Indian</button>
+          </div>
+        </div>
+
         <!-- Globe canvas — centered -->
         <div class="globe-canvas-center">
           <div class="globe-canvas-wrap">
-            <canvas id="globe-canvas" style="cursor:default;display:block;border-radius:50%;"></canvas>
+            <canvas id="globe-canvas" style="cursor:grab;display:block;border-radius:50%;"></canvas>
             <span id="globe-status" class="globe-status"></span>
           </div>
         </div>

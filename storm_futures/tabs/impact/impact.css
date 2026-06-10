@@ -1,8 +1,12 @@
 html, body {
-  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
   background: #eef2f7;
   color: #333;
+  margin: 0;
+}
+
+body {
+  padding: 20px 24px;
 }
 
 
@@ -68,13 +72,17 @@ html, body {
   display: grid;
   grid-template-columns: 1.35fr 1fr;
   gap: 16px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .right-col {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.right-col .card:last-child {
+  flex: 1;
 }
 
 .card {

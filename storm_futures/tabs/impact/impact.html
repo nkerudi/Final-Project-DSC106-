@@ -9,34 +9,7 @@
 </head>
 <body>
 
-  <div class="tip" id="tooltip"></div>
-
-  <div class="slide">
-
-    
-    <div class="slide-meta">
-      <div class="progress-dots">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot active"></div>
-      </div>
-      <div class="slide-counter">05 / 05</div>
-    </div>
-
-    <h1 class="slide-heading">
-      Behind Every Storm: The Human Cost of Our Climate Choices
-    </h1>
-
-    <p class="slide-intro">
-      The projections above describe a physical future like  warmer oceans and more intense storms.
-      But what do they mean for people? Since 1980, tropical cyclones have caused more economic
-      damage than any other U.S. weather disaster. The emissions path we choose today sets the
-      scale of that toll for the rest of this century.
-    </p>
-
-   
+  <div class="tip" id="tooltip"></div>   
     <div class="content-grid">
 
      
@@ -90,20 +63,16 @@
           <div id="worst-years"></div>
         </div>
 
-        <div class="card callout">
-          <p>
-            <strong>Costs are accelerating.</strong> The five most expensive tropical cyclone
-            years on record have all occurred since 2004. As we've seen through earlier visualizations, ocean temperatures are warming causing 
-            an extended hurricane season and intensified peak storms. The damage curve steepens, 
-            making the emissions choices explored in this project directly legible
-            in dollar terms and in lives.
-          </p>
-        </div>
-
       </div>
-    </div>
   </div>
 
   <script src="impact.js"></script>
+  <script>
+    const _sendH = () => window.parent.postMessage(
+      { type: 'iframeResize', height: document.documentElement.scrollHeight }, '*'
+    );
+    new ResizeObserver(_sendH).observe(document.documentElement);
+    window.addEventListener('load', _sendH);
+  </script>
 </body>
 </html>

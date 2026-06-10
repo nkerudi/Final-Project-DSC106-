@@ -9,7 +9,7 @@ body {
 .page {
   width: min(1400px, 95vw);
   margin: 0 auto;
-  padding: 48px 0 48px;
+  padding: 20px 20px;
 }
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */

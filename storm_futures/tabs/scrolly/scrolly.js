@@ -48,7 +48,7 @@
   function autoRotateStep() {
     if (!autoRotating) return;
     const r = projection.rotate();
-    projection.rotate([r[0] + 0.12, r[1]]);
+    projection.rotate([r[0] + 0.25, r[1]]);
     draw();
     autoRafId = requestAnimationFrame(autoRotateStep);
   }
@@ -86,8 +86,8 @@
       const cellPx = Math.max(1.5, radius * (360 / climate.nLon) * Math.PI / 180) * 1.05;
 
       for (let i = 0; i < frame.length; i++) {
-        const v = frame[i];
-        if (v == null || !Number.isFinite(v) || v <= 0) continue;
+        const v = frame[i] ?? 0;
+        if (!Number.isFinite(v) || v < 0) continue;
         const { lat, lon } = latLonForIndex(climate, i);
         if (lat == null) continue;
 
@@ -110,6 +110,8 @@
 
     if (land) {
       ctx.beginPath(); pathGen(land);
+      ctx.fillStyle = '#8db87a';
+      ctx.fill();
       ctx.strokeStyle = '#1e293b';
       ctx.lineWidth = 0.6; ctx.stroke();
     }
