@@ -97,7 +97,7 @@ function drawChart(data, view) {
 
   const W = svgEl.getBoundingClientRect().width || 500;
   const H = Math.max(240, W * 0.48);
-  const margin = { top: 12, right: view === "both" ? 58 : 14, bottom: 40, left: 56 };
+  const margin = { top: 12, right: 14, bottom: 40, left: 56 };
   const iW = W - margin.left - margin.right;
   const iH = H - margin.top  - margin.bottom;
 
@@ -115,11 +115,7 @@ function drawChart(data, view) {
   const maxAllCost = d3.max(data, d => d.all_cost);
 
   const yTC = d3.scaleLinear()
-    .domain([0, view === "both" ? maxTCcost  * 1.1 : Math.max(maxTCcost, maxAllCost) * 1.1])
-    .range([iH, 0]).nice();
-
-  const yAll = d3.scaleLinear()
-    .domain([0, maxAllCost * 1.12])
+    .domain([0, Math.max(maxTCcost, maxAllCost) * 1.12])
     .range([iH, 0]).nice();
 
   g.append("g")
@@ -172,7 +168,7 @@ function drawChart(data, view) {
   }
 
   if (view !== "tc") {
-    const yScale = view === "both" ? yAll : yTC;
+    const yScale = yTC;
 
     const line = d3.line()
       .x(d => x(d.year))
@@ -221,17 +217,8 @@ function drawChart(data, view) {
     .call(d3.axisLeft(yTC).ticks(5).tickFormat(d => `$${d}B`))
     .call(gg => gg.select(".domain").attr("stroke", "#dce6f0"));
 
-  if (view === "both") {
-    g.append("g").attr("class", "axis")
-      .attr("transform", `translate(${iW},0)`)
-      .call(d3.axisRight(yAll).ticks(5).tickFormat(d => `$${d}B`))
-      .call(gg => {
-        gg.select(".domain").attr("stroke", "#dce6f0");
-        gg.selectAll("text").attr("fill", "#c0392b");
-      });
-  }
 
-  const legendEl = document.getElementById("legend");
+const legendEl = document.getElementById("legend");
   legendEl.innerHTML = "";
 
   if (view !== "all") {
@@ -249,7 +236,7 @@ function drawChart(data, view) {
     legendEl.innerHTML += `
       <div class="legend-item">
         <div class="legend-line" style="background:#c0392b;"></div>
-        <span>All disasters ($B)${view === "both" ? " — right axis" : ""}</span>
+        <span>All disasters ($B)</span>
       </div>`;
   }
 }
