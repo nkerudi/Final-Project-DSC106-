@@ -12,20 +12,20 @@
 
     <div class="writeup-card">
       <h2>We Are Already Past the Tipping Point</h2>
-      <p>The storm record tells a clear story. Since the 1970s, the average tropical storm force diameter has grown 42%, from 105.7 to 150.0 nautical miles. The most powerful storms on record — Sam in 2021, Milton in 2024, Wilma in 2005 — all belong to the last two decades. 2024 recorded the highest average wind speeds of any year in the dataset.</p>
-      <p>The atmospheric record explains why. CO₂ has risen from roughly 284 ppm in 1850 to over 415 ppm today, a concentration the Earth has not seen in over 3 million years according to the Environmental Protection Agency. Methane has more than doubled since the industrial revolution. Every emissions scenario, including the most optimistic, projects that nitrous oxide will continue rising through 2100. The gases that warm the oceans and fuel storms are already in the atmosphere. The tipping point is not approaching; it is behind us.</p>
+      <p>The storm record tells a clear story. Since the 1970s, the average tropical storm force diameter has grown <strong>42%</strong>, from <strong>105.7 to 150.0 nautical miles</strong>. The most powerful storms on record — <a class="nav-link" href="#" data-chapter="1">Sam in 2021, Milton in 2024, and Wilma in 2005</a> — all belong to the last two decades. <a class="nav-link" href="#" data-chapter="1">2024 recorded the highest average wind speeds of any year in the dataset.</a></p>
+      <p>The atmospheric record explains why. <a class="nav-link" href="#" data-chapter="2">CO₂ has risen from roughly <strong>284 ppm in 1850 to over 415 ppm today</strong></a>, a concentration the Earth has not seen in over <strong>3 million years</strong> according to the Environmental Protection Agency. <a class="nav-link" href="#" data-chapter="2">Methane has more than doubled since the industrial revolution.</a> Every emissions scenario, including the most optimistic, projects that nitrous oxide will continue rising through 2100. The gases that warm the oceans and fuel storms are already in the atmosphere. The tipping point is not approaching; it is behind us.</p>
     </div>
 
     <div class="writeup-card">
       <h2>There Is Still a Choice</h2>
-      <p>What the emissions scenarios reveal is not a single inevitable future but rather a spectrum of outcomes separated by human decisions. Under SSP1-2.6, strong climate policy holds warming to 1–2°C by 2100 and CO₂ peaks before slowly declining. Under SSP5-8.5, unchecked fossil fuel expansion pushes CO₂ past 1,000 ppm and methane nearly triples from today's levels. The gap between these two paths is the difference between a warming ocean and an overheating one.</p>
-      <p>Tropical Cyclone Heat Potential, the measure of ocean heat energy available to sustain and intensify storms, tracks directly with sea surface temperature and sea level rise. Under low emissions, that energy grows modestly. Under high emissions, it expands across the entire Atlantic hurricane region. The storms of 2050 and 2100 will be shaped by policy decisions made in the next decade and our collective conservation efforts.</p>
+      <p>What the emissions scenarios reveal is not a single inevitable future but rather a spectrum of outcomes separated by human decisions. Under <strong>SSP1-2.6</strong>, strong climate policy holds warming to <strong>1–2°C by 2100</strong> and CO₂ peaks before slowly declining. Under <strong>SSP5-8.5</strong>, unchecked fossil fuel expansion pushes <a class="nav-link" href="#" data-chapter="2">CO₂ past <strong>1,000 ppm</strong></a> and <a class="nav-link" href="#" data-chapter="2">methane nearly triples</a> from today's levels. The gap between these two paths is the difference between a warming ocean and an overheating one.</p>
+      <p>Tropical Cyclone Heat Potential, the measure of ocean heat energy available to sustain and intensify storms, tracks directly with sea surface temperature and sea level rise. Under low emissions, that energy grows modestly. Under high emissions, <a class="nav-link" href="#" data-chapter="3">it expands across the entire Atlantic hurricane region.</a> The storms of 2050 and 2100 will be shaped by policy decisions made in the next decade and our collective conservation efforts.</p>
     </div>
 
     <div class="writeup-card">
       <h2>What This Means for Us</h2>
-      <p>These numbers transform into real catastrophes experienced by humans. A storm with a 400 nautical mile tropical force diameter threatens an entire region it will land on. When peak wind speeds climb toward 160 knots and central pressure drops below 900 millibars, the storm becomes exponentially more destructive. Storm surge deepens, rainfall intensifies, and the window to evacuate narrows. The people in the path of these storms — coastal communities, port cities, islands — face threats that scale directly with every degree of ocean warming and every additional year of unchecked emissions.</p>
-      <p>The trends in our storm data are already pointing upward: tropical storm force diameters have nearly doubled since the 1970s. The most intense storms on record are appearing in the most recent decades. Under high emissions scenarios, the ocean heat energy that feeds these storms expands dramatically across the Atlantic and Pacific. The communities that will bear the cost of that expansion are not the ones responsible for most of the emissions driving it. The human stakes of the choice between SSP1-2.6 and SSP5-8.5 represent not just degrees of warming, but the scale of destruction visited on millions of people who had little say in the decisions that caused it.</p>
+      <p>These numbers transform into real catastrophes experienced by humans. A storm with a <a class="nav-link" href="#" data-chapter="1"><strong>400 nautical mile tropical force diameter</strong></a> threatens an entire region it will land on. When peak wind speeds climb toward <strong>160 knots</strong> and central pressure drops below <strong>900 millibars</strong>, the storm becomes exponentially more destructive. Storm surge deepens, rainfall intensifies, and the window to evacuate narrows. The people in the path of these storms — coastal communities, port cities, islands — face threats that scale directly with every degree of ocean warming and every additional year of unchecked emissions.</p>
+      <p>The trends in our storm data are already pointing upward: <a class="nav-link" href="#" data-chapter="1">tropical storm force diameters have <strong>nearly doubled</strong> since the 1970s.</a> The most intense storms on record are appearing in the most recent decades. Under high emissions scenarios, <a class="nav-link" href="#" data-chapter="3">the ocean heat energy that feeds these storms expands dramatically across the Atlantic and Pacific.</a> The communities that will bear the cost of that expansion are not the ones responsible for most of the emissions driving it. The human stakes of the choice between <strong>SSP1-2.6</strong> and <strong>SSP5-8.5</strong> represent not just degrees of warming, but the scale of destruction visited on millions of people who had little say in the decisions that caused it.</p>
     </div>
 
   </div>
@@ -37,6 +37,13 @@
     );
     new ResizeObserver(_sendH).observe(document.documentElement);
     window.addEventListener('load', _sendH);
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        window.parent.gotoChapter?.(+link.dataset.chapter);
+      });
+    });
   </script>
 </body>
 </html>
