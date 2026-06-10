@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Human Impact – Storm Futures</title>
+  <link rel="stylesheet" href="impact.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+</head>
+<body>
+
+  <div class="tip" id="tooltip"></div>
+
+  <div class="slide">
+
+    
+    <div class="slide-meta">
+      <div class="progress-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot active"></div>
+      </div>
+      <div class="slide-counter">05 / 05</div>
+    </div>
+
+    <h1 class="slide-heading">
+      Behind Every Storm: The Human Cost of Our Climate Choices
+    </h1>
+
+    <p class="slide-intro">
+      The projections above describe a physical future like  warmer oceans and more intense storms.
+      But what do they mean for people? Since 1980, tropical cyclones have caused more economic
+      damage than any other U.S. weather disaster. The emissions path we choose today sets the
+      scale of that toll for the rest of this century.
+    </p>
+
+   
+    <div class="content-grid">
+
+     
+      <div class="card">
+        <div class="card-title">U.S. Tropical Cyclone Damage, 1980–2024</div>
+        <div class="card-subtitle">
+          CPI-adjusted cost in $billions per year (bars) with 95% uncertainty band (shaded).
+          All-disasters total shown as a reference line.
+        </div>
+
+   
+        <div class="pill-row" id="view-toggle">
+          <button class="pill active" data-view="tc">Tropical Cyclones</button>
+          <button class="pill" data-view="all">All Disasters</button>
+          <button class="pill" data-view="both">Compare</button>
+        </div>
+
+        <svg id="chart-svg"></svg>
+
+        <div class="legend" id="legend"></div>
+
+        <p class="source-note">
+          Source: NOAA Billion-Dollar Weather &amp; Climate Disasters, time-series-US-cost-1980-2024.csv
+        </p>
+      </div>
+
+      <div class="right-col">
+
+        <div class="card">
+          <div class="card-title">By the numbers</div>
+          <div class="card-subtitle">Tropical cyclones vs. all U.S. billion-dollar disasters, 1980–2024</div>
+          <div class="stat-row">
+            <div class="stat-card">
+              <div class="stat-number red" id="stat-tc-cost">—</div>
+              <div class="stat-label">total tropical cyclone damage since 1980 (CPI-adjusted)</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number blue" id="stat-tc-count">—</div>
+              <div class="stat-label">billion-dollar tropical cyclone events recorded</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number gold" id="stat-pct">—</div>
+              <div class="stat-label">of all billion-dollar disaster costs since 1980</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Costliest tropical cyclone years</div>
+          <div class="card-subtitle">Ranked by CPI-adjusted damage ($B)</div>
+          <div id="worst-years"></div>
+        </div>
+
+        <div class="card callout">
+          <p>
+            <strong>Costs are accelerating.</strong> The five most expensive tropical cyclone
+            years on record have all occurred since 2004. As we've seen through earlier visualizations, ocean temperatures are warming causing 
+            an extended hurricane season and intensified peak storms. The damage curve steepens, 
+            making the emissions choices explored in this project directly legible
+            in dollar terms and in lives.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="impact.js"></script>
+</body>
+</html>
