@@ -888,7 +888,6 @@ async function initMap() {
       if (!canvas) continue;
       const ctx = canvas.getContext('2d');
       if (!ctx) continue;
-      delete canvas.dataset.status;
       resizeCanvasToDisplaySize(canvas);
 
       // Toggle CSS class so zoomed state gets smooth interpolation
@@ -918,6 +917,13 @@ async function initMap() {
       } else {
         renderMapFrame(data, frameIndex, canvasId, maxAbsAnomaly, renderGeo);
       }
+    }
+
+    // Remove loading state from all canvases only after every canvas is drawn,
+    // so the browser never paints a partial state.
+    for (const { canvasId } of activeMapDatasets) {
+      const canvas = document.getElementById(canvasId);
+      if (canvas) delete canvas.dataset.status;
     }
 
     const basinData = buildBasinAverages(activeMapDatasets, frameIndex);
